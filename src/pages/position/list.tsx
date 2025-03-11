@@ -1,0 +1,232 @@
+import { useState, useEffect, useMemo } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
+import { FiEdit2, FiPlus, FiSearch, FiLink } from 'react-icons/fi';
+import PageHeader from '@/components/ui/page-header';
+import Button from '@/components/ui/button';
+import Input from '@/components/ui/input';
+import Select from '@/components/ui/select';
+import DataTable from '@/components/ui/table';
+import { useQuery } from '@tanstack/react-query';
+
+// 为铺位列表页面创建一个简单的store
+// 实际项目中应该创建一个专门的store文件
+import { create } from 'zustand';
+import { postPartListOptions, postPositionListOptions } from '@/api/@tanstack/react-query.gen.ts';
+import { Position } from '@/api';
+
+interface PositionStore {
+  // 筛选和表单状态
+  filterPartId: string;
+  setFilterPartId: (partId: string) => void;
+
+  // 对话框状态
+  isAddDialogOpen: boolean;
+  setAddDialogOpen: (open: boolean) => void;
+  isDeleteDialogOpen: boolean;
+  setDeleteDialogOpen: (open: boolean) => void;
+
+  // 当前操作的铺位
+  currentPosition: Position | null;
+  setCurrentPosition: (position: Position | null) => void;
+}
+
+const usePositionStore = create<PositionStore>((set) => ({
+  filterPartId: '',
+  setFilterPartId: (partId) => set({ filterPartId: partId }),
+
+  isAddDialogOpen: false,
+  setAddDialogOpen: (open) => set({ isAddDialogOpen: open }),
+  isDeleteDialogOpen: false,
+  setDeleteDialogOpen: (open) => set({ isDeleteDialogOpen: open }),
+
+  currentPosition: null,
+  setCurrentPosition: (position) => set({ currentPosition: position }),
+}));
+
+// 定义表格列
+const columnHelper = createColumnHelper<Position>();
+
+const PositionListPage = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // 从URL查询参数中获取partId
+  const queryParams = new URLSearchParams(location.search);
+  const partIdFromUrl = queryParams.get('partId') || '';
+
+  const { filterPartId, setFilterPartId } = usePositionStore();
+  const [searchText, setSearchText] = useState('');
+
+  // 当URL中的partId变化时更新筛选状态
+  useEffect(() => {
+    if (partIdFromUrl && partIdFromUrl !== filterPartId) {
+      setFilterPartId(partIdFromUrl);
+    }
+  }, [partIdFromUrl, filterPartId, setFilterPartId]);
+
+  // 获取铺位列表数据
+  const { data: positions, isLoading } = useQuery({
+    ...postPositionListOptions({
+      body: {
+        partId: filterPartId,
+      }
+    }),
+    select: (data) => data.data?.list || [],
+  });
+
+  // 获取分区列表数据（用于筛选）
+  const { data: partsRes } = useQuery({
+    ...postPartListOptions()
+  });
+  const partsData = useMemo(() => partsRes?.data?.list || [], [partsRes]);
+
+  // 表格列定义
+  const columns = [
+    columnHelper.accessor('position_no', {
+      header: '铺位编号',
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor('shop_no', {
+      header: '店铺编号',
+      cell: (info) => info.getValue() || '-',
+    }),
+    columnHelper.accessor('type_tag', {
+      header: '类型标签',
+      cell: (info) => info.getValue() || '-',
+    }),
+    columnHelper.accessor('total_space', {
+      header: '广告位总数',
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor('put_space', {
+      header: '已投放广告位',
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor('verified', {
+      header: '认证状态',
+      cell: (info) => (
+        <div className="badge badge-sm">
+          {info.getValue() ? '已认证' : '未认证'}
+        </div>
+      ),
+    }),
+    columnHelper.accessor('displayed', {
+      header: '展示状态',
+      cell: (info) => (
+        <div className={`badge badge-sm ${info.getValue() ? 'badge-success' : 'badge-ghost'}`}>
+          {info.getValue() ? '展示中' : '已隐藏'}
+        </div>
+      ),
+    }),
+    columnHelper.display({
+      id: 'actions',
+      header: '操作',
+      cell: (info) => (
+        <div className="flex space-x-2">
+          <Button
+            variant="ghost"
+            size="sm"
+            icon={<FiEdit2 className="h-4 w-4" />}
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/position/${info.row.original.positionId}`);
+            }}
+          >
+            详情
+          </Button>
+          {!info.row.original.shopId && (
+            <Button
+              variant="ghost"
+              size="sm"
+              icon={<FiLink className="h-4 w-4" />}
+              onClick={(e) => {
+                e.stopPropagation();
+                // 这里应该打开关联店铺的对话框
+                alert('关联店铺功能待实现');
+              }}
+            >
+              关联店铺
+            </Button>
+          )}
+        </div>
+      ),
+    }),
+  ] as ColumnDef<Position>[];
+
+  // 准备分区选项
+  const partOptions = [
+    { value: '', label: '全部分区' },
+    ...(partsData || []).map(part => ({
+      value: part.id,
+      label: part.name
+    }))
+  ];
+
+  // 处理表格行点击
+  const handleRowClick = (row: Position) => {
+    navigate(`/position/${row.positionId}`);
+  };
+
+  // 过滤数据
+  const filteredData = searchText
+    ? (positions || []).filter((position) =>
+        position.position_no.toLowerCase().includes(searchText.toLowerCase()) ||
+        (position.shop_no && String(position.shop_no).toLowerCase().includes(searchText.toLowerCase())) ||
+        (position.type_tag && String(position.type_tag).toLowerCase().includes(searchText.toLowerCase()))
+      )
+    : positions || [];
+
+  return (
+    <>
+      <PageHeader
+        title="铺位管理"
+        subtitle="管理铺位信息和关联的店铺"
+        action={
+          <Button
+            variant="primary"
+            icon={<FiPlus className="h-5 w-5" />}
+            onClick={() => alert('新增铺位功能待实现')}
+          >
+            新增铺位
+          </Button>
+        }
+      />
+
+      <div className="space-y-4">
+        <div className="flex flex-col gap-4 md:flex-row">
+          <div className="w-full md:w-64">
+            <Select
+              label="选择分区"
+              options={partOptions}
+              value={filterPartId}
+              onChange={(e) => setFilterPartId(e.target.value)}
+              fullWidth
+            />
+          </div>
+          <div className="w-full md:w-64">
+            <Input
+              label="搜索铺位"
+              placeholder="输入铺位编号或店铺编号"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              leftIcon={<FiSearch className="h-5 w-5" />}
+              fullWidth
+            />
+          </div>
+        </div>
+
+        <DataTable
+          columns={columns}
+          data={filteredData}
+          loading={isLoading}
+          onRowClick={handleRowClick}
+        />
+      </div>
+
+      {/* 对话框组件将在实际实现中添加 */}
+    </>
+  );
+};
+
+export default PositionListPage;

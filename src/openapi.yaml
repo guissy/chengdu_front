@@ -1,0 +1,259 @@
+openapi: 3.0.1
+info:
+  title: 业务系统
+  description: 业务系统API文档
+  version: 1.0.0
+tags:
+  - name: 物业分区
+  - name: 铺位
+  - name: 行政区划
+  - name: 商圈
+  - name: 店铺
+  - name: 广告位
+paths:
+  /part/list:
+    post:
+      summary: 获取物业分区列表
+      deprecated: false
+      description: 获取物业分区列表
+      tags:
+        - 物业分区
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cbdId:
+                  type: string
+                  description: 商圈id
+      responses:
+        '200':
+          description: 成功响应
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  data:
+                    type: object
+                    properties:
+                      list:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              description: 分区ID
+                            name:
+                              type: string
+                              description: 分区名称
+                            sequence:
+                              type: integer
+                              format: int32
+                              description: 排序值
+                            total_space:
+                              type: integer
+                              format: int32
+                              description: 广告位总数
+  /part/add:
+    post:
+      summary: 新增分区
+      deprecated: false
+      description: ''
+      tags:
+        - 物业分区
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cbdId:
+                  type: string
+                  description: 商圈id
+                name:
+                  type: string
+                  description: 分区名称
+                sequence:
+                  type: integer
+                  format: int32
+                  description: 排序值
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  data:
+                    type: string
+                    example: ''
+  /part/update:
+    post:
+      summary: 编辑分区
+      deprecated: false
+      description: ''
+      tags:
+        - 物业分区
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: 分区id
+                name:
+                  type: string
+                  description: 分区名称
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  data:
+                    type: string
+                    example: ''
+  /part/delete:
+    post:
+      summary: 删除分区
+      deprecated: false
+      description: ''
+      tags:
+        - 物业分区
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: 分区id
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  data:
+                    type: string
+                    example: ''
+  /position/list:
+    post:
+      summary: 获取铺位列表
+      deprecated: false
+      description: ''
+      tags:
+        - 铺位
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                partId:
+                  type: string
+                  description: 分区id
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  data:
+                    type: object
+                    properties:
+                      list:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            positionId:
+                              type: string
+                              description: 铺位id
+                            position_no:
+                              type: string
+                              description: 铺位编号
+                            shopId:
+                              type: string
+                              nullable: true
+                              description: 店铺id
+                            shop_no:
+                              type: string
+                              nullable: true
+                              description: 店铺编号
+                            total_space:
+                              type: integer
+                              format: int32
+                              description: 广告位总数
+                            put_space:
+                              type: integer
+                              format: int32
+                              description: 已投放广告位总数
+                            price_base:
+                              type: integer
+                              format: int32
+                              description: 价格基数（单位：分）
+                            verified:
+                              type: boolean
+                              description: 是否认证
+                            displayed:
+                              type: boolean
+                              description: 是否展示
+                            type:
+                              type: integer
+                              format: int32
+                              nullable: true
+                              description: 类型，1-餐饮 2-轻食 3-茶楼 4-茶饮/咖啡 5-咖啡馆 6-酒店
+                            type_tag:
+                              type: string
+                              nullable: true
+                              description: 品类标签
+                            photo:
+                              type: array
+                              items:
+                                type: string
+                              description: 图片
+                            remark:
+                              type: string
+                              nullable: true
+                              description: 备注
+                            business_hours:
+                              type: array
+                              items:
+                                type: integer
+                                format: int32
+                              description: 营业时间
+  # 更多API定义可以根据业务需求继续添加
