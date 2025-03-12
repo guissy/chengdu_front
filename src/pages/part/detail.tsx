@@ -6,7 +6,7 @@ import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import PageHeader from '@/components/ui/page-header';
 import Button from '@/components/ui/button';
 import DataTable from '@/components/ui/table';
-import { usePartStore } from '@/features/part/store';
+import { usePartStore } from '@/features/part/part-store.ts';
 import EditPartDialog from '@/features/part/components/edit-part-dialog';
 import DeletePartDialog from '@/features/part/components/delete-part-dialog';
 import { PartResponseSchema, Position } from '@/api';

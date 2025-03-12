@@ -7,7 +7,7 @@ import Button from '@/components/ui/button';
 import Input from '@/components/ui/input';
 import Select from '@/components/ui/select';
 import DataTable from '@/components/ui/table';
-import { usePartStore } from '@/features/part/store';
+import { usePartStore } from '@/features/part/part-store.ts';
 import AddPartDialog from '@/features/part/components/add-part-dialog';
 import EditPartDialog from '@/features/part/components/edit-part-dialog';
 import DeletePartDialog from '@/features/part/components/delete-part-dialog';

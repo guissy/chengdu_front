@@ -6,6 +6,9 @@ import PageHeader from '@/components/ui/page-header';
 import Button from '@/components/ui/button';
 import { getPositionByIdOptions, postSpaceListOptions } from '@/api/@tanstack/react-query.gen.ts';
 import { Position } from '@/api';
+import { usePositionStore } from '@/features/position-store.ts';
+import EditPositionDialog from '@/features/position/components/edit-position-dialog.tsx';
+import DeletePositionDialog from '@/features/position/components/delete-position-dialog';
 
 // 假设这是广告位类型
 // interface Space {
@@ -44,6 +47,8 @@ const spaceStateMap: Record<string, { label: string; badge: string }> = {
 
 const PositionDetailPage = () => {
   const { id } = useParams<{ id: string }>();
+  const { openEditDialog, openDeleteDialog } = usePositionStore();
+
   const navigate = useNavigate();
   const [position, setPosition] = useState<Position | null>(null);
 
@@ -122,14 +127,14 @@ const PositionDetailPage = () => {
             <Button
               variant="primary"
               icon={<FiEdit2 className="h-5 w-5"/>}
-              onClick={() => alert('编辑铺位功能待实现')}
+              onClick={() => openEditDialog(position)}
             >
               编辑
             </Button>
             <Button
               variant="error"
               icon={<FiTrash2 className="h-5 w-5"/>}
-              onClick={() => alert('删除铺位功能待实现')}
+              onClick={() => openDeleteDialog(position)}
             >
               删除
             </Button>
@@ -367,6 +372,9 @@ const PositionDetailPage = () => {
           </div>
         </div>
       )}
+
+      <EditPositionDialog />
+      <DeletePositionDialog />
     </>
   );
 };

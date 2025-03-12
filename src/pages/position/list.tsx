@@ -1,7 +1,7 @@
-import { useState, useEffect, useMemo } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
-import { FiEdit2, FiPlus, FiSearch, FiLink } from 'react-icons/fi';
+import { FiEdit2, FiLink, FiPlus, FiSearch } from 'react-icons/fi';
 import PageHeader from '@/components/ui/page-header';
 import Button from '@/components/ui/button';
 import Input from '@/components/ui/input';
@@ -11,43 +11,19 @@ import { useQuery } from '@tanstack/react-query';
 
 // 为铺位列表页面创建一个简单的store
 // 实际项目中应该创建一个专门的store文件
-import { create } from 'zustand';
 import { postPartListOptions, postPositionListOptions } from '@/api/@tanstack/react-query.gen.ts';
 import { Position } from '@/api';
+import { usePositionStore } from '@/features/position-store';
+import AddPositionDialog from '@/features/position/components/add-position-dialog';
+import EditPositionDialog from '@/features/position/components/edit-position-dialog';
 
-interface PositionStore {
-  // 筛选和表单状态
-  filterPartId: string;
-  setFilterPartId: (partId: string) => void;
-
-  // 对话框状态
-  isAddDialogOpen: boolean;
-  setAddDialogOpen: (open: boolean) => void;
-  isDeleteDialogOpen: boolean;
-  setDeleteDialogOpen: (open: boolean) => void;
-
-  // 当前操作的铺位
-  currentPosition: Position | null;
-  setCurrentPosition: (position: Position | null) => void;
-}
-
-const usePositionStore = create<PositionStore>((set) => ({
-  filterPartId: '',
-  setFilterPartId: (partId) => set({ filterPartId: partId }),
-
-  isAddDialogOpen: false,
-  setAddDialogOpen: (open) => set({ isAddDialogOpen: open }),
-  isDeleteDialogOpen: false,
-  setDeleteDialogOpen: (open) => set({ isDeleteDialogOpen: open }),
-
-  currentPosition: null,
-  setCurrentPosition: (position) => set({ currentPosition: position }),
-}));
 
 // 定义表格列
 const columnHelper = createColumnHelper<Position>();
 
 const PositionListPage = () => {
+  const { filterPartId, setFilterPartId, openAddDialog, openEditDialog } = usePositionStore();
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -55,7 +31,6 @@ const PositionListPage = () => {
   const queryParams = new URLSearchParams(location.search);
   const partIdFromUrl = queryParams.get('partId') || '';
 
-  const { filterPartId, setFilterPartId } = usePositionStore();
   const [searchText, setSearchText] = useState('');
 
   // 当URL中的partId变化时更新筛选状态
@@ -143,7 +118,7 @@ const PositionListPage = () => {
               onClick={(e) => {
                 e.stopPropagation();
                 // 这里应该打开关联店铺的对话框
-                alert('关联店铺功能待实现');
+                openEditDialog(info.row.original);
               }}
             >
               关联店铺
@@ -186,7 +161,7 @@ const PositionListPage = () => {
           <Button
             variant="primary"
             icon={<FiPlus className="h-5 w-5" />}
-            onClick={() => alert('新增铺位功能待实现')}
+            onClick={openAddDialog}
           >
             新增铺位
           </Button>
@@ -224,7 +199,8 @@ const PositionListPage = () => {
         />
       </div>
 
-      {/* 对话框组件将在实际实现中添加 */}
+      <AddPositionDialog />
+      <EditPositionDialog />
     </>
   );
 };

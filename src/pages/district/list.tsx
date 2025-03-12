@@ -38,16 +38,16 @@ const DistrictList: React.FC = () => {
 
   // Fetch districts data based on selected city
   const {
-    data: districtList,
+    data: districts,
     isLoading: isLoadingDistricts,
     refetch: refetchDistricts,
   } = useQuery({
     ...postDistrictListOptions({
       body: { parentId: selectedCity }
     }),
+    select: (data) => data?.data?.list || [],
     enabled: !!selectedCity
   });
-  const districts = useMemo(() => districtList?.data?.list, [districtList]);
 
   // Set default city when cities are loaded
   useEffect(() => {

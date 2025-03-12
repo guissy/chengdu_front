@@ -5,7 +5,7 @@ import { toast } from 'react-hot-toast';
 import Button from '@/components/ui/button';
 import Input from '@/components/ui/input';
 import Select from '@/components/ui/select';
-import { usePartStore } from '../store';
+import { usePartStore } from '../part-store.ts';
 import { PostPartAddData } from '@/api';
 import { useMutation } from '@tanstack/react-query';
 import { postPartAddMutation } from '@/api/@tanstack/react-query.gen.ts';

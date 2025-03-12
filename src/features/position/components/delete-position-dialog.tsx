@@ -1,37 +1,37 @@
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import Button from '@/components/ui/button';
-import { usePartStore } from '../part-store.ts';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { postPartDeleteMutation, postPartListQueryKey } from '@/api/@tanstack/react-query.gen.ts';
+import { postPositionDeleteMutation, postPositionListQueryKey } from '@/api/@tanstack/react-query.gen.ts';
+import { usePositionStore } from '@/features/position-store.ts';
 import { useNavigate } from 'react-router-dom';
 
-const DeletePartDialog = () => {
-  const { isDeleteDialogOpen, closeDeleteDialog, currentPart } = usePartStore();
+const DeletePositionDialog = () => {
+  const { isDeleteDialogOpen, closeDeleteDialog, currentPosition } = usePositionStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  // Delete part mutation
-  const deletePartMutation = useMutation({
-    ...postPartDeleteMutation({
-      body: { id: currentPart?.id as string }
+  // Delete position mutation
+  const deletePositionMutation = useMutation({
+    ...postPositionDeleteMutation({
+      body: { id: currentPosition?.positionId as string }
     }),
   });
 
   // Delete handler
   const handleDelete = async () => {
-    if (!currentPart) return;
+    if (!currentPosition) return;
 
     try {
       setIsSubmitting(true);
-      await deletePartMutation.mutateAsync({ body: { id: currentPart.id } });
+      await deletePositionMutation.mutateAsync({ body: { id: currentPosition.positionId } });
       queryClient.invalidateQueries({
-        queryKey: postPartListQueryKey()
+        queryKey: postPositionListQueryKey()
       });
-      toast.success('分区删除成功');
+      toast.success('铺位删除成功');
       closeDeleteDialog();
-      navigate('/part');
+      navigate('/position');
     } catch (error) {
       // Error handling is done in API client
     } finally {
@@ -44,14 +44,14 @@ const DeletePartDialog = () => {
     closeDeleteDialog();
   };
 
-  if (!isDeleteDialogOpen || !currentPart) return null;
+  if (!isDeleteDialogOpen || !currentPosition) return null;
 
   return (
     <dialog className="modal modal-open">
       <div className="modal-box">
-        <h3 className="text-lg font-bold">删除分区</h3>
+        <h3 className="text-lg font-bold">删除铺位</h3>
         <p className="py-4">
-          确定要删除分区"{currentPart.name}"吗？此操作不可恢复。
+          确定要删除铺位"{currentPosition.position_no}"吗？此操作不可恢复。
         </p>
         <div className="modal-action">
           <Button
@@ -77,4 +77,4 @@ const DeletePartDialog = () => {
   );
 };
 
-export default DeletePartDialog;
+export default DeletePositionDialog;

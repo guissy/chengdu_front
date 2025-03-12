@@ -1,0 +1,111 @@
+import { create } from 'zustand';
+import { Position } from '@/api';
+
+
+interface PositionFormData {
+  cbdId: string;
+  partId: string;
+  no: string;
+}
+
+interface PositionState {
+  // 列表页相关状态
+  filterPartId: string;
+  setFilterPartId: (cbdId: string) => void;
+
+  // 详情页相关状态
+  currentPosition: Position | null;
+  setCurrentPosition: (position: Position | null) => void;
+
+  // 表单相关状态
+  isAddDialogOpen: boolean;
+  isEditDialogOpen: boolean;
+  isDeleteDialogOpen: boolean;
+  formData: PositionFormData;
+
+  // 操作方法
+  openAddDialog: () => void;
+  closeAddDialog: () => void;
+  openEditDialog: (position: Position) => void;
+  closeEditDialog: () => void;
+  openDeleteDialog: (position: Position) => void;
+  closeDeleteDialog: () => void;
+  updateFormData: (data: Partial<PositionFormData>) => void;
+  resetFormData: () => void;
+}
+
+// 默认表单数据
+const defaultFormData: PositionFormData = {
+  cbdId: '',
+  partId: '',
+  no: '',
+};
+
+export const usePositionStore = create<PositionState>((set) => ({
+  // 列表页相关状态
+  filterPartId: '',
+  setFilterPartId: (partId) => set({ filterPartId: partId }),
+
+  // 详情页相关状态
+  currentPosition: null,
+  setCurrentPosition: (position) => set({ currentPosition: position }),
+
+  // 表单相关状态
+  isAddDialogOpen: false,
+  isEditDialogOpen: false,
+  isDeleteDialogOpen: false,
+  formData: { ...defaultFormData },
+
+  // 操作方法
+  openAddDialog: () => {
+    set({
+      isAddDialogOpen: true,
+      formData: { ...defaultFormData },
+    });
+  },
+  closeAddDialog: () => {
+    set({
+      isAddDialogOpen: false,
+      formData: { ...defaultFormData },
+    });
+  },
+  openEditDialog: (position) => {
+    set({
+      isEditDialogOpen: true,
+      currentPosition: position,
+      formData: {
+        cbdId: '', // 编辑时通常不能更改所属商圈
+        partId: '', // 编辑时通常不能更改所属分区
+        no: position.position_no,
+      },
+    });
+  },
+  closeEditDialog: () => {
+    set({
+      isEditDialogOpen: false,
+      formData: { ...defaultFormData },
+    });
+  },
+  openDeleteDialog: (position) => {
+    set({
+      isDeleteDialogOpen: true,
+      currentPosition: position,
+    });
+  },
+  closeDeleteDialog: () => {
+    set({
+      isDeleteDialogOpen: false,
+      currentPosition: null,
+    });
+  },
+  updateFormData: (data) => {
+    set((state) => ({
+      formData: { ...state.formData, ...data },
+    }));
+  },
+  resetFormData: () => {
+    set({
+      formData: { ...defaultFormData },
+    });
+  },
+}));

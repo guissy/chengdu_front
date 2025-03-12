@@ -57,17 +57,16 @@ const CbdList: React.FC = () => {
 
   // Fetch CBDs data based on selected district
   const {
-    data: cbdsList,
+    data: cbds,
     isLoading: isLoadingCbds,
     refetch: refetchCbds
   } = useQuery({
     ...postCbdListOptions({
       body: { districtId: selectedDistrict }
     }),
+    select: (data) => data?.data?.list || [],
     enabled: !!selectedDistrict,
   });
-
-  const cbds = useMemo(() => cbdsList?.data?.list, [cbdsList]);
 
   // Set default city when cities are loaded
   useEffect(() => {

@@ -1,20 +1,24 @@
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { toast } from 'react-hot-toast';
 import Button from '@/components/ui/button';
 import Input from '@/components/ui/input';
-import { usePartStore } from '../part-store.ts';
-import { PostPartUpdateData } from '@/api';
+import { PostPositionUpdateData } from '@/api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { postPartListQueryKey, postPartUpdateMutation } from '@/api/@tanstack/react-query.gen.ts';
+import {
+  getPositionByIdQueryKey,
+  postPositionListQueryKey,
+  postPositionUpdateMutation
+} from '@/api/@tanstack/react-query.gen.ts';
+import { z } from 'zod';
+import { usePositionStore } from '@/features/position-store.ts';
 
-// 表单验证模式
-type FormValues = PostPartUpdateData['body'];
+// Form validation schema
+type FormValues = PostPositionUpdateData['body'];
 
-const EditPartDialog = () => {
-  const { isEditDialogOpen, closeEditDialog, currentPart } = usePartStore();
+const EditPositionDialog = () => {
+  const { isEditDialogOpen, closeEditDialog, currentPosition } = usePositionStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const queryClient = useQueryClient();
 
@@ -25,38 +29,45 @@ const EditPartDialog = () => {
     reset,
     formState: { errors },
   } = useForm<FormValues>({
-    resolver: zodResolver(z.object({
-      id: z.string().describe('分区ID'),
-      name: z.string().min(1).describe('分区名称'),
-    })),
+    resolver: zodResolver(
+      z.object({
+        id: z.string().describe('铺位ID'),
+        no: z.string().min(1).describe('铺位编号'),
+      })
+    ),
     defaultValues: {
       id: '',
-      name: '',
+      no: '',
     },
   });
 
-  // Update form values when currentPart changes
+  // Update form values when currentPosition changes
   useEffect(() => {
-    if (currentPart) {
+    if (currentPosition) {
       reset({
-        id: currentPart.id,
-        name: currentPart.name,
+        id: currentPosition.positionId,
+        no: currentPosition.position_no,
       });
     }
-  }, [currentPart, reset]);
+  }, [currentPosition, reset]);
 
-  // Update part mutation
-  const updatePartMutation = useMutation({
-    ...postPartUpdateMutation()
+  // Update position mutation
+  const updatePositionMutation = useMutation({
+    ...postPositionUpdateMutation()
   });
 
   // Form submission handler
   const onSubmit = async (data: FormValues) => {
     try {
       setIsSubmitting(true);
-      await updatePartMutation.mutateAsync({ body: data });
-      toast.success('分区更新成功');
-      queryClient.invalidateQueries({ queryKey: postPartListQueryKey() });
+      await updatePositionMutation.mutateAsync({ body: data });
+      queryClient.invalidateQueries({
+        queryKey: postPositionListQueryKey(),
+      });
+      queryClient.invalidateQueries({
+        queryKey: getPositionByIdQueryKey({ path: { id: currentPosition?.positionId as string } }),
+      });
+      toast.success('铺位更新成功');
       closeEditDialog();
     } catch (error) {
       // Error handling is done in API client
@@ -70,23 +81,24 @@ const EditPartDialog = () => {
     closeEditDialog();
   };
 
-  if (!isEditDialogOpen || !currentPart) return null;
+  if (!isEditDialogOpen || !currentPosition) return null;
 
   return (
     <dialog className="modal modal-open">
       <div className="modal-box">
-        <h3 className="text-lg font-bold">编辑分区</h3>
+        <h3 className="text-lg font-bold">编辑铺位</h3>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mt-4 space-y-4">
-            <Input type="hidden" {...register('id')} />
-
             <Input
-              label="分区名称"
-              placeholder="请输入分区名称"
-              error={errors.name?.message}
+              label="铺位编号"
+              placeholder="请输入铺位编号"
+              error={errors.no?.message}
               fullWidth
-              {...register('name')}
+              {...register('no')}
             />
+
+            {/* Hidden field for position ID */}
+            <input type="hidden" {...register('id')} />
           </div>
 
           <div className="modal-action">
@@ -113,4 +125,4 @@ const EditPartDialog = () => {
   );
 };
 
-export default EditPartDialog;
+export default EditPositionDialog;
