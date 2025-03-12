@@ -70,6 +70,21 @@ export type Position = {
     business_hours: Array<number>;
 };
 
+export type AuditLog = {
+    id: string;
+    operationType: string;
+    targetType: string;
+    targetId: string;
+    targetName: string;
+    content: string;
+    operatorId: string;
+    operatorName: string;
+    operationTime: string;
+    details?: {};
+    ipAddress: unknown;
+    userAgent: unknown;
+};
+
 export type GetHealthData = {
     body?: never;
     path?: never;
@@ -198,6 +213,35 @@ export type PostPartListResponses = {
 
 export type PostPartListResponse = PostPartListResponses[keyof PostPartListResponses];
 
+export type GetPartByIdData = {
+    body?: never;
+    path: {
+        /**
+         * 分区ID
+         */
+        id: string;
+    };
+    query?: never;
+    url: '/part/{id}';
+};
+
+export type GetPartByIdResponses = {
+    /**
+     * 成功响应
+     */
+    200: {
+        code?: number;
+        data?: {
+            id: string;
+            name: string;
+            sequence: number;
+            total_space: number;
+        };
+    };
+};
+
+export type GetPartByIdResponse = GetPartByIdResponses[keyof GetPartByIdResponses];
+
 export type PostPartAddData = {
     body: {
         /**
@@ -322,6 +366,45 @@ export type PostPositionListResponses = {
 };
 
 export type PostPositionListResponse = PostPositionListResponses[keyof PostPositionListResponses];
+
+export type GetPositionByIdData = {
+    body?: never;
+    path: {
+        /**
+         * 铺位ID
+         */
+        id: string;
+    };
+    query?: never;
+    url: '/position/{id}';
+};
+
+export type GetPositionByIdResponses = {
+    /**
+     * 成功响应
+     */
+    201: {
+        code?: number;
+        data?: {
+            positionId: string;
+            position_no: string;
+            shopId: unknown;
+            shop_no: unknown;
+            total_space: number;
+            put_space: number;
+            price_base: number;
+            verified: boolean;
+            displayed: boolean;
+            type: unknown;
+            type_tag: unknown;
+            photo: Array<string>;
+            remark: unknown;
+            business_hours: Array<number>;
+        };
+    };
+};
+
+export type GetPositionByIdResponse = GetPositionByIdResponses[keyof GetPositionByIdResponses];
 
 export type PostPositionAddData = {
     body: {
@@ -548,7 +631,7 @@ export type PostShopAddData = {
         /**
          * 商业类型，1-独立自营店 2-连锁自营店 3-连锁加盟店
          */
-        bussiness_type: number;
+        business_type: number;
         /**
          * 字号
          */
@@ -721,7 +804,7 @@ export type PostShopUpdateData = {
         /**
          * 商业类型，1-独立自营店 2-连锁自营店 3-连锁加盟店
          */
-        bussiness_type: number;
+        business_type: number;
         /**
          * 字号
          */
@@ -944,6 +1027,9 @@ export type PostSpaceListResponse = PostSpaceListResponses[keyof PostSpaceListRe
 export type GetSpaceByIdData = {
     body?: never;
     path: {
+        /**
+         * 广告位ID
+         */
         id: string;
     };
     query?: never;
@@ -952,10 +1038,26 @@ export type GetSpaceByIdData = {
 
 export type GetSpaceByIdResponses = {
     /**
-     * Default Response
+     * 成功响应
      */
-    200: unknown;
+    200: {
+        code?: number;
+        data?: {
+            id: string;
+            type: string;
+            setting: {};
+            count: number;
+            state: string;
+            photo: Array<string>;
+            /**
+             * 价格因子
+             */
+            priceFactor?: number;
+        };
+    };
 };
+
+export type GetSpaceByIdResponse = GetSpaceByIdResponses[keyof GetSpaceByIdResponses];
 
 export type PostSpaceAddData = {
     body: {
@@ -1152,6 +1254,263 @@ export type PostSpaceUpdateStateResponses = {
 };
 
 export type PostSpaceUpdateStateResponse = PostSpaceUpdateStateResponses[keyof PostSpaceUpdateStateResponses];
+
+export type GetDashboardData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/dashboard/';
+};
+
+export type GetDashboardResponses = {
+    /**
+     * 成功响应
+     */
+    200: {
+        code?: number;
+        data?: {
+            /**
+             * 商圈总数
+             */
+            cbdCount: number;
+            /**
+             * 物业分区总数
+             */
+            partCount: number;
+            /**
+             * 铺位总数
+             */
+            positionCount: number;
+            /**
+             * 店铺总数
+             */
+            shopCount: number;
+            /**
+             * 广告位总数
+             */
+            spaceCount: number;
+            /**
+             * 广告活动总数
+             */
+            campaignCount: number;
+        };
+    };
+};
+
+export type GetDashboardResponse = GetDashboardResponses[keyof GetDashboardResponses];
+
+export type GetDashboardRecentShopsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        limit?: string;
+    };
+    url: '/dashboard/recent-shops';
+};
+
+export type GetDashboardRecentShopsResponses = {
+    /**
+     * 成功响应
+     */
+    200: {
+        code?: number;
+        data?: Array<{
+            id?: string;
+            shop_no?: string;
+            trademark?: string;
+            branch?: string | null;
+            type?: string;
+            type_tag?: string | null;
+            business_type?: string;
+            verify_status?: boolean;
+            cbd?: {
+                id?: string;
+                name?: string;
+            };
+            part?: {
+                id?: string;
+                name?: string;
+            };
+            createdAt?: Date;
+        }>;
+    };
+};
+
+export type GetDashboardRecentShopsResponse = GetDashboardRecentShopsResponses[keyof GetDashboardRecentShopsResponses];
+
+export type GetDashboardCbdDistributionData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/dashboard/cbd-distribution';
+};
+
+export type GetDashboardCbdDistributionResponses = {
+    /**
+     * 成功响应
+     */
+    200: {
+        code?: number;
+        data?: Array<{
+            id?: string;
+            name?: string;
+            district?: string;
+            shopCount?: number;
+            partCount?: number;
+        }>;
+    };
+};
+
+export type GetDashboardCbdDistributionResponse = GetDashboardCbdDistributionResponses[keyof GetDashboardCbdDistributionResponses];
+
+export type GetDashboardShopTypeDistributionData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/dashboard/shop-type-distribution';
+};
+
+export type GetDashboardShopTypeDistributionResponses = {
+    /**
+     * 成功响应
+     */
+    200: {
+        code?: number;
+        data?: Array<{
+            type?: string;
+            count?: number;
+        }>;
+    };
+};
+
+export type GetDashboardShopTypeDistributionResponse = GetDashboardShopTypeDistributionResponses[keyof GetDashboardShopTypeDistributionResponses];
+
+export type GetAuditLogData = {
+    body?: never;
+    path?: never;
+    query?: {
+        page?: number;
+        pageSize?: number;
+        operationType?: string;
+        targetType?: string;
+        operatorId?: string;
+        startDate?: string;
+        endDate?: string;
+        keyword?: string;
+    };
+    url: '/auditLog/';
+};
+
+export type GetAuditLogResponses = {
+    /**
+     * 成功响应
+     */
+    200: {
+        code?: number;
+        data?: {
+            items: Array<{
+                id: string;
+                operationType: string;
+                targetType: string;
+                targetId: string;
+                targetName: string;
+                content: string;
+                operatorId: string;
+                operatorName: string;
+                operationTime: string;
+                details?: {};
+                ipAddress: unknown;
+                userAgent: unknown;
+            }>;
+            total: number;
+            page: number;
+            pageSize: number;
+            totalPages: number;
+        };
+    };
+};
+
+export type GetAuditLogResponse = GetAuditLogResponses[keyof GetAuditLogResponses];
+
+export type GetAuditLogByIdData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/auditLog/{id}';
+};
+
+export type GetAuditLogByIdResponses = {
+    /**
+     * 成功响应
+     */
+    200: {
+        code?: number;
+        data?: {
+            id: string;
+            operationType: string;
+            targetType: string;
+            targetId: string;
+            targetName: string;
+            content: string;
+            operatorId: string;
+            operatorName: string;
+            operationTime: string;
+            details?: {};
+            ipAddress: unknown;
+            userAgent: unknown;
+        };
+    };
+};
+
+export type GetAuditLogByIdResponse = GetAuditLogByIdResponses[keyof GetAuditLogByIdResponses];
+
+export type GetAuditLogStatsOperationTypesData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/auditLog/stats/operation-types';
+};
+
+export type GetAuditLogStatsOperationTypesResponses = {
+    /**
+     * 成功响应
+     */
+    200: {
+        code?: number;
+        data?: Array<{
+            operationType?: string;
+            count?: number;
+        }>;
+    };
+};
+
+export type GetAuditLogStatsOperationTypesResponse = GetAuditLogStatsOperationTypesResponses[keyof GetAuditLogStatsOperationTypesResponses];
+
+export type GetAuditLogStatsRecentActivityData = {
+    body?: never;
+    path?: never;
+    query?: {
+        days?: string;
+    };
+    url: '/auditLog/stats/recent-activity';
+};
+
+export type GetAuditLogStatsRecentActivityResponses = {
+    /**
+     * 成功响应
+     */
+    200: {
+        code?: number;
+        data?: Array<{
+            date?: Date;
+            count?: number;
+        }>;
+    };
+};
+
+export type GetAuditLogStatsRecentActivityResponse = GetAuditLogStatsRecentActivityResponses[keyof GetAuditLogStatsRecentActivityResponses];
 
 export type ClientOptions = {
     baseUrl: `${string}://${string}` | (string & {});

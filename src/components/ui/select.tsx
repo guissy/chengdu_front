@@ -13,11 +13,12 @@ export interface SelectProps extends Omit<React.SelectHTMLAttributes<HTMLSelectE
   hint?: string;
   fullWidth?: boolean;
   value?: string | number | undefined;
+  leftIcon?: React.ReactNode;
 }
 
 const Select = forwardRef<HTMLSelectElement, SelectProps>(
   (
-    { label, options, error, hint, className, fullWidth = false, disabled, value, ...rest },
+    { label, options, error, hint, className, fullWidth = false, disabled, value, leftIcon, ...rest },
     ref
   ) => {
     return (
@@ -27,27 +28,35 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
             <span className="label-text">{label}</span>
           </label>
         )}
-        <select
-          ref={ref}
-          className={twMerge(
-            'select select-bordered w-full',
-            error && 'select-error',
-            disabled && 'select-disabled',
-            className
+        <div className="relative">
+          {leftIcon && (
+            <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 z-10">
+              {leftIcon}
+            </div>
           )}
-          disabled={disabled}
-          value={value}
-          {...rest}
-        >
-          <option value="" disabled>
-            请选择
-          </option>
-          {options.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
+          <select
+            ref={ref}
+            className={twMerge(
+              'select select-bordered w-full',
+              leftIcon && 'pl-10', // Add padding when leftIcon is present
+              error && 'select-error',
+              disabled && 'select-disabled',
+              className
+            )}
+            disabled={disabled}
+            value={value}
+            {...rest}
+          >
+            <option value="" disabled>
+              请选择
             </option>
-          ))}
-        </select>
+            {options.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
         {error && (
           <label className="label">
             <span className="label-text-alt text-error">{error}</span>

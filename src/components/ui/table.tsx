@@ -146,7 +146,7 @@ export function DataTable<TData, TValue = unknown>({
           </div>
           <div className="flex items-center space-x-6 lg:space-x-8">
             <div className="flex items-center space-x-2">
-              <span className="text-sm font-medium">每页</span>
+              <span className="text-sm font-medium min-w-12 text-right pr-2">每页</span>
               <select
                 className="select select-bordered select-sm"
                 value={table.getState().pagination.pageSize}

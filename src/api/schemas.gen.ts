@@ -219,3 +219,49 @@ export const PositionSchema = {
     additionalProperties: false,
     title: 'Position'
 } as const;
+
+export const AuditLogSchema = {
+    type: 'object',
+    properties: {
+        id: {
+            type: 'string'
+        },
+        operationType: {
+            type: 'string'
+        },
+        targetType: {
+            type: 'string'
+        },
+        targetId: {
+            type: 'string'
+        },
+        targetName: {
+            type: 'string'
+        },
+        content: {
+            type: 'string'
+        },
+        operatorId: {
+            type: 'string'
+        },
+        operatorName: {
+            type: 'string'
+        },
+        operationTime: {
+            type: 'string'
+        },
+        details: {
+            type: 'object',
+            additionalProperties: {}
+        },
+        ipAddress: {
+            type: ['string', 'null']
+        },
+        userAgent: {
+            type: ['string', 'null']
+        }
+    },
+    required: ['id', 'operationType', 'targetType', 'targetId', 'targetName', 'content', 'operatorId', 'operatorName', 'operationTime', 'ipAddress', 'userAgent'],
+    additionalProperties: false,
+    title: 'AuditLog'
+} as const;

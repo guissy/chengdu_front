@@ -10,7 +10,7 @@ import { usePartStore } from '@/features/part/store';
 import EditPartDialog from '@/features/part/components/edit-part-dialog';
 import DeletePartDialog from '@/features/part/components/delete-part-dialog';
 import { PartResponseSchema, Position } from '@/api';
-import { postPositionListOptions } from '@/api/@tanstack/react-query.gen.ts';
+import { getPartByIdOptions, postPositionListOptions } from '@/api/@tanstack/react-query.gen.ts';
 
 type Part = PartResponseSchema;
 
@@ -25,15 +25,13 @@ const PartDetailPage = () => {
 
   // 获取分区详情
   const { data: partData, isLoading: isLoadingPart } = useQuery({
-    ...postPositionListOptions({
-      body: {
-        partId: id
+    ...getPartByIdOptions({
+      path: {
+        id: id!
       }
     }),
     select: (data) => {
-      const foundPart = data.data?.list.find(p => p.positionId === id);
-      if (!foundPart) throw new Error('分区不存在');
-      return foundPart;
+      return data?.data;
     },
     enabled: !!id,
   });

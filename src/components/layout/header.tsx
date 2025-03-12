@@ -21,7 +21,7 @@ const Header = () => {
           </Link>
         </div>
 
-        <div className="navbar-end">
+        <div className="navbar-end gap-2">
           <button
             className="btn btn-ghost btn-circle"
             onClick={toggleTheme}
@@ -43,10 +43,10 @@ const Header = () => {
 
           <div className="dropdown dropdown-end">
             <div tabIndex={0} role="button" className="avatar btn btn-circle btn-ghost">
-              <div className="w-10 rounded-full">
+              <div className="size-6 rounded-full">
                 <img
                   alt="用户头像"
-                  src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                  src="https://avatars1.githubusercontent.com/u/7098795?s=460&v=4"
                 />
               </div>
             </div>

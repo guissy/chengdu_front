@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
-import { FiEdit2, FiTrash2, FiPlus, FiSearch } from 'react-icons/fi';
+import { FiEdit2, FiTrash2, FiPlus, FiSearch, FiFilter } from 'react-icons/fi';
 import PageHeader from '@/components/ui/page-header';
 import Button from '@/components/ui/button';
 import Input from '@/components/ui/input';
@@ -295,7 +295,7 @@ const ShopListPage = () => {
               options={typeOptions}
               value={filterType}
               onChange={(e) => setFilterType(e.target.value)}
-              // leftIcon={<FiFilter className="h-5 w-5" />}
+              leftIcon={<FiFilter className="h-5 w-5" />}
               fullWidth
             />
           </div>

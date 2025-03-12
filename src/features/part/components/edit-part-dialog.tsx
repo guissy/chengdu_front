@@ -7,8 +7,8 @@ import Button from '@/components/ui/button';
 import Input from '@/components/ui/input';
 import { usePartStore } from '../store';
 import { PostPartUpdateData } from '@/api';
-import { useMutation } from '@tanstack/react-query';
-import { postPartUpdateMutation } from '@/api/@tanstack/react-query.gen.ts';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { postPartListQueryKey, postPartUpdateMutation } from '@/api/@tanstack/react-query.gen.ts';
 
 // 表单验证模式
 type FormValues = PostPartUpdateData['body'];
@@ -16,6 +16,7 @@ type FormValues = PostPartUpdateData['body'];
 const EditPartDialog = () => {
   const { isEditDialogOpen, closeEditDialog, currentPart } = usePartStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const queryClient = useQueryClient();
 
   // React Hook Form setup
   const {
@@ -55,6 +56,7 @@ const EditPartDialog = () => {
       setIsSubmitting(true);
       await updatePartMutation.mutateAsync({ body: data });
       toast.success('分区更新成功');
+      queryClient.invalidateQueries({ queryKey: postPartListQueryKey() });
       closeEditDialog();
     } catch (error) {
       // Error handling is done in API client

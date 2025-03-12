@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { FiArrowLeft, FiEdit2, FiTrash2, FiShoppingBag, FiTag, FiLink } from 'react-icons/fi';
 import PageHeader from '@/components/ui/page-header';
 import Button from '@/components/ui/button';
-import { postPositionListOptions, postSpaceListOptions } from '@/api/@tanstack/react-query.gen.ts';
+import { getPositionByIdOptions, postSpaceListOptions } from '@/api/@tanstack/react-query.gen.ts';
 import { Position } from '@/api';
 
 // 假设这是广告位类型
@@ -49,12 +49,10 @@ const PositionDetailPage = () => {
 
   // 获取铺位详情
   const { data: positionData, isLoading: isLoadingPosition } = useQuery({
-    ...postPositionListOptions({}),
-    select: (data) => {
-      const foundPosition = data?.data?.list?.find(p => p.positionId === id);
-      if (!foundPosition) throw new Error('铺位不存在');
-      return foundPosition;
-    },
+    ...getPositionByIdOptions({
+      path: { id: id! },
+    }),
+    select: (data) => data?.data,
     enabled: !!id,
   });
 

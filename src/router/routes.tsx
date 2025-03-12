@@ -13,6 +13,7 @@ const SpaceList = lazy(() => import('@/pages/space/list'));
 const SpaceDetail = lazy(() => import('@/pages/space/detail'));
 const DistrictList = lazy(() => import('@/pages/district/list'));
 const CbdList = lazy(() => import('@/pages/cbd/list'));
+const AuditList = lazy(() => import('@/pages/audit/list'));
 
 export interface RouteConfig {
   path: string;
@@ -28,6 +29,13 @@ export const routes: RouteConfig[] = [
     component: Dashboard,
     name: '仪表盘',
     icon: <FiHome />,
+  },
+  {
+    path: '/audit-list',
+    component: AuditList,
+    name: '审核列表',
+    icon: <FiHome />,
+    hideInMenu: true,
   },
   {
     path: '/part',

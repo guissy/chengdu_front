@@ -69,6 +69,21 @@ export const zPosition = z.object({
     business_hours: z.array(z.number())
 });
 
+export const zAuditLog = z.object({
+    id: z.string(),
+    operationType: z.string(),
+    targetType: z.string(),
+    targetId: z.string(),
+    targetName: z.string(),
+    content: z.string(),
+    operatorId: z.string(),
+    operatorName: z.string(),
+    operationTime: z.string(),
+    details: z.object({}).optional(),
+    ipAddress: z.unknown(),
+    userAgent: z.unknown()
+});
+
 export const zGetCityCityListResponse = z.object({
     code: z.number().optional(),
     data: z.object({
@@ -112,6 +127,16 @@ export const zPostPartListResponse = z.object({
     }).optional()
 });
 
+export const zGetPartByIdResponse = z.object({
+    code: z.number().optional(),
+    data: z.object({
+        id: z.string(),
+        name: z.string(),
+        sequence: z.number(),
+        total_space: z.number()
+    }).optional()
+});
+
 export const zPostPartAddResponse = z.object({
     code: z.number(),
     data: z.unknown().optional()
@@ -146,6 +171,26 @@ export const zPostPositionListResponse = z.object({
             remark: z.unknown(),
             business_hours: z.array(z.number())
         }))
+    }).optional()
+});
+
+export const zGetPositionByIdResponse = z.object({
+    code: z.number().optional(),
+    data: z.object({
+        positionId: z.string(),
+        position_no: z.string(),
+        shopId: z.unknown(),
+        shop_no: z.unknown(),
+        total_space: z.number(),
+        put_space: z.number(),
+        price_base: z.number(),
+        verified: z.boolean(),
+        displayed: z.boolean(),
+        type: z.unknown(),
+        type_tag: z.unknown(),
+        photo: z.array(z.string()),
+        remark: z.unknown(),
+        business_hours: z.array(z.number())
     }).optional()
 });
 
@@ -233,6 +278,19 @@ export const zPostSpaceListResponse = z.object({
     }).optional()
 });
 
+export const zGetSpaceByIdResponse = z.object({
+    code: z.number().optional(),
+    data: z.object({
+        id: z.string(),
+        type: z.string(),
+        setting: z.object({}),
+        count: z.number(),
+        state: z.string(),
+        photo: z.array(z.string()),
+        priceFactor: z.number().optional().default(1)
+    }).optional()
+});
+
 export const zPostSpaceAddResponse = z.object({
     code: z.number(),
     data: z.unknown().optional()
@@ -251,4 +309,122 @@ export const zPostSpaceDeleteResponse = z.object({
 export const zPostSpaceUpdateStateResponse = z.object({
     code: z.number(),
     data: z.unknown().optional()
+});
+
+export const zGetDashboardResponse = z.object({
+    code: z.number().optional(),
+    data: z.object({
+        cbdCount: z.number().int().gte(0),
+        partCount: z.number().int().gte(0),
+        positionCount: z.number().int().gte(0),
+        shopCount: z.number().int().gte(0),
+        spaceCount: z.number().int().gte(0),
+        campaignCount: z.number().int().gte(0)
+    }).optional()
+});
+
+export const zGetDashboardRecentShopsResponse = z.object({
+    code: z.number().optional(),
+    data: z.array(z.object({
+        id: z.string().optional(),
+        shop_no: z.string().optional(),
+        trademark: z.string().optional(),
+        branch: z.union([
+            z.string(),
+            z.null()
+        ]).optional(),
+        type: z.string().optional(),
+        type_tag: z.union([
+            z.string(),
+            z.null()
+        ]).optional(),
+        business_type: z.string().optional(),
+        verify_status: z.boolean().optional(),
+        cbd: z.object({
+            id: z.string().optional(),
+            name: z.string().optional()
+        }).optional(),
+        part: z.object({
+            id: z.string().optional(),
+            name: z.string().optional()
+        }).optional(),
+        createdAt: z.string().datetime().optional()
+    })).optional()
+});
+
+export const zGetDashboardCbdDistributionResponse = z.object({
+    code: z.number().optional(),
+    data: z.array(z.object({
+        id: z.string().optional(),
+        name: z.string().optional(),
+        district: z.string().optional(),
+        shopCount: z.number().optional(),
+        partCount: z.number().optional()
+    })).optional()
+});
+
+export const zGetDashboardShopTypeDistributionResponse = z.object({
+    code: z.number().optional(),
+    data: z.array(z.object({
+        type: z.string().optional(),
+        count: z.number().optional()
+    })).optional()
+});
+
+export const zGetAuditLogResponse = z.object({
+    code: z.number().optional(),
+    data: z.object({
+        items: z.array(z.object({
+            id: z.string(),
+            operationType: z.string(),
+            targetType: z.string(),
+            targetId: z.string(),
+            targetName: z.string(),
+            content: z.string(),
+            operatorId: z.string(),
+            operatorName: z.string(),
+            operationTime: z.string(),
+            details: z.object({}).optional(),
+            ipAddress: z.unknown(),
+            userAgent: z.unknown()
+        })),
+        total: z.number(),
+        page: z.number(),
+        pageSize: z.number(),
+        totalPages: z.number()
+    }).optional()
+});
+
+export const zGetAuditLogByIdResponse = z.object({
+    code: z.number().optional(),
+    data: z.object({
+        id: z.string(),
+        operationType: z.string(),
+        targetType: z.string(),
+        targetId: z.string(),
+        targetName: z.string(),
+        content: z.string(),
+        operatorId: z.string(),
+        operatorName: z.string(),
+        operationTime: z.string(),
+        details: z.object({}).optional(),
+        ipAddress: z.unknown(),
+        userAgent: z.unknown()
+    }).optional()
+});
+
+export const zGetAuditLogStatsOperationTypesResponse = z.object({
+    code: z.number().optional(),
+    data: z.array(z.object({
+        operationType: z.string().optional(),
+        count: z.number().optional()
+    })).optional()
+});
+
+export const zGetAuditLogStatsRecentActivityResponse = z.object({
+    code: z.number().optional(),
+    data: z.array(z.object({
+        date: z.string().date().optional(),
+        count: z.number().optional()
+    })).optional()
 });
