@@ -33,11 +33,21 @@ export type ShopResponseSchema = {
     price_base: number;
     verified: boolean;
     displayed: boolean;
-    type: number;
+    type: string;
     type_tag: unknown;
     photo: Array<string>;
     remark: unknown;
     business_hours: Array<number>;
+    total_area: unknown;
+    customer_area: unknown;
+    clerk_count: unknown;
+    business_type: string;
+    duration: string;
+    sex: string;
+    age: Array<number>;
+    id_tag: unknown;
+    sign_photo: unknown;
+    contact_type: string;
 };
 
 export type SpaceResponseSchema = {
@@ -571,6 +581,52 @@ export type PostPositionMarkResponses = {
 
 export type PostPositionMarkResponse = PostPositionMarkResponses[keyof PostPositionMarkResponses];
 
+export type GetShopListData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/shop/list';
+};
+
+export type GetShopListResponses = {
+    /**
+     * 成功响应
+     */
+    200: {
+        code?: number;
+        data?: {
+            list: Array<{
+                shopId: string;
+                shop_no: string;
+                trademark: string;
+                branch: unknown;
+                total_space: number;
+                put_space: number;
+                price_base: number;
+                verified: boolean;
+                displayed: boolean;
+                type: string;
+                type_tag: unknown;
+                photo: Array<string>;
+                remark: unknown;
+                business_hours: Array<number>;
+                total_area: unknown;
+                customer_area: unknown;
+                clerk_count: unknown;
+                business_type: string;
+                duration: string;
+                sex: string;
+                age: Array<number>;
+                id_tag: unknown;
+                sign_photo: unknown;
+                contact_type: string;
+            }>;
+        };
+    };
+};
+
+export type GetShopListResponse = GetShopListResponses[keyof GetShopListResponses];
+
 export type GetShopListUnbindData = {
     body?: never;
     path?: never;
@@ -595,17 +651,76 @@ export type GetShopListUnbindResponses = {
                 price_base: number;
                 verified: boolean;
                 displayed: boolean;
-                type: number;
+                type: string;
                 type_tag: unknown;
                 photo: Array<string>;
                 remark: unknown;
                 business_hours: Array<number>;
+                total_area: unknown;
+                customer_area: unknown;
+                clerk_count: unknown;
+                business_type: string;
+                duration: string;
+                sex: string;
+                age: Array<number>;
+                id_tag: unknown;
+                sign_photo: unknown;
+                contact_type: string;
             }>;
         };
     };
 };
 
 export type GetShopListUnbindResponse = GetShopListUnbindResponses[keyof GetShopListUnbindResponses];
+
+export type GetShopByIdData = {
+    body?: never;
+    path: {
+        /**
+         * 店铺ID
+         */
+        id: string;
+    };
+    query?: never;
+    url: '/shop/{id}';
+};
+
+export type GetShopByIdResponses = {
+    /**
+     * 成功响应
+     */
+    200: {
+        code?: number;
+        data?: {
+            shopId: string;
+            shop_no: string;
+            trademark: string;
+            branch: unknown;
+            total_space: number;
+            put_space: number;
+            price_base: number;
+            verified: boolean;
+            displayed: boolean;
+            type: string;
+            type_tag: unknown;
+            photo: Array<string>;
+            remark: unknown;
+            business_hours: Array<number>;
+            total_area: unknown;
+            customer_area: unknown;
+            clerk_count: unknown;
+            business_type: string;
+            duration: string;
+            sex: string;
+            age: Array<number>;
+            id_tag: unknown;
+            sign_photo: unknown;
+            contact_type: string;
+        };
+    };
+};
+
+export type GetShopByIdResponse = GetShopByIdResponses[keyof GetShopByIdResponses];
 
 export type PostShopAddData = {
     body: {
@@ -624,7 +739,7 @@ export type PostShopAddData = {
         /**
          * 类型，1-餐饮 2-轻食 3-茶楼 4-茶饮/咖啡 5-咖啡馆 6-酒店
          */
-        type: number;
+        type: string;
         /**
          * 品类标签
          */
@@ -632,7 +747,7 @@ export type PostShopAddData = {
         /**
          * 商业类型，1-独立自营店 2-连锁自营店 3-连锁加盟店
          */
-        business_type: number;
+        business_type: string;
         /**
          * 字号
          */
@@ -655,7 +770,7 @@ export type PostShopAddData = {
         /**
          * 经营时长，1-一年内新店 2-1~2年 3-2~5年 4-五年以上
          */
-        duration: number;
+        duration: string;
         /**
          * 是否展示消费数据
          */
@@ -670,7 +785,7 @@ export type PostShopAddData = {
         /**
          * 性别，1-不限 2-男 3-女
          */
-        sex?: number;
+        sex: string;
         /**
          * 年龄段最低到最高值
          */
@@ -713,7 +828,7 @@ export type PostShopAddData = {
         /**
          * 联系人类型，1-老板 2-店长 3-店员 4-总店管理人员
          */
-        contact_type?: number;
+        contact_type?: string;
         /**
          * 面积，单位(平方米)
          */
@@ -736,15 +851,15 @@ export type PostShopAddData = {
         /**
          * 休息日，1-周一 2-周二 3-周三 4-周四 5-周五 6-周六 7-周日 8-按需
          */
-        rest_days: Array<number>;
+        rest_days: Array<string>;
         /**
          * 客流高峰，1-早餐 2-午餐 3-晚餐 4-宵夜 5-上午 6-下午 7-晚上 8-深夜
          */
-        volume_peak: Array<number>;
+        volume_peak: Array<string>;
         /**
          * 1-春 2-夏 3-秋 4-冬 5-节假日 6-工作日 7-非工作日
          */
-        season: Array<number>;
+        season: Array<string>;
         /**
          * 店铺简介
          */
@@ -797,7 +912,7 @@ export type PostShopUpdateData = {
         /**
          * 类型，1-餐饮 2-轻食 3-茶楼 4-茶饮/咖啡 5-咖啡馆 6-酒店
          */
-        type: number;
+        type: string;
         /**
          * 品类标签
          */
@@ -805,7 +920,7 @@ export type PostShopUpdateData = {
         /**
          * 商业类型，1-独立自营店 2-连锁自营店 3-连锁加盟店
          */
-        business_type: number;
+        business_type: string;
         /**
          * 字号
          */
@@ -828,7 +943,7 @@ export type PostShopUpdateData = {
         /**
          * 经营时长，1-一年内新店 2-1~2年 3-2~5年 4-五年以上
          */
-        duration: number;
+        duration: string;
         /**
          * 是否展示消费数据
          */
@@ -843,7 +958,7 @@ export type PostShopUpdateData = {
         /**
          * 性别，1-不限 2-男 3-女
          */
-        sex?: number;
+        sex: string;
         /**
          * 年龄段最低到最高值
          */
@@ -886,7 +1001,7 @@ export type PostShopUpdateData = {
         /**
          * 联系人类型，1-老板 2-店长 3-店员 4-总店管理人员
          */
-        contact_type?: number;
+        contact_type?: string;
         /**
          * 面积，单位(平方米)
          */
@@ -909,15 +1024,15 @@ export type PostShopUpdateData = {
         /**
          * 休息日，1-周一 2-周二 3-周三 4-周四 5-周五 6-周六 7-周日 8-按需
          */
-        rest_days: Array<number>;
+        rest_days: Array<string>;
         /**
          * 客流高峰，1-早餐 2-午餐 3-晚餐 4-宵夜 5-上午 6-下午 7-晚上 8-深夜
          */
-        volume_peak: Array<number>;
+        volume_peak: Array<string>;
         /**
          * 1-春 2-夏 3-秋 4-冬 5-节假日 6-工作日 7-非工作日
          */
-        season: Array<number>;
+        season: Array<string>;
         /**
          * 店铺简介
          */

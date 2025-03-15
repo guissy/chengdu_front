@@ -8,21 +8,18 @@ import Input from '@/components/ui/input';
 import Select from '@/components/ui/select';
 import DataTable from '@/components/ui/table';
 import { useQuery } from '@tanstack/react-query';
-
-// 为铺位列表页面创建一个简单的store
-// 实际项目中应该创建一个专门的store文件
 import { postPartListOptions, postPositionListOptions } from '@/api/@tanstack/react-query.gen.ts';
 import { Position } from '@/api';
 import { usePositionStore } from '@/features/position-store';
 import AddPositionDialog from '@/features/position/components/add-position-dialog';
-import EditPositionDialog from '@/features/position/components/edit-position-dialog';
+import BindShopDialog from '@/features/position/components/bind-shop-dialog';
 
 
 // 定义表格列
 const columnHelper = createColumnHelper<Position>();
 
 const PositionListPage = () => {
-  const { filterPartId, setFilterPartId, openAddDialog, openEditDialog } = usePositionStore();
+  const { filterPartId, setFilterPartId, openAddDialog, openBindShopDialog } = usePositionStore();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -118,7 +115,7 @@ const PositionListPage = () => {
               onClick={(e) => {
                 e.stopPropagation();
                 // 这里应该打开关联店铺的对话框
-                openEditDialog(info.row.original);
+                openBindShopDialog(info.row.original);
               }}
             >
               关联店铺
@@ -200,7 +197,7 @@ const PositionListPage = () => {
       </div>
 
       <AddPositionDialog />
-      <EditPositionDialog />
+      <BindShopDialog />
     </>
   );
 };

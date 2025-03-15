@@ -35,11 +35,21 @@ export const zShopResponseSchema = z.object({
     price_base: z.number(),
     verified: z.boolean(),
     displayed: z.boolean(),
-    type: z.number(),
+    type: z.string(),
     type_tag: z.unknown(),
     photo: z.array(z.string()),
     remark: z.unknown(),
-    business_hours: z.array(z.number())
+    business_hours: z.array(z.number()),
+    total_area: z.unknown(),
+    customer_area: z.unknown(),
+    clerk_count: z.unknown(),
+    business_type: z.string(),
+    duration: z.string(),
+    sex: z.string(),
+    age: z.array(z.number()),
+    id_tag: z.unknown(),
+    sign_photo: z.unknown(),
+    contact_type: z.string()
 });
 
 export const zSpaceResponseSchema = z.object({
@@ -225,6 +235,38 @@ export const zPostPositionMarkResponse = z.object({
     data: z.unknown().optional()
 });
 
+export const zGetShopListResponse = z.object({
+    code: z.number().optional(),
+    data: z.object({
+        list: z.array(z.object({
+            shopId: z.string(),
+            shop_no: z.string(),
+            trademark: z.string(),
+            branch: z.unknown(),
+            total_space: z.number(),
+            put_space: z.number(),
+            price_base: z.number(),
+            verified: z.boolean(),
+            displayed: z.boolean(),
+            type: z.string(),
+            type_tag: z.unknown(),
+            photo: z.array(z.string()),
+            remark: z.unknown(),
+            business_hours: z.array(z.number()),
+            total_area: z.unknown(),
+            customer_area: z.unknown(),
+            clerk_count: z.unknown(),
+            business_type: z.string(),
+            duration: z.string(),
+            sex: z.string(),
+            age: z.array(z.number()),
+            id_tag: z.unknown(),
+            sign_photo: z.unknown(),
+            contact_type: z.string()
+        }))
+    }).optional()
+});
+
 export const zGetShopListUnbindResponse = z.object({
     code: z.number().optional(),
     data: z.object({
@@ -238,12 +280,52 @@ export const zGetShopListUnbindResponse = z.object({
             price_base: z.number(),
             verified: z.boolean(),
             displayed: z.boolean(),
-            type: z.number(),
+            type: z.string(),
             type_tag: z.unknown(),
             photo: z.array(z.string()),
             remark: z.unknown(),
-            business_hours: z.array(z.number())
+            business_hours: z.array(z.number()),
+            total_area: z.unknown(),
+            customer_area: z.unknown(),
+            clerk_count: z.unknown(),
+            business_type: z.string(),
+            duration: z.string(),
+            sex: z.string(),
+            age: z.array(z.number()),
+            id_tag: z.unknown(),
+            sign_photo: z.unknown(),
+            contact_type: z.string()
         }))
+    }).optional()
+});
+
+export const zGetShopByIdResponse = z.object({
+    code: z.number().optional(),
+    data: z.object({
+        shopId: z.string(),
+        shop_no: z.string(),
+        trademark: z.string(),
+        branch: z.unknown(),
+        total_space: z.number(),
+        put_space: z.number(),
+        price_base: z.number(),
+        verified: z.boolean(),
+        displayed: z.boolean(),
+        type: z.string(),
+        type_tag: z.unknown(),
+        photo: z.array(z.string()),
+        remark: z.unknown(),
+        business_hours: z.array(z.number()),
+        total_area: z.unknown(),
+        customer_area: z.unknown(),
+        clerk_count: z.unknown(),
+        business_type: z.string(),
+        duration: z.string(),
+        sex: z.string(),
+        age: z.array(z.number()),
+        id_tag: z.unknown(),
+        sign_photo: z.unknown(),
+        contact_type: z.string()
     }).optional()
 });
 

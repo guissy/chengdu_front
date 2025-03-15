@@ -6,8 +6,11 @@ import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import PageHeader from '@/components/ui/page-header';
 import Button from '@/components/ui/button';
 import DataTable from '@/components/ui/table.tsx';
-import { postSpaceListOptions } from '@/api/@tanstack/react-query.gen.ts';
+import { getShopByIdOptions, postSpaceListOptions } from '@/api/@tanstack/react-query.gen.ts';
 import { SpaceResponseSchema } from '@/api';
+import { shopTypeMap, useShopStore } from '@/features/shop-store';
+import EditShopDialog from '@/features/shop/components/edit-shop-dialog';
+import DeleteShopDialog from '@/features/shop/components/delete-shop-dialog';
 
 // 简化的店铺类型
 interface Shop {
@@ -46,16 +49,6 @@ interface Space {
   photo: string[];
 }
 
-// 店铺类型映射
-const shopTypeMap: Record<number, string> = {
-  1: '餐饮',
-  2: '轻食',
-  3: '茶楼',
-  4: '茶饮/咖啡',
-  5: '咖啡馆',
-  6: '酒店',
-};
-
 // 广告位类型映射
 const spaceTypeMap: Record<number, string> = {
   1: '方桌不干胶贴',
@@ -78,40 +71,17 @@ const columnHelper = createColumnHelper<Space>();
 const ShopDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { openEditDialog, openDeleteDialog } = useShopStore();
   const [shop, setShop] = useState<Shop | null>(null);
 
   // 获取店铺详情
   const { data: shopData, isLoading: isLoadingShop } = useQuery({
-    queryKey: ['shop', id],
-    queryFn: async () => {
-      // 实际应用应该使用 return get(`/shop/${id}`) 获取详情
-      // 这里模拟一个店铺详情数据
-      return {
-        shopId: id,
-        shop_no: 'SH00001',
-        trademark: '巴蜀大将',
-        branch: null,
-        total_space: 8,
-        put_space: 5,
-        price_base: 8000,
-        verified: true,
-        displayed: true,
-        type: 1,
-        type_tag: '火锅',
-        total_area: 120,
-        customer_area: 100,
-        clerk_count: 8,
-        business_hours: [1100, 2300],
-        rest_days: [1], // 周一休息
-        volume_peak: [2, 3], // 午餐、晚餐高峰
-        shop_description: '巴蜀大将火锅，源自重庆老火锅配方，选用上等食材，提供正宗重庆麻辣火锅体验。',
-        put_description: '店内环境优雅，人均消费适中，客流量大，是投放广告的理想场所。',
-        photo: ['https://placehold.co/600x400', 'https://placehold.co/600x400'],
-        remark: null,
-        positionId: 'pos-001',
-        position_no: 'SLT-B1-001',
-      } as Shop;
-    },
+    ...getShopByIdOptions({
+      path: {
+        id: id!,
+      },
+    }),
+    select: (data) => data.data,
     enabled: !!id,
   });
 
@@ -134,6 +104,20 @@ const ShopDetailPage = () => {
   // 处理返回按钮点击
   const handleBack = () => {
     navigate('/shop');
+  };
+
+  // 处理编辑按钮点击
+  const handleEdit = () => {
+    if (shop) {
+      openEditDialog(shop);
+    }
+  };
+
+  // 处理删除按钮点击
+  const handleDelete = () => {
+    if (shop) {
+      openDeleteDialog(shop);
+    }
   };
 
   // 加载中状态
@@ -233,14 +217,14 @@ const ShopDetailPage = () => {
             <Button
               variant="primary"
               icon={<FiEdit2 className="h-5 w-5" />}
-              onClick={() => alert('编辑店铺功能待实现')}
+              onClick={handleEdit}
             >
               编辑
             </Button>
             <Button
               variant="error"
               icon={<FiTrash2 className="h-5 w-5" />}
-              onClick={() => alert('删除店铺功能待实现')}
+              onClick={handleDelete}
             >
               删除
             </Button>
@@ -376,13 +360,13 @@ const ShopDetailPage = () => {
               <div className="flex justify-between">
                 <span className="text-base-content/70">营业时间</span>
                 <span>
-                  {shop.business_hours[0]}:{'00'.padStart(2, '0')} - {shop.business_hours[1]}:{'00'.padStart(2, '0')}
+                  {shop.business_hours?.[0]}:{'00'.padStart(2, '0')} - {shop.business_hours?.[1]}:{'00'.padStart(2, '0')}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-base-content/70">休息日</span>
                 <span>
-                  {shop.rest_days.map((day) => {
+                  {shop.rest_days?.map((day) => {
                     const weekday = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'][day];
                     return <span key={day}>{weekday}</span>;
                   })}
@@ -391,7 +375,7 @@ const ShopDetailPage = () => {
               <div className="flex justify-between">
                 <span className="text-base-content/70">高峰时段</span>
                 <span>
-                  {shop.volume_peak.map((peak) => {
+                  {shop.volume_peak?.map((peak) => {
                     const period = ['午餐', '晚餐'][peak - 1];
                     return <span key={peak}>{period}</span>;
                   })}
@@ -412,6 +396,10 @@ const ShopDetailPage = () => {
           loading={isLoadingSpaces}
         />
       </div>
+
+      {/* 添加对话框组件 */}
+      <EditShopDialog />
+      <DeleteShopDialog />
     </>
   );
 };

@@ -9,6 +9,7 @@ import { Position } from '@/api';
 import { usePositionStore } from '@/features/position-store.ts';
 import EditPositionDialog from '@/features/position/components/edit-position-dialog.tsx';
 import DeletePositionDialog from '@/features/position/components/delete-position-dialog';
+import BindShopDialog from '@/features/position/components/bind-shop-dialog';
 
 // 假设这是广告位类型
 // interface Space {
@@ -47,7 +48,7 @@ const spaceStateMap: Record<string, { label: string; badge: string }> = {
 
 const PositionDetailPage = () => {
   const { id } = useParams<{ id: string }>();
-  const { openEditDialog, openDeleteDialog } = usePositionStore();
+  const { openEditDialog, openDeleteDialog, openBindShopDialog } = usePositionStore();
 
   const navigate = useNavigate();
   const [position, setPosition] = useState<Position | null>(null);
@@ -233,7 +234,7 @@ const PositionDetailPage = () => {
                   variant="primary"
                   size="sm"
                   icon={<FiLink className="h-5 w-5"/>}
-                  onClick={() => alert('关联店铺功能待实现')}
+                  onClick={() => openBindShopDialog(position)}
                 >
                   关联店铺
                 </Button>
@@ -375,6 +376,7 @@ const PositionDetailPage = () => {
 
       <EditPositionDialog />
       <DeletePositionDialog />
+      <BindShopDialog />
     </>
   );
 };

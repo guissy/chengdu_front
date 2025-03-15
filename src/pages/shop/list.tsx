@@ -8,6 +8,10 @@ import Input from '@/components/ui/input';
 import Select from '@/components/ui/select';
 import DataTable from '@/components/ui/table';
 import { useQuery } from '@tanstack/react-query';
+import { shopTypeMap, useShopStore } from '@/features/shop-store';
+import AddShopDialog from '@/features/shop/components/add-shop-dialog';
+import DeleteShopDialog from '@/features/shop/components/delete-shop-dialog';
+import { getShopListOptions } from '@/api/@tanstack/react-query.gen';
 
 // 简化的店铺类型
 interface Shop {
@@ -20,123 +24,27 @@ interface Shop {
   price_base: number;
   verified: boolean;
   displayed: boolean;
-  type: number;
+  type: string;
   type_tag: string | null;
   photo: string[];
   remark: string | null;
   business_hours: number[];
 }
 
-// 店铺类型映射
-const shopTypeMap: Record<number, string> = {
-  1: '餐饮',
-  2: '轻食',
-  3: '茶楼',
-  4: '茶饮/咖啡',
-  5: '咖啡馆',
-  6: '酒店',
-};
-
 // 定义表格列
 const columnHelper = createColumnHelper<Shop>();
 
 const ShopListPage = () => {
   const navigate = useNavigate();
+  const { openAddDialog, openDeleteDialog } = useShopStore();
   const [searchText, setSearchText] = useState('');
   const [filterType, setFilterType] = useState('');
   const [filterVerified, setFilterVerified] = useState('');
 
   // 获取店铺列表数据
   const { data, isLoading } = useQuery({
-    queryKey: ['shops'],
-    queryFn: async () => {
-      // 这里模拟店铺列表API
-      // 实际应该有类似 return get('/shop/list') 的API调用
-      return {
-        list: [
-          {
-            shopId: 'shop-001',
-            shop_no: 'SH00001',
-            trademark: '巴蜀大将',
-            branch: null,
-            total_space: 8,
-            put_space: 5,
-            price_base: 8000,
-            verified: true,
-            displayed: true,
-            type: 1,
-            type_tag: '火锅',
-            photo: ['https://placehold.co/300x200'],
-            remark: null,
-            business_hours: [1100, 2300],
-          },
-          {
-            shopId: 'shop-002',
-            shop_no: 'SH00002',
-            trademark: '咖啡工场',
-            branch: '三里屯店',
-            total_space: 6,
-            put_space: 3,
-            price_base: 7500,
-            verified: true,
-            displayed: true,
-            type: 4,
-            type_tag: '精品咖啡',
-            photo: ['https://placehold.co/300x200'],
-            remark: null,
-            business_hours: [800, 2200],
-          },
-          {
-            shopId: 'shop-003',
-            shop_no: 'SH00003',
-            trademark: '罗马假日',
-            branch: '北京店',
-            total_space: 10,
-            put_space: 8,
-            price_base: 15000,
-            verified: true,
-            displayed: true,
-            type: 1,
-            type_tag: '意大利餐厅',
-            photo: ['https://placehold.co/300x200'],
-            remark: null,
-            business_hours: [1100, 2300],
-          },
-          {
-            shopId: 'shop-004',
-            shop_no: 'SH00004',
-            trademark: '粤香阁',
-            branch: '国贸店',
-            total_space: 12,
-            put_space: 9,
-            price_base: 12000,
-            verified: true,
-            displayed: true,
-            type: 1,
-            type_tag: '粤菜',
-            photo: ['https://placehold.co/300x200'],
-            remark: null,
-            business_hours: [1100, 2200],
-          },
-          {
-            shopId: 'shop-005',
-            shop_no: 'SH00005',
-            trademark: '蜀香坊',
-            branch: null,
-            total_space: 9,
-            put_space: 7,
-            price_base: 18000,
-            verified: false,
-            displayed: true,
-            type: 1,
-            type_tag: '川菜',
-            photo: ['https://placehold.co/300x200'],
-            remark: null,
-            business_hours: [1000, 2200],
-          },
-        ] as Shop[],
-      };
-    },
+    ...getShopListOptions(),
+    select: (data) => data.data?.list || [],
   });
 
   // 表格列定义
@@ -204,10 +112,7 @@ const ShopListPage = () => {
             variant="ghost"
             size="sm"
             icon={<FiTrash2 className="h-4 w-4" />}
-            onClick={(e) => {
-              e.stopPropagation();
-              alert('删除店铺功能待实现');
-            }}
+            onClick={(e) => handleDelete(info.row.original, e)}
           >
             删除
           </Button>
@@ -239,8 +144,14 @@ const ShopListPage = () => {
     navigate(`/shop/${row.shopId}`);
   };
 
+  // 修改删除按钮的点击处理函数
+  const handleDelete = (shop: Shop, e: React.MouseEvent) => {
+    e.stopPropagation();
+    openDeleteDialog(shop);
+  };
+
   // 过滤数据
-  const filteredData = (data?.list || []).filter((shop) => {
+  const filteredData = (data || []).filter((shop) => {
     // 搜索文本过滤
     const textMatch =
       searchText === '' ||
@@ -270,7 +181,7 @@ const ShopListPage = () => {
           <Button
             variant="primary"
             icon={<FiPlus className="h-5 w-5" />}
-            onClick={() => alert('新增店铺功能待实现')}
+            onClick={openAddDialog}
           >
             新增店铺
           </Button>
@@ -317,6 +228,10 @@ const ShopListPage = () => {
           onRowClick={handleRowClick}
         />
       </div>
+
+      {/* 添加对话框组件 */}
+      <AddShopDialog />
+      <DeleteShopDialog />
     </>
   );
 };

@@ -100,7 +100,7 @@ export const shopResponseSchemaSchema = {
             type: 'boolean'
         },
         type: {
-            type: 'number'
+            type: 'string'
         },
         type_tag: {
             type: ['string', 'null']
@@ -119,9 +119,42 @@ export const shopResponseSchemaSchema = {
             items: {
                 type: 'number'
             }
+        },
+        total_area: {
+            type: ['number', 'null']
+        },
+        customer_area: {
+            type: ['number', 'null']
+        },
+        clerk_count: {
+            type: ['number', 'null']
+        },
+        business_type: {
+            type: 'string'
+        },
+        duration: {
+            type: 'string'
+        },
+        sex: {
+            type: 'string'
+        },
+        age: {
+            type: 'array',
+            items: {
+                type: 'number'
+            }
+        },
+        id_tag: {
+            type: ['string', 'null']
+        },
+        sign_photo: {
+            type: ['string', 'null']
+        },
+        contact_type: {
+            type: 'string'
         }
     },
-    required: ['shopId', 'shop_no', 'trademark', 'branch', 'total_space', 'put_space', 'price_base', 'verified', 'displayed', 'type', 'type_tag', 'photo', 'remark', 'business_hours'],
+    required: ['shopId', 'shop_no', 'trademark', 'branch', 'total_space', 'put_space', 'price_base', 'verified', 'displayed', 'type', 'type_tag', 'photo', 'remark', 'business_hours', 'total_area', 'customer_area', 'clerk_count', 'business_type', 'duration', 'sex', 'age', 'id_tag', 'sign_photo', 'contact_type'],
     additionalProperties: false,
     title: 'shopResponseSchema'
 } as const;

@@ -21,6 +21,7 @@ interface PositionState {
   isAddDialogOpen: boolean;
   isEditDialogOpen: boolean;
   isDeleteDialogOpen: boolean;
+  isBindShopDialogOpen: boolean;
   formData: PositionFormData;
 
   // 操作方法
@@ -30,6 +31,8 @@ interface PositionState {
   closeEditDialog: () => void;
   openDeleteDialog: (position: Position) => void;
   closeDeleteDialog: () => void;
+  openBindShopDialog: (position: Position) => void;
+  closeBindShopDialog: () => void;
   updateFormData: (data: Partial<PositionFormData>) => void;
   resetFormData: () => void;
 }
@@ -54,6 +57,7 @@ export const usePositionStore = create<PositionState>((set) => ({
   isAddDialogOpen: false,
   isEditDialogOpen: false,
   isDeleteDialogOpen: false,
+  isBindShopDialogOpen: false,
   formData: { ...defaultFormData },
 
   // 操作方法
@@ -95,6 +99,18 @@ export const usePositionStore = create<PositionState>((set) => ({
   closeDeleteDialog: () => {
     set({
       isDeleteDialogOpen: false,
+      currentPosition: null,
+    });
+  },
+  openBindShopDialog: (position) => {
+    set({
+      isBindShopDialogOpen: true,
+      currentPosition: position,
+    });
+  },
+  closeBindShopDialog: () => {
+    set({
+      isBindShopDialogOpen: false,
       currentPosition: null,
     });
   },
