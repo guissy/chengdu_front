@@ -24,9 +24,9 @@ const operationTypeOptions = [
 const targetTypeOptions = [
   { value: '', label: '全部对象' },
   { value: 'CBD', label: '商圈' },
-  { value: 'PART', label: '物业分区' },
+  { value: 'PART', label: '物业小区' },
   { value: 'POSITION', label: '铺位' },
-  { value: 'SHOP', label: '店铺' },
+  { value: 'SHOP', label: '商家' },
   { value: 'SPACE', label: '广告位' },
   { value: 'CAMPAIGN', label: '广告活动' },
 ];

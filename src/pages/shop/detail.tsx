@@ -1,98 +1,59 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { FiArrowLeft, FiEdit2, FiTrash2, FiEye, FiEyeOff, FiCheck, FiX, FiMapPin } from 'react-icons/fi';
+import { FiArrowLeft, FiEdit2, FiTrash2, FiShoppingBag, FiTag, FiLink } from 'react-icons/fi';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import PageHeader from '@/components/ui/page-header';
 import Button from '@/components/ui/button';
-import DataTable from '@/components/ui/table.tsx';
+import DataTable from '@/components/ui/table';
 import { getShopByIdOptions, postSpaceListOptions } from '@/api/@tanstack/react-query.gen.ts';
-import { SpaceResponseSchema } from '@/api';
-import { shopTypeMap, useShopStore } from '@/features/shop-store';
-import EditShopDialog from '@/features/shop/components/edit-shop-dialog';
+import { ShopResponseSchema, SpaceResponseSchema } from '@/api';
+import { shopTypeMap, useShopStore } from '@/features/shop-store.ts';
+import ShopFormDialog from '@/features/shop/components/shop-form-dialog';
 import DeleteShopDialog from '@/features/shop/components/delete-shop-dialog';
-
-// 简化的店铺类型
-interface Shop {
-  shopId: string;
-  shop_no: string;
-  trademark: string;
-  branch: string | null;
-  total_space: number;
-  put_space: number;
-  price_base: number;
-  verified: boolean;
-  displayed: boolean;
-  type: number;
-  type_tag: string | null;
-  total_area: number | null;
-  customer_area: number | null;
-  clerk_count: number | null;
-  business_hours: number[];
-  rest_days: number[];
-  volume_peak: number[];
-  shop_description: string | null;
-  put_description: string | null;
-  photo: string[];
-  remark: string | null;
-  positionId: string | null;
-  position_no: string | null;
-}
-
-// 简化的广告位类型
-interface Space {
-  id: string;
-  type: number;
-  count: number;
-  state: number;
-  priceFactor: number;
-  photo: string[];
-}
+import { formatTime } from '@/utils/time';
 
 // 广告位类型映射
-const spaceTypeMap: Record<number, string> = {
-  1: '方桌不干胶贴',
-  2: '方桌餐垫纸',
-  3: '立牌',
-  4: 'X展架',
-  5: '电视/LED屏幕',
-  6: '投影仪',
+const spaceTypeMap: Record<string, string> = {
+  TABLE_STICKER: '方桌不干胶贴',
+  TABLE_PLACEMAT: '方桌餐垫纸',
+  STAND: '立牌',
+  X_BANNER: 'X展架',
+  TV_LED: '电视/LED屏幕',
+  PROJECTOR: '投影仪',
 };
 
 // 广告位状态映射
-const spaceStateMap: Record<number, { label: string; badge: string }> = {
-  1: { label: '启用', badge: 'badge-success' },
-  2: { label: '禁用', badge: 'badge-error' },
+const spaceStateMap: Record<string, { label: string; badge: string }> = {
+  ENABLED: { label: '启用', badge: 'badge-success' },
+  DISABLED: { label: '禁用', badge: 'badge-error' },
 };
-
-// 定义广告位表格列
-const columnHelper = createColumnHelper<Space>();
 
 const ShopDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { openEditDialog, openDeleteDialog } = useShopStore();
-  const [shop, setShop] = useState<Shop | null>(null);
+  const [shop, setShop] = useState<ShopResponseSchema | null>(null);
 
-  // 获取店铺详情
+  // 获取商家详情
   const { data: shopData, isLoading: isLoadingShop } = useQuery({
     ...getShopByIdOptions({
-      path: {
-        id: id!,
-      },
+      path: { id: id! },
     }),
-    select: (data) => data.data,
+    select: (data) => data?.data,
     enabled: !!id,
   });
 
-  // 获取店铺的广告位列表
-  const { data: spacesData, isLoading: isLoadingSpaces } = useQuery({
+  // 获取广告位列表
+  const { data, isLoading: isLoadingSpaces } = useQuery({
     ...postSpaceListOptions({
-      body: { shopId: id! },
+      body: {
+        shopId: id!,
+      }
     }),
-    select: (data) => data.data?.list || [],
     enabled: !!id,
   });
+  const spacesData = useMemo(() => data?.data?.list || [], [data]);
 
   // 更新本地state
   useEffect(() => {
@@ -101,24 +62,49 @@ const ShopDetailPage = () => {
     }
   }, [shopData]);
 
-  // 处理返回按钮点击
-  const handleBack = () => {
-    navigate('/shop');
-  };
-
-  // 处理编辑按钮点击
-  const handleEdit = () => {
-    if (shop) {
-      openEditDialog(shop);
-    }
-  };
-
-  // 处理删除按钮点击
-  const handleDelete = () => {
-    if (shop) {
-      openDeleteDialog(shop);
-    }
-  };
+  // 广告位列定义
+  const columnHelper = createColumnHelper<SpaceResponseSchema>();
+  const columns = useMemo(() => [
+    columnHelper.accessor('type', {
+      header: '广告位类型',
+      cell: (info) => {
+        const type = info.getValue();
+        return spaceTypeMap[type as keyof typeof spaceTypeMap] || type;
+      },
+    }),
+    columnHelper.accessor('count', {
+      header: '数量',
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor('state', {
+      header: '状态',
+      cell: (info) => {
+        const state = info.getValue();
+        return (
+          <span className={`badge ${spaceStateMap[state as keyof typeof spaceStateMap]?.badge || ''}`}>
+            {spaceStateMap[state as keyof typeof spaceStateMap]?.label || state}
+          </span>
+        );
+      },
+    }),
+    columnHelper.accessor('priceFactor', {
+      header: '价格因子',
+      cell: (info) => `×${info.getValue() || 1}`,
+    }),
+    columnHelper.display({
+      id: 'actions',
+      header: '操作',
+      cell: (info) => (
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => navigate(`/space/${info.row.original.id}`)}
+        >
+          详情
+        </Button>
+      ),
+    }),
+  ] as ColumnDef<SpaceResponseSchema>[], [navigate]);
 
   // 加载中状态
   if (isLoadingShop) {
@@ -129,102 +115,48 @@ const ShopDetailPage = () => {
     );
   }
 
-  // 店铺不存在
+  // 商家不存在
   if (!shop) {
     return (
       <div className="flex flex-col items-center justify-center space-y-4 p-8">
-        <h2 className="text-2xl font-bold">店铺不存在</h2>
-        <p>未找到ID为 {id} 的店铺</p>
+        <h2 className="text-2xl font-bold">商家不存在</h2>
+        <p>未找到ID为 {id} 的商家</p>
         <Button
           variant="primary"
           icon={<FiArrowLeft className="h-5 w-5" />}
-          onClick={handleBack}
+          onClick={() => navigate('/shop')}
         >
-          返回店铺列表
+          返回商家列表
         </Button>
       </div>
     );
   }
 
-  // 广告位表格列定义
-  const columns = [
-    columnHelper.accessor('type', {
-      header: '广告位类型',
-      cell: (info) => spaceTypeMap[info.getValue()] || `类型${info.getValue()}`,
-    }),
-    columnHelper.accessor('count', {
-      header: '数量',
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor('state', {
-      header: '状态',
-      cell: (info) => (
-        <div className={`badge ${spaceStateMap[info.getValue()]?.badge || ''}`}>
-          {spaceStateMap[info.getValue()]?.label || `状态${info.getValue()}`}
-        </div>
-      ),
-    }),
-    columnHelper.accessor('priceFactor', {
-      header: '价格因子',
-      cell: (info) => `×${info.getValue()}`,
-    }),
-    columnHelper.display({
-      id: 'actions',
-      header: '操作',
-      cell: (info) => (
-        <div className="flex space-x-2">
-          <Button
-            variant="ghost"
-            size="sm"
-            icon={<FiEdit2 className="h-4 w-4" />}
-            onClick={(e) => {
-              e.stopPropagation();
-              navigate(`/space/${info.row.original.id}`);
-            }}
-          >
-            详情
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            icon={info.row.original.state === 1 ? <FiEyeOff className="h-4 w-4" /> : <FiEye className="h-4 w-4" />}
-            onClick={(e) => {
-              e.stopPropagation();
-              alert(`${info.row.original.state === 1 ? '禁用' : '启用'}广告位功能待实现`);
-            }}
-          >
-            {info.row.original.state === 1 ? '禁用' : '启用'}
-          </Button>
-        </div>
-      ),
-    }),
-  ] as ColumnDef<SpaceResponseSchema>[];
-
   return (
     <>
       <PageHeader
-        title={`${shop?.trademark}${shop?.branch ? ` (${shop?.branch})` : ''}`}
-        subtitle={`店铺编号: ${shop?.shop_no} | ${shopTypeMap[shop?.type] || `类型${shop?.type}`}${shop?.type_tag ? ` - ${shop?.type_tag}` : ''}`}
+        title={`${shop.trademark}${shop.branch ? ` (${String(shop.branch)})` : ''}`}
+        subtitle={`商家编号: ${shop.shop_no || '-'} | ${shopTypeMap[shop.type as keyof typeof shopTypeMap] || shop.type}${shop.type_tag ? ` - ${String(shop.type_tag)}` : ''}`}
         action={
           <div className="flex space-x-2">
             <Button
               variant="ghost"
               icon={<FiArrowLeft className="h-5 w-5" />}
-              onClick={handleBack}
+              onClick={() => navigate('/shop')}
             >
               返回
             </Button>
             <Button
               variant="primary"
               icon={<FiEdit2 className="h-5 w-5" />}
-              onClick={handleEdit}
+              onClick={() => openEditDialog(shop)}
             >
               编辑
             </Button>
             <Button
               variant="error"
               icon={<FiTrash2 className="h-5 w-5" />}
-              onClick={handleDelete}
+              onClick={() => openDeleteDialog(shop)}
             >
               删除
             </Button>
@@ -233,19 +165,19 @@ const ShopDetailPage = () => {
       />
 
       <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
-        {/* 店铺基本信息 */}
+        {/* 商家基本信息 */}
         <div className="card bg-base-100 shadow">
           <div className="card-body">
             <h2 className="card-title">基本信息</h2>
             <div className="divider my-1"></div>
             <div className="space-y-3">
               <div className="flex justify-between">
-                <span className="text-base-content/70">店铺编号</span>
+                <span className="text-base-content/70">商家编号</span>
                 <span>{shop?.shop_no}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-base-content/70">店铺类型</span>
-                <span>{shopTypeMap[shop?.type] || `类型${shop?.type}`}</span>
+                <span className="text-base-content/70">商家类型</span>
+                <span>{spaceTypeMap[shop?.type] || `类型${shop?.type}`}</span>
               </div>
               {shop?.type_tag && (
                 <div className="flex justify-between">
@@ -270,12 +202,12 @@ const ShopDetailPage = () => {
                 <span className="flex items-center">
                   {shop?.verified ? (
                     <>
-                      <FiCheck className="mr-1 h-4 w-4 text-success" />
+                      <FiShoppingBag className="mr-1 h-4 w-4 text-success" />
                       已认证
                     </>
                   ) : (
                     <>
-                      <FiX className="mr-1 h-4 w-4 text-error" />
+                      <FiTag className="mr-1 h-4 w-4 text-error" />
                       未认证
                     </>
                   )}
@@ -286,12 +218,12 @@ const ShopDetailPage = () => {
                 <span className="flex items-center">
                   {shop?.displayed ? (
                     <>
-                      <FiEye className="mr-1 h-4 w-4 text-success" />
+                      <FiLink className="mr-1 h-4 w-4 text-success" />
                       展示中
                     </>
                   ) : (
                     <>
-                      <FiEyeOff className="mr-1 h-4 w-4" />
+                      <FiTag className="mr-1 h-4 w-4" />
                       已隐藏
                     </>
                   )}
@@ -318,7 +250,7 @@ const ShopDetailPage = () => {
                     variant="primary"
                     size="sm"
                     fullWidth
-                    icon={<FiMapPin className="h-5 w-5" />}
+                    icon={<FiLink className="h-5 w-5" />}
                     onClick={() => navigate(`/position/${shop.positionId}`)}
                   >
                     查看铺位详情
@@ -327,16 +259,16 @@ const ShopDetailPage = () => {
               </div>
             ) : (
               <div className="flex h-32 flex-col items-center justify-center">
-                <p className="mb-4 text-base-content/70">当前店铺未关联铺位</p>
+                <p className="mb-4 text-base-content/70">当前商家未关联铺位</p>
               </div>
             )}
           </div>
         </div>
 
-        {/* 店铺规模 */}
+        {/* 商家规模 */}
         <div className="card bg-base-100 shadow">
           <div className="card-body">
-            <h2 className="card-title">店铺规模</h2>
+            <h2 className="card-title">商家规模</h2>
             <div className="divider my-1"></div>
             <div className="space-y-3">
               {shop.total_area && (
@@ -360,7 +292,7 @@ const ShopDetailPage = () => {
               <div className="flex justify-between">
                 <span className="text-base-content/70">营业时间</span>
                 <span>
-                  {shop.business_hours?.[0]}:{'00'.padStart(2, '0')} - {shop.business_hours?.[1]}:{'00'.padStart(2, '0')}
+                  {formatTime(shop.business_hours || [])}
                 </span>
               </div>
               <div className="flex justify-between">
@@ -387,18 +319,20 @@ const ShopDetailPage = () => {
       </div>
 
       {/* 广告位列表 */}
-      <div className="mt-6">
-        <h2 className="card-title">广告位列表</h2>
-        <div className="divider my-1"></div>
-        <DataTable
-          columns={columns}
-          data={spacesData || []}
-          loading={isLoadingSpaces}
-        />
+      <div className="mt-6 card bg-base-100 shadow">
+        <div className="card-body">
+          <h2 className="card-title">广告位列表</h2>
+          <div className="divider my-1"></div>
+          <DataTable
+            columns={columns}
+            data={spacesData}
+            loading={isLoadingSpaces}
+          />
+        </div>
       </div>
 
       {/* 添加对话框组件 */}
-      <EditShopDialog />
+      <ShopFormDialog mode='edit' />
       <DeleteShopDialog />
     </>
   );

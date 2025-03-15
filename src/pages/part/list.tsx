@@ -35,6 +35,10 @@ const PartListPage = () => {
 
   // Table column definitions with unknown as the second generic type
   const columns = [
+    columnHelper.accessor('id', {
+      header: '分区ID',
+      cell: (info) => info.getValue(),
+    }),
     columnHelper.accessor('name', {
       header: '分区名称',
       cell: (info) => info.getValue(),
@@ -104,8 +108,8 @@ const PartListPage = () => {
   return (
     <>
       <PageHeader
-        title="物业分区管理"
-        subtitle="管理商圈内的物业分区信息"
+        title="物业小区管理"
+        subtitle="管理商圈内的物业小区信息"
         action={
           <Button
             variant="primary"

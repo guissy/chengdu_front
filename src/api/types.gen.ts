@@ -543,7 +543,7 @@ export type PostPositionBindShopData = {
          */
         id: string;
         /**
-         * 店铺ID
+         * 商家ID
          */
         shopId: string;
     };
@@ -688,7 +688,7 @@ export type GetShopByIdData = {
     body?: never;
     path: {
         /**
-         * 店铺ID
+         * 商家ID
          */
         id: string;
     };
@@ -746,7 +746,7 @@ export type PostShopAddData = {
         /**
          * 铺位ID
          */
-        positionId: string;
+        positionId?: string;
         /**
          * 类型，1-餐饮 2-轻食 3-茶楼 4-茶饮/咖啡 5-咖啡馆 6-酒店
          */
@@ -872,7 +872,7 @@ export type PostShopAddData = {
          */
         season: Array<string>;
         /**
-         * 店铺简介
+         * 商家简介
          */
         shop_description?: string;
         /**
@@ -909,7 +909,7 @@ export type PostShopAddResponses = {
         code?: number;
         data?: {
             /**
-             * 新建店铺ID
+             * 新建商家ID
              */
             id: string;
         };
@@ -1045,7 +1045,7 @@ export type PostShopUpdateData = {
          */
         season: Array<string>;
         /**
-         * 店铺简介
+         * 商家简介
          */
         shop_description?: string;
         /**
@@ -1069,7 +1069,7 @@ export type PostShopUpdateData = {
          */
         remark?: string;
         /**
-         * 店铺ID
+         * 商家ID
          */
         id: string;
     };
@@ -1093,7 +1093,7 @@ export type PostShopUpdateResponse = PostShopUpdateResponses[keyof PostShopUpdat
 export type PostShopDeleteData = {
     body: {
         /**
-         * 店铺ID
+         * 商家ID
          */
         id: string;
     };
@@ -1117,7 +1117,7 @@ export type PostShopDeleteResponse = PostShopDeleteResponses[keyof PostShopDelet
 export type PostSpaceListData = {
     body: {
         /**
-         * 店铺ID
+         * 商家ID
          */
         shopId: string;
     };
@@ -1213,7 +1213,7 @@ export type GetSpaceByIdResponse = GetSpaceByIdResponses[keyof GetSpaceByIdRespo
 export type PostSpaceAddData = {
     body: {
         /**
-         * 店铺ID
+         * 商家ID
          */
         shopId: string;
         /**
@@ -1241,7 +1241,7 @@ export type PostSpaceAddData = {
          */
         tag?: string;
         /**
-         * 位置，1-主客区/大堂 2-店铺入口 3-入口通道 4-独立房间/包间 5-通往洗手间过道 6-洗手间 7-店铺外摆区/店外公共区 8-店外墙面(非临街) 9-店外墙面(临街)
+         * 位置，1-主客区/大堂 2-商家入口 3-入口通道 4-独立房间/包间 5-通往洗手间过道 6-洗手间 7-商家外摆区/店外公共区 8-店外墙面(非临街) 9-店外墙面(临街)
          */
         site?: string;
         /**
@@ -1309,7 +1309,7 @@ export type PostSpaceUpdateData = {
          */
         tag?: string;
         /**
-         * 位置，1-主客区/大堂 2-店铺入口 3-入口通道 4-独立房间/包间 5-通往洗手间过道 6-洗手间 7-店铺外摆区/店外公共区 8-店外墙面(非临街) 9-店外墙面(临街)
+         * 位置，1-主客区/大堂 2-商家入口 3-入口通道 4-独立房间/包间 5-通往洗手间过道 6-洗手间 7-商家外摆区/店外公共区 8-店外墙面(非临街) 9-店外墙面(临街)
          */
         site?: string;
         /**
@@ -1425,7 +1425,7 @@ export type GetDashboardResponses = {
              */
             cbdCount: number;
             /**
-             * 物业分区总数
+             * 物业小区总数
              */
             partCount: number;
             /**
@@ -1433,7 +1433,7 @@ export type GetDashboardResponses = {
              */
             positionCount: number;
             /**
-             * 店铺总数
+             * 商家总数
              */
             shopCount: number;
             /**

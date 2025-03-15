@@ -9,7 +9,8 @@ import { Position } from '@/api';
 import { usePositionStore } from '@/features/position-store.ts';
 import EditPositionDialog from '@/features/position/components/edit-position-dialog.tsx';
 import DeletePositionDialog from '@/features/position/components/delete-position-dialog';
-import BindShopDialog from '@/features/position/components/bind-shop-dialog';
+import BindShopDialog from '@/features/shop/components/bind-shop-dialog';
+import { formatTime } from '@/utils/time';
 
 // 假设这是广告位类型
 // interface Space {
@@ -115,7 +116,7 @@ const PositionDetailPage = () => {
     <>
       <PageHeader
         title={`铺位详情: ${position.position_no}`}
-        subtitle={`${position.shop_no ? '已关联店铺: ' + position.shop_no : '未关联店铺'}`}
+        subtitle={`${position.shop_no ? '已关联商家: ' + position.shop_no : '未关联商家'}`}
         action={
           <div className="flex space-x-2">
             <Button
@@ -192,19 +193,19 @@ const PositionDetailPage = () => {
           </div>
         </div>
 
-        {/* 店铺信息 */}
+        {/* 商家信息 */}
         <div className="card bg-base-100 shadow">
           <div className="card-body">
-            <h2 className="card-title">店铺信息</h2>
+            <h2 className="card-title">商家信息</h2>
             <div className="divider my-1"></div>
 
             {position.shopId ? (
               <div className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-base-content/70">店铺编号</span>
+                  <span className="text-base-content/70">商家编号</span>
                   <span>{String(position.shop_no)}</span>
                 </div>
-                {/* 这里可以添加更多店铺信息，如果后端API返回 */}
+                {/* 这里可以添加更多商家信息，如果后端API返回 */}
                 <div className="mt-4">
                   <Button
                     variant="primary"
@@ -213,7 +214,7 @@ const PositionDetailPage = () => {
                     icon={<FiShoppingBag className="h-5 w-5"/>}
                     onClick={() => navigate(`/shop/${position.shopId}`)}
                   >
-                    查看店铺详情
+                    查看商家详情
                   </Button>
                 </div>
                 <div className="mt-2">
@@ -229,14 +230,14 @@ const PositionDetailPage = () => {
               </div>
             ) : (
               <div className="flex h-32 flex-col items-center justify-center">
-                <p className="mb-4 text-base-content/70">当前铺位未关联店铺</p>
+                <p className="mb-4 text-base-content/70">当前铺位未关联商家</p>
                 <Button
                   variant="primary"
                   size="sm"
                   icon={<FiLink className="h-5 w-5"/>}
                   onClick={() => openBindShopDialog(position)}
                 >
-                  关联店铺
+                  关联商家
                 </Button>
               </div>
             )}
@@ -277,20 +278,12 @@ const PositionDetailPage = () => {
             <div className="divider my-1"></div>
             <div className="flex items-center justify-center">
               {/* 将数字时间转换为可读格式 */}
-              {position.business_hours.map((time: number, index: number) => {
-                // 假设时间格式为HHMMSS
-                const hours = Math.floor(time / 10000);
-                const minutes = Math.floor((time % 10000) / 100);
-
-                const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
-
-                return (
-                  <div key={index} className="px-4">
-                    {index === 0 ? '开始时间: ' : '结束时间: '}
-                    <span className="font-semibold">{formattedTime}</span>
-                  </div>
-                );
-              })}
+              {position.business_hours.map((time: number, index: number) => (
+                <div key={index} className="px-4">
+                  {index === 0 ? '开始时间: ' : '结束时间: '}
+                  <span className="font-semibold">{formatTime(time)}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>

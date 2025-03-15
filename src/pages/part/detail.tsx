@@ -86,7 +86,7 @@ const PartDetailPage = () => {
       cell: (info) => info.getValue(),
     }),
     columnHelper.accessor('shop_no', {
-      header: '店铺编号',
+      header: '商家编号',
       cell: (info) => info.getValue() || '-',
     }),
     columnHelper.accessor('total_space', {

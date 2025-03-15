@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { IoMdImage } from 'react-icons/io';
 import toast from 'react-hot-toast';
 import { FiArrowLeft, FiEdit2, FiTrash2 } from 'react-icons/fi';
-import { getSpaceByIdOptions } from '@/api/@tanstack/react-query.gen.ts';
+import { getSpaceByIdOptions, getSpaceByIdQueryKey, postSpaceUpdateMutation } from '@/api/@tanstack/react-query.gen.ts';
 import Button from '@/components/ui/button.tsx';
 import PageHeader from '@/components/ui/page-header.tsx';
 import { useSpaceStore } from '@/features/space/space-store';
@@ -64,12 +63,12 @@ const spaceStateLabels: Record<SpaceState, string> = {
 
 const spaceSiteLabels: Record<SpaceSite, string> = {
   [SpaceSite.MAIN_AREA]: '主客区/大堂',
-  [SpaceSite.SHOP_ENTRANCE]: '店铺入口',
+  [SpaceSite.SHOP_ENTRANCE]: '商家入口',
   [SpaceSite.ENTRANCE_PASSAGE]: '入口通道',
   [SpaceSite.PRIVATE_ROOM]: '独立房间/包间',
   [SpaceSite.TOILET_PASSAGE]: '通往洗手间过道',
   [SpaceSite.TOILET]: '洗手间',
-  [SpaceSite.OUTDOOR_AREA]: '店铺外摆区/店外公共区',
+  [SpaceSite.OUTDOOR_AREA]: '商家外摆区/店外公共区',
   [SpaceSite.OUTSIDE_WALL]: '店外墙面(非临街)',
   [SpaceSite.STREET_WALL]: '店外墙面(临街)',
 };
@@ -94,6 +93,11 @@ const SpaceDetail: React.FC = () => {
     select: (data) => data.data,
     enabled: !!id,
   });
+
+  const { mutate: updateSpaceState } = useMutation({
+    ...postSpaceUpdateMutation(),
+  })
+  const queryClient = useQueryClient();
 
   if (isLoading) {
     return (
@@ -120,7 +124,21 @@ const SpaceDetail: React.FC = () => {
   // Function to handle state change
   const handleStateChange = async (newState: SpaceState) => {
     try {
-      await axios.patch(`/api/space/${id}`, { state: newState });
+      // await axios.patch(`/api/space/${id}`, { state: newState });
+      await updateSpaceState({
+        body: {
+          ...space,
+          id: space.id,
+          state: newState,
+        }
+      });
+      queryClient.invalidateQueries({
+        queryKey: getSpaceByIdQueryKey({
+          path: {
+            id: space.id,
+          }
+        }),
+      });
       toast.success(`广告位状态已更新为${spaceStateLabels[newState]}`);
     } catch (err) {
       toast.error('更新状态失败');
@@ -185,7 +203,7 @@ const SpaceDetail: React.FC = () => {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
             <div className="flex items-center">
-              <span className="text-sm text-gray-500 w-24">店铺编号:</span>
+              <span className="text-sm text-gray-500 w-24">商家编号:</span>
               <span>{space.shop?.shop_no}</span>
             </div>
             <div className="flex items-center">
@@ -337,7 +355,7 @@ const SpaceDetail: React.FC = () => {
                   className="btn btn-outline btn-block"
                   onClick={() => navigate(`/shop/${space.shopId}`)}
                 >
-                  查看店铺详情
+                  查看商家详情
                 </button>
               </div>
             </div>

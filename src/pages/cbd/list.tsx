@@ -371,7 +371,7 @@ const CbdList: React.FC = () => {
         <div className="modal modal-open">
           <div className="modal-box">
             <h3 className="font-bold text-lg">确认删除</h3>
-            <p className="py-4">你确定要删除这个商圈吗？此操作不可撤销，并且可能影响关联的分区和店铺数据。</p>
+            <p className="py-4">你确定要删除这个商圈吗？此操作不可撤销，并且可能影响关联的分区和商家数据。</p>
             <div className="modal-action">
               <button
                 className="btn btn-ghost"

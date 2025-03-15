@@ -20,9 +20,9 @@ const operationTypeMap = {
 // 操作对象映射
 const targetTypeMap = {
   'CBD': '商圈',
-  'PART': '物业分区',
+  'PART': '物业小区',
   'POSITION': '铺位',
-  'SHOP': '店铺',
+  'SHOP': '商家',
   'SPACE': '广告位',
   'CAMPAIGN': '广告活动',
 };

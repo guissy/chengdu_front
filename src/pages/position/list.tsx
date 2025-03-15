@@ -12,7 +12,7 @@ import { postPartListOptions, postPositionListOptions } from '@/api/@tanstack/re
 import { Position } from '@/api';
 import { usePositionStore } from '@/features/position-store';
 import AddPositionDialog from '@/features/position/components/add-position-dialog';
-import BindShopDialog from '@/features/position/components/bind-shop-dialog';
+import BindShopDialog from '@/features/shop/components/bind-shop-dialog';
 
 
 // 定义表格列
@@ -60,7 +60,7 @@ const PositionListPage = () => {
       cell: (info) => info.getValue(),
     }),
     columnHelper.accessor('shop_no', {
-      header: '店铺编号',
+      header: '商家编号',
       cell: (info) => info.getValue() || '-',
     }),
     columnHelper.accessor('type_tag', {
@@ -114,11 +114,11 @@ const PositionListPage = () => {
               icon={<FiLink className="h-4 w-4" />}
               onClick={(e) => {
                 e.stopPropagation();
-                // 这里应该打开关联店铺的对话框
+                // 这里应该打开关联商家的对话框
                 openBindShopDialog(info.row.original);
               }}
             >
-              关联店铺
+              关联商家
             </Button>
           )}
         </div>
@@ -153,7 +153,7 @@ const PositionListPage = () => {
     <>
       <PageHeader
         title="铺位管理"
-        subtitle="管理铺位信息和关联的店铺"
+        subtitle="管理铺位信息和关联的商家"
         action={
           <Button
             variant="primary"
@@ -179,7 +179,7 @@ const PositionListPage = () => {
           <div className="w-full md:w-64">
             <Input
               label="搜索铺位"
-              placeholder="输入铺位编号或店铺编号"
+              placeholder="输入铺位编号或商家编号"
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
               leftIcon={<FiSearch className="h-5 w-5" />}

@@ -40,7 +40,7 @@ export const routes: RouteConfig[] = [
   {
     path: '/part',
     component: PartList,
-    name: '物业分区',
+    name: '物业小区',
     icon: <FiGrid />,
   },
   {
@@ -64,13 +64,13 @@ export const routes: RouteConfig[] = [
   {
     path: '/shop',
     component: ShopList,
-    name: '店铺管理',
+    name: '商家管理',
     icon: <FiShoppingBag />,
   },
   {
     path: '/shop/:id',
     component: ShopDetail,
-    name: '店铺详情',
+    name: '商家详情',
     hideInMenu: true,
   },
   {

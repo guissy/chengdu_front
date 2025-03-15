@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <footer className="footer footer-center bg-base-200 p-4 text-base-content">
       <div>
-        <p>© {currentYear} 业务系统管理平台 - 版权所有</p>
+        <p>© {currentYear} 广告位管理平台 - 版权所有</p>
       </div>
     </footer>
   );

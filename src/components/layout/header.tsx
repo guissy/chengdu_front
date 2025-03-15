@@ -17,7 +17,7 @@ const Header = () => {
             <FiMenu className="h-5 w-5" />
           </button>
           <Link to="/" className="btn btn-ghost text-xl normal-case">
-            业务系统管理平台
+            广告位管理平台
           </Link>
         </div>
 

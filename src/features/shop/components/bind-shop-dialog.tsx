@@ -19,7 +19,7 @@ interface FormValues {
 }
 
 const schema = z.object({
-  shopId: z.string().min(1, '请选择要关联的店铺'),
+  shopId: z.string().min(1, '请选择要关联的商家'),
 });
 
 const BindShopDialog = () => {
@@ -34,19 +34,19 @@ const BindShopDialog = () => {
     },
   });
 
-  // 获取未绑定的店铺列表
+  // 获取未绑定的商家列表
   const { data: shopsData } = useQuery({
     ...getShopListUnbindOptions(),
     select: (data) => data?.data?.list || [],
   });
 
-  // 店铺选项
+  // 商家选项
   const shopOptions = (shopsData || []).map((shop) => ({
     value: shop.shopId,
     label: `${shop.trademark}${shop.branch ? ` (${shop.branch})` : ''} - ${shop.shop_no}`,
   }));
 
-  // 绑定店铺的mutation
+  // 绑定商家的mutation
   const bindShopMutation = useMutation({
     ...postPositionBindShopMutation(),
   });
@@ -71,7 +71,7 @@ const BindShopDialog = () => {
         queryKey: getPositionByIdQueryKey({ path: { id: currentPosition.positionId } }),
       });
       
-      toast.success('店铺关联成功');
+      toast.success('商家关联成功');
       closeBindShopDialog();
     } catch (error) {
       // Error handling is done in API client
@@ -86,13 +86,13 @@ const BindShopDialog = () => {
     <FormDialog
       isOpen={isBindShopDialogOpen}
       onClose={closeBindShopDialog}
-      title="关联店铺"
+      title="关联商家"
       form={form}
       onSubmit={onSubmit}
       isSubmitting={isSubmitting}
     >
       <Select
-        label="选择店铺"
+        label="选择商家"
         options={shopOptions}
         error={form.formState.errors.shopId?.message}
         fullWidth

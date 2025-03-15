@@ -28,11 +28,11 @@ const DeleteShopDialog = () => {
       queryClient.invalidateQueries({
         queryKey: getShopListUnbindQueryKey(),
       });
-      toast.success('店铺删除成功');
+      toast.success('商家删除成功');
       closeDeleteDialog();
       navigate('/shop');
     } catch (error) {
-      toast.error(`删除店铺失败: ${error?.error}`);
+      toast.error(`删除商家失败: ${error?.error}`);
     } finally {
       setIsSubmitting(false);
     }
@@ -44,8 +44,8 @@ const DeleteShopDialog = () => {
     <ConfirmDialog
       isOpen={isDeleteDialogOpen}
       onClose={closeDeleteDialog}
-      title="删除店铺"
-      message={`确定要删除店铺"${currentShop.trademark}${currentShop.branch ? ` (${currentShop.branch})` : ''}"吗？此操作不可恢复。`}
+      title="删除商家"
+      message={`确定要删除商家"${currentShop.trademark}${currentShop.branch ? ` (${currentShop.branch})` : ''}"吗？此操作不可恢复。`}
       onConfirm={handleDelete}
       isSubmitting={isSubmitting}
       confirmText="删除"

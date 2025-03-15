@@ -9,19 +9,22 @@ import { z } from 'zod';
 import { shopTypeMap, useShopStore } from '@/features/shop-store';
 import FormDialog from '@/components/ui/form-dialog';
 import { 
+  postShopAddMutation,
   postShopUpdateMutation, 
   getShopListUnbindQueryKey,
-  getShopByIdQueryKey 
+  getShopByIdQueryKey, 
+  getShopListQueryKey
 } from '@/api/@tanstack/react-query.gen.ts';
 import { ShopResponseSchema } from '@/api/types.gen';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 
-
-type FormValues = z.infer<typeof schema>;
+interface ShopFormDialogProps {
+  mode: 'add' | 'edit';
+}
 
 const schema = z.object({
-  id: z.string(),
+  id: z.string().optional(),
   type: z.string().describe('类型，1-餐饮 2-轻食 3-茶楼 4-茶饮/咖啡 5-咖啡馆 6-酒店'),
   type_tag: z.string().optional().describe('品类标签'),
   business_type: z.string().describe('商业类型，1-独立自营店 2-连锁自营店 3-连锁加盟店'),
@@ -50,7 +53,7 @@ const schema = z.object({
   rest_days: z.array(z.number().int().min(1).max(8)).describe('休息日，1-周一 2-周二 3-周三 4-周四 5-周五 6-周六 7-周日 8-按需'),
   volume_peak: z.array(z.number().int().min(1).max(8)).describe('客流高峰，1-早餐 2-午餐 3-晚餐 4-宵夜 5-上午 6-下午 7-晚上 8-深夜'),
   season: z.array(z.number().int().min(1).max(7)).describe('1-春 2-夏 3-秋 4-冬 5-节假日 6-工作日 7-非工作日'),
-  shop_description: z.string().optional().describe('店铺简介'),
+  shop_description: z.string().optional().describe('商家简介'),
   put_description: z.string().optional().describe('投放简介'),
   displayed: z.boolean().default(true).describe('是否开放'),
   price_base: z.number().int().describe('价格基数（单位：分）'),
@@ -58,10 +61,21 @@ const schema = z.object({
   remark: z.string().optional().describe('备注'),
 });
 
-const EditShopDialog = () => {
-  const { isEditDialogOpen, closeEditDialog, currentShop } = useShopStore();
+type FormValues = z.infer<typeof schema>;
+
+const ShopFormDialog = ({ mode }: ShopFormDialogProps) => {
+  const { 
+    isAddDialogOpen, 
+    isEditDialogOpen, 
+    closeAddDialog, 
+    closeEditDialog, 
+    currentShop 
+  } = useShopStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const queryClient = useQueryClient();
+
+  const isOpen = mode === 'add' ? isAddDialogOpen : isEditDialogOpen;
+  const onClose = mode === 'add' ? closeAddDialog : closeEditDialog;
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
@@ -90,7 +104,7 @@ const EditShopDialog = () => {
       contact_type: undefined,
       total_area: 10,
       customer_area: 6,
-      clerk_count: undefined,
+      clerk_count: 10,
       business_hours: [0, 0],
       rest_days: [],
       volume_peak: [],
@@ -105,7 +119,7 @@ const EditShopDialog = () => {
   });
 
   useEffect(() => {
-    if (currentShop) {
+    if (mode === 'edit' && currentShop) {
       const shop = currentShop as unknown as ShopResponseSchema;
       form.reset({
         id: shop.shopId,
@@ -147,9 +161,12 @@ const EditShopDialog = () => {
         remark: shop.remark?.toString() || undefined,
       });
     }
-  }, [currentShop, form]);
+  }, [currentShop, form, mode]);
 
-  // 使用生成的API mutation
+  const addShopMutation = useMutation({
+    ...postShopAddMutation(),
+  });
+
   const updateShopMutation = useMutation({
     ...postShopUpdateMutation(),
   });
@@ -157,43 +174,54 @@ const EditShopDialog = () => {
   const onSubmit = async (data: FormValues) => {
     try {
       setIsSubmitting(true);
-      await updateShopMutation.mutateAsync({ body: data });
+      if (mode === 'add') {
+        await addShopMutation.mutateAsync({ body: { ...currentShop, ...data, cbdId: "cbd-001", partId: "part-001" } });
+        toast.success('商家添加成功');
+        form.reset();
+      } else {
+        await updateShopMutation.mutateAsync({ body: { ...currentShop, ...data } });
+        queryClient.invalidateQueries({
+          queryKey: getShopByIdQueryKey({ path: { id: data.id! } }),
+        });
+        toast.success('商家更新成功');
+      }
       queryClient.invalidateQueries({
         queryKey: getShopListUnbindQueryKey(),
       });
       queryClient.invalidateQueries({
-        queryKey: getShopByIdQueryKey({ path: { id: data.id } }),
+        queryKey: getShopListQueryKey(),
       });
-      toast.success('店铺更新成功');
-      closeEditDialog();
+      onClose();
     } catch (error) {
-      toast.error('更新店铺失败');
+      toast.error(mode === 'add' ? '添加商家失败' : '更新商家失败');
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  if (!isEditDialogOpen || !currentShop) return null;
+  if (!isOpen || (mode === 'edit' && !currentShop)) return null;
 
   return (
     <FormDialog
-      isOpen={isEditDialogOpen}
-      onClose={closeEditDialog}
-      title="编辑店铺"
+      isOpen={isOpen}
+      onClose={onClose}
+      title={mode === 'add' ? '新增商家' : '编辑商家'}
       form={form}
       onSubmit={onSubmit}
       isSubmitting={isSubmitting}
     >
-      <Input
-        label="店铺ID"
-        placeholder="请输入店铺ID"
-        error={form.formState.errors.id?.message}
-        fullWidth
-        {...form.register('id')}
-      />
+      {mode === 'edit' && (
+        <Input
+          label="商家ID"
+          placeholder="请输入商家ID"
+          error={form.formState.errors.id?.message}
+          fullWidth
+          {...form.register('id')}
+        />
+      )}
 
       <Select
-        label="店铺类型"
+        label="商家类型"
         options={Object.entries(shopTypeMap).map(([value, label]) => ({
           value,
           label,
@@ -256,17 +284,13 @@ const EditShopDialog = () => {
         fullWidth
         {...form.register('location.1', { valueAsNumber: true })}
       />
-
-      <Select
-        label="是否认证"
-        options={[
-          { value: "true", label: '是' },
-          { value: "false", label: '否' },
-        ]}
-        error={form.formState.errors.verified?.message}
-        fullWidth
-        {...form.register('verified')}
-      />
+      
+      <div className="flex items-center space-x-2">
+        <Switch
+          {...form.register('verified')}
+        />
+        <Label htmlFor="airplane-mode">是否认证</Label>
+      </div>
 
       <Select
         label="经营时长"
@@ -407,10 +431,10 @@ const EditShopDialog = () => {
       <Select
         label="联系人类型"
         options={[
-          { value: 1, label: '老板' },
-          { value: 2, label: '店长' },
-          { value: 3, label: '店员' },
-          { value: 4, label: '总店管理人员' },
+          { value: "OWNER", label: '老板' },
+          { value: "MANAGER", label: '店长' },
+          { value: "STAFF", label: '店员' },
+          { value: "HEADQUARTERS", label: '总店管理人员' },
         ]}
         error={form.formState.errors.contact_type?.message}
         fullWidth
@@ -517,7 +541,7 @@ const EditShopDialog = () => {
 
       <textarea
         className="w-full p-2 border rounded"
-        placeholder="请输入店铺简介"
+        placeholder="请输入商家简介"
         {...form.register('shop_description')}
         rows={3}
       />
@@ -529,22 +553,13 @@ const EditShopDialog = () => {
         rows={3}
       />
 
-      {/* <Switch
-        label="是否开放"
-        options={[
-          { value: "true", label: '是' },
-          { value: "false", label: '否' },
-        ]}
-        error={form.formState.errors.displayed?.message}
-        fullWidth
-        {...form.register('displayed')}
-      /> */}
       <div className="flex items-center space-x-2">
         <Switch
           {...form.register('displayed')}
         />
         <Label htmlFor="airplane-mode">是否开放</Label>
       </div>
+
       <Input
         label="价格基数"
         type="number"
@@ -569,9 +584,9 @@ const EditShopDialog = () => {
         rows={3}
       />
 
-      <Input type="hidden" {...form.register('id')} />
+      {mode === 'edit' && <Input type="hidden" {...form.register('id')} />}
     </FormDialog>
   );
 };
 
-export default EditShopDialog; 
+export default ShopFormDialog; 

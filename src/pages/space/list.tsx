@@ -32,12 +32,12 @@ const spaceStateMap: Record<string, { label: string; badge: string }> = {
 // 位置映射
 const sitesMap: Record<string, string> = {
   MAIN_AREA: '主客区/大堂',
-  SHOP_ENTRANCE: '店铺入口',
+  SHOP_ENTRANCE: '商家入口',
   ENTRANCE_PASSAGE: '入口通道',
   PRIVATE_ROOM: '独立房间/包间',
   TOILET_PASSAGE: '通往洗手间过道',
   TOILET: '洗手间',
-  OUTDOOR_AREA: '店铺外摆区/店外公共区',
+  OUTDOOR_AREA: '商家外摆区/店外公共区',
   OUTSIDE_WALL: '店外墙面(非临街)',
   STREET_WALL: '店外墙面(临街)',
 };
@@ -93,7 +93,7 @@ const SpaceListPage = () => {
   // 表格列定义
   const columns = [
     columnHelper.accessor('shopName', {
-      header: '所属店铺',
+      header: '所属商家',
       cell: (info) => info.getValue() || '-',
     }),
     columnHelper.accessor('type', {
@@ -200,7 +200,7 @@ const SpaceListPage = () => {
     <>
       <PageHeader
         title="广告位管理"
-        subtitle="管理店铺中的广告位资源"
+        subtitle="管理商家中的广告位资源"
         action={
           <Button
             variant="primary"
@@ -217,7 +217,7 @@ const SpaceListPage = () => {
           <div className="w-full md:w-64">
             <Input
               label="搜索广告位"
-              placeholder="输入店铺名或广告位类型"
+              placeholder="输入商家名或广告位类型"
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
               leftIcon={<FiSearch className="h-5 w-5" />}

@@ -9,11 +9,11 @@ import Select from '@/components/ui/select';
 import DataTable from '@/components/ui/table';
 import { useQuery } from '@tanstack/react-query';
 import { shopTypeMap, useShopStore } from '@/features/shop-store';
-import AddShopDialog from '@/features/shop/components/add-shop-dialog';
+import ShopFormDialog from '@/features/shop/components/shop-form-dialog';
 import DeleteShopDialog from '@/features/shop/components/delete-shop-dialog';
 import { getShopListOptions } from '@/api/@tanstack/react-query.gen';
 
-// 简化的店铺类型
+// 简化的商家类型
 interface Shop {
   shopId: string;
   shop_no: string;
@@ -41,7 +41,7 @@ const ShopListPage = () => {
   const [filterType, setFilterType] = useState('');
   const [filterVerified, setFilterVerified] = useState('');
 
-  // 获取店铺列表数据
+  // 获取商家列表数据
   const { data, isLoading } = useQuery({
     ...getShopListOptions(),
     select: (data) => data.data?.list || [],
@@ -50,18 +50,18 @@ const ShopListPage = () => {
   // 表格列定义
   const columns = [
     columnHelper.accessor('shop_no', {
-      header: '店铺编号',
+      header: '商家编号',
       cell: (info) => info.getValue(),
     }),
     columnHelper.accessor('trademark', {
-      header: '店铺名称',
+      header: '商家名称',
       cell: (info) => {
         const branch = info.row.original.branch;
         return branch ? `${info.getValue()}(${branch})` : info.getValue();
       },
     }),
     columnHelper.accessor('type', {
-      header: '店铺类型',
+      header: '商家类型',
       cell: (info) => shopTypeMap[info.getValue()] || `类型${info.getValue()}`,
     }),
     columnHelper.accessor('type_tag', {
@@ -121,7 +121,7 @@ const ShopListPage = () => {
     }),
   ] as ColumnDef<Shop>[];
 
-  // 店铺类型选项
+  // 商家类型选项
   const typeOptions = [
     { value: '', label: '全部类型' },
     { value: '1', label: '餐饮' },
@@ -160,7 +160,7 @@ const ShopListPage = () => {
       (shop.branch && shop.branch.toLowerCase().includes(searchText.toLowerCase())) ||
       (shop.type_tag && shop.type_tag.toLowerCase().includes(searchText.toLowerCase()));
 
-    // 店铺类型过滤
+    // 商家类型过滤
     const typeMatch = filterType === '' || shop.type.toString() === filterType;
 
     // 认证状态过滤
@@ -175,15 +175,15 @@ const ShopListPage = () => {
   return (
     <>
       <PageHeader
-        title="店铺管理"
-        subtitle="管理店铺信息和广告位资源"
+        title="商家管理"
+        subtitle="管理商家信息和广告位资源"
         action={
           <Button
             variant="primary"
             icon={<FiPlus className="h-5 w-5" />}
             onClick={openAddDialog}
           >
-            新增店铺
+            新增商家
           </Button>
         }
       />
@@ -192,8 +192,8 @@ const ShopListPage = () => {
         <div className="flex flex-col gap-4 md:flex-row">
           <div className="w-full md:w-64">
             <Input
-              label="搜索店铺"
-              placeholder="输入店铺编号或名称"
+              label="搜索商家"
+              placeholder="输入商家编号或名称"
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
               leftIcon={<FiSearch className="h-5 w-5" />}
@@ -202,7 +202,7 @@ const ShopListPage = () => {
           </div>
           <div className="w-full md:w-64">
             <Select
-              label="店铺类型"
+              label="商家类型"
               options={typeOptions}
               value={filterType}
               onChange={(e) => setFilterType(e.target.value)}
@@ -229,8 +229,9 @@ const ShopListPage = () => {
         />
       </div>
 
-      {/* 添加对话框组件 */}
-      <AddShopDialog />
+      {/* 替换对话框组件 */}
+      <ShopFormDialog mode="add" />
+      <ShopFormDialog mode="edit" />
       <DeleteShopDialog />
     </>
   );

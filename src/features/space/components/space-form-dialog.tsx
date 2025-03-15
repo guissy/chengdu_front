@@ -50,12 +50,12 @@ const stateOptions = [
 // 位置选项
 const siteOptions = [
   { value: 'MAIN_AREA', label: '主客区/大堂' },
-  { value: 'SHOP_ENTRANCE', label: '店铺入口' },
+  { value: 'SHOP_ENTRANCE', label: '商家入口' },
   { value: 'ENTRANCE_PASSAGE', label: '入口通道' },
   { value: 'PRIVATE_ROOM', label: '独立房间/包间' },
   { value: 'TOILET_PASSAGE', label: '通往洗手间过道' },
   { value: 'TOILET', label: '洗手间' },
-  { value: 'OUTDOOR_AREA', label: '店铺外摆区/店外公共区' },
+  { value: 'OUTDOOR_AREA', label: '商家外摆区/店外公共区' },
   { value: 'OUTSIDE_WALL', label: '店外墙面(非临街)' },
   { value: 'STREET_WALL', label: '店外墙面(临街)' },
 ];

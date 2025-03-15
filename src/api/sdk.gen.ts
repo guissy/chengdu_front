@@ -65,7 +65,7 @@ export const postCbdList = <ThrowOnError extends boolean = false>(options: Optio
 };
 
 /**
- * 获取物业分区列表
+ * 获取物业小区列表
  */
 export const postPartList = <ThrowOnError extends boolean = false>(options?: Options<PostPartListData, ThrowOnError>) => {
     return (options?.client ?? _heyApiClient).post<PostPartListResponse, unknown, ThrowOnError>({
@@ -79,7 +79,7 @@ export const postPartList = <ThrowOnError extends boolean = false>(options?: Opt
 };
 
 /**
- * 获取物业分区详情
+ * 获取物业小区详情
  */
 export const getPartById = <ThrowOnError extends boolean = false>(options: Options<GetPartByIdData, ThrowOnError>) => {
     return (options.client ?? _heyApiClient).get<GetPartByIdResponse, unknown, ThrowOnError>({
@@ -211,7 +211,7 @@ export const postPositionSet = <ThrowOnError extends boolean = false>(options: O
 };
 
 /**
- * 关联新店铺
+ * 关联新商家
  */
 export const postPositionBindShop = <ThrowOnError extends boolean = false>(options: Options<PostPositionBindShopData, ThrowOnError>) => {
     return (options.client ?? _heyApiClient).post<PostPositionBindShopResponse, unknown, ThrowOnError>({
@@ -239,7 +239,7 @@ export const postPositionMark = <ThrowOnError extends boolean = false>(options: 
 };
 
 /**
- * 店铺列表
+ * 商家列表
  */
 export const getShopList = <ThrowOnError extends boolean = false>(options?: Options<GetShopListData, ThrowOnError>) => {
     return (options?.client ?? _heyApiClient).get<GetShopListResponse, unknown, ThrowOnError>({
@@ -249,7 +249,7 @@ export const getShopList = <ThrowOnError extends boolean = false>(options?: Opti
 };
 
 /**
- * 获取未关联店铺列表
+ * 获取未关联商家列表
  */
 export const getShopListUnbind = <ThrowOnError extends boolean = false>(options?: Options<GetShopListUnbindData, ThrowOnError>) => {
     return (options?.client ?? _heyApiClient).get<GetShopListUnbindResponse, unknown, ThrowOnError>({
@@ -259,7 +259,7 @@ export const getShopListUnbind = <ThrowOnError extends boolean = false>(options?
 };
 
 /**
- * 店铺详情
+ * 商家详情
  */
 export const getShopById = <ThrowOnError extends boolean = false>(options: Options<GetShopByIdData, ThrowOnError>) => {
     return (options.client ?? _heyApiClient).get<GetShopByIdResponse, unknown, ThrowOnError>({
@@ -269,7 +269,7 @@ export const getShopById = <ThrowOnError extends boolean = false>(options: Optio
 };
 
 /**
- * 新建店铺
+ * 新建商家
  */
 export const postShopAdd = <ThrowOnError extends boolean = false>(options: Options<PostShopAddData, ThrowOnError>) => {
     return (options.client ?? _heyApiClient).post<PostShopAddResponse, unknown, ThrowOnError>({
@@ -283,7 +283,7 @@ export const postShopAdd = <ThrowOnError extends boolean = false>(options: Optio
 };
 
 /**
- * 编辑店铺
+ * 编辑商家
  */
 export const postShopUpdate = <ThrowOnError extends boolean = false>(options: Options<PostShopUpdateData, ThrowOnError>) => {
     return (options.client ?? _heyApiClient).post<PostShopUpdateResponse, unknown, ThrowOnError>({
@@ -297,7 +297,7 @@ export const postShopUpdate = <ThrowOnError extends boolean = false>(options: Op
 };
 
 /**
- * 删除店铺
+ * 删除商家
  */
 export const postShopDelete = <ThrowOnError extends boolean = false>(options: Options<PostShopDeleteData, ThrowOnError>) => {
     return (options.client ?? _heyApiClient).post<PostShopDeleteResponse, unknown, ThrowOnError>({
@@ -401,7 +401,7 @@ export const getDashboard = <ThrowOnError extends boolean = false>(options?: Opt
 };
 
 /**
- * 获取最近添加的店铺
+ * 获取最近添加的商家
  */
 export const getDashboardRecentShops = <ThrowOnError extends boolean = false>(options?: Options<GetDashboardRecentShopsData, ThrowOnError>) => {
     return (options?.client ?? _heyApiClient).get<GetDashboardRecentShopsResponse, unknown, ThrowOnError>({
@@ -422,7 +422,7 @@ export const getDashboardCbdDistribution = <ThrowOnError extends boolean = false
 };
 
 /**
- * 获取店铺类型分布
+ * 获取商家类型分布
  */
 export const getDashboardShopTypeDistribution = <ThrowOnError extends boolean = false>(options?: Options<GetDashboardShopTypeDistributionData, ThrowOnError>) => {
     return (options?.client ?? _heyApiClient).get<GetDashboardShopTypeDistributionResponse, unknown, ThrowOnError>({
