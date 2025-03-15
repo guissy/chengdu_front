@@ -51,6 +51,7 @@ export type SpaceResponseSchema = {
      * 价格因子
      */
     priceFactor?: number;
+    updatedAt: string;
 };
 
 export type Position = {
@@ -1017,6 +1018,7 @@ export type PostSpaceListResponses = {
                  * 价格因子
                  */
                 priceFactor?: number;
+                updatedAt: string;
             }>;
         };
     };
@@ -1053,6 +1055,7 @@ export type GetSpaceByIdResponses = {
              * 价格因子
              */
             priceFactor?: number;
+            updatedAt: string;
         };
     };
 };

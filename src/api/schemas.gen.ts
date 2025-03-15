@@ -156,9 +156,12 @@ export const spaceResponseSchemaSchema = {
             exclusiveMinimum: 0,
             default: 1,
             description: '价格因子'
+        },
+        updatedAt: {
+            type: 'string'
         }
     },
-    required: ['id', 'type', 'setting', 'count', 'state', 'photo'],
+    required: ['id', 'type', 'setting', 'count', 'state', 'photo', 'updatedAt'],
     additionalProperties: false,
     title: 'spaceResponseSchema'
 } as const;

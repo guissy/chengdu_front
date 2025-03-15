@@ -4,68 +4,45 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { IoMdImage } from 'react-icons/io';
 import toast from 'react-hot-toast';
-import { FiArrowLeft } from 'react-icons/fi';
+import { FiArrowLeft, FiEdit2, FiTrash2 } from 'react-icons/fi';
+import { getSpaceByIdOptions } from '@/api/@tanstack/react-query.gen.ts';
+import Button from '@/components/ui/button.tsx';
+import PageHeader from '@/components/ui/page-header.tsx';
 
 // Enums from schema
 enum SpaceType {
-  TABLE_STICKER = "1",
-  TABLE_PLACEMAT = "2",
-  STAND = "3",
-  X_BANNER = "4",
-  TV_LED = "5",
-  PROJECTOR = "6",
+  TABLE_STICKER = "TABLE_STICKER",
+  TABLE_PLACEMAT = "TABLE_PLACEMAT",
+  STAND = "STAND",
+  X_BANNER = "X_BANNER",
+  TV_LED = "TV_LED",
+  PROJECTOR = "PROJECTOR",
 }
 
 enum SpaceState {
-  ENABLED = "1",
-  DISABLED = "2",
+  ENABLED = "ENABLED",
+  DISABLED = "DISABLED",
 }
 
 enum SpaceSite {
-  MAIN_AREA = "1",
-  SHOP_ENTRANCE = "2",
-  ENTRANCE_PASSAGE = "3",
-  PRIVATE_ROOM = "4",
-  TOILET_PASSAGE = "5",
-  TOILET = "6",
-  OUTDOOR_AREA = "7",
-  OUTSIDE_WALL = "8",
-  STREET_WALL = "9",
+  MAIN_AREA = "MAIN_AREA",
+  SHOP_ENTRANCE = "SHOP_ENTRANCE",
+  ENTRANCE_PASSAGE = "ENTRANCE_PASSAGE",
+  PRIVATE_ROOM = "PRIVATE_ROOM",
+  TOILET_PASSAGE = "TOILET_PASSAGE",
+  TOILET = "TOILET",
+  OUTDOOR_AREA = "OUTDOOR_AREA",
+  OUTSIDE_WALL = "OUTSIDE_WALL",
+  STREET_WALL = "STREET_WALL",
 }
 
 enum SpaceStability {
-  FIXED = "1",
-  SEMI_FIXED = "2",
-  MOVABLE = "3",
-  TEMPORARY = "4",
+  FIXED = "FIXED",
+  SEMI_FIXED = "SEMI_FIXED",
+  MOVABLE = "MOVABLE",
+  TEMPORARY = "TEMPORARY",
 }
 
-// Type definitions
-interface Space {
-  id: string;
-  shopId: string;
-  type: SpaceType;
-  setting: Record<string, any>;
-  count: number;
-  state: SpaceState;
-  priceFactor: number;
-  tag?: string;
-  site?: SpaceSite;
-  stability?: SpaceStability;
-  photo: string[];
-  description?: string;
-  design_attention?: string;
-  construction_attention?: string;
-  createdAt: string;
-  updatedAt: string;
-  shop: {
-    id: string;
-    trademark: string;
-    branch?: string;
-    type_tag?: string;
-    shop_no: string;
-  };
-}
 
 // Helper functions for displaying enum values
 const spaceTypeLabels: Record<SpaceType, string> = {
@@ -107,11 +84,11 @@ const SpaceDetail: React.FC = () => {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
 
   const { data: space, isLoading, error } = useQuery({
-    queryKey: ['space', id],
-    queryFn: async () => {
-      const response = await axios.get(`/api/space/${id}`);
-      return response.data as Space;
-    },
+    ...getSpaceByIdOptions({
+      path: { id: id! },
+    }),
+    select: (data) => data.data,
+    enabled: !!id,
   });
 
   if (isLoading) {
@@ -148,18 +125,46 @@ const SpaceDetail: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-6">
+    <>
       {/* Header with back button */}
-      <div className="flex items-center mb-6">
-        <button
-          className="btn btn-ghost btn-circle mr-2"
-          onClick={() => navigate(-1)}
-        >
-          <FiArrowLeft className="w-5 h-5" />
-        </button>
-        <h1 className="text-2xl font-bold">广告位详情</h1>
-      </div>
-
+      {/*<div className="flex items-center mb-6">*/}
+      {/*  <button*/}
+      {/*    className="btn btn-ghost btn-circle mr-2"*/}
+      {/*    onClick={() => navigate(-1)}*/}
+      {/*  >*/}
+      {/*    <FiArrowLeft className="w-5 h-5" />*/}
+      {/*  </button>*/}
+      {/*  <h1 className="text-2xl font-bold">广告位详情</h1>*/}
+      {/*</div>*/}
+      <PageHeader
+        title={`广告位详情`}
+        // subtitle={`广告位详情`}
+        action={
+          <div className="flex space-x-2">
+            <Button
+              variant="ghost"
+              icon={<FiArrowLeft className="h-5 w-5" />}
+              onClick={() => navigate(-1)}
+            >
+              返回
+            </Button>
+            <Button
+              variant="primary"
+              icon={<FiEdit2 className="h-5 w-5" />}
+              onClick={() => alert('编辑店铺功能待实现')}
+            >
+              编辑
+            </Button>
+            <Button
+              variant="error"
+              icon={<FiTrash2 className="h-5 w-5" />}
+              onClick={() => alert('删除店铺功能待实现')}
+            >
+              删除
+            </Button>
+          </div>
+        }
+      />
       {/* Shop info card */}
       <div className="card bg-base-100 shadow-xl mb-6">
         <div className="card-body">
@@ -353,7 +358,7 @@ const SpaceDetail: React.FC = () => {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

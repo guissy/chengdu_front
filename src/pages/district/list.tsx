@@ -116,7 +116,7 @@ const DistrictList: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-6">
+    <>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">行政区划管理</h1>
         <button
@@ -287,7 +287,7 @@ const DistrictList: React.FC = () => {
           <div className="modal-backdrop" onClick={() => setIsDeleteModalOpen(false)}></div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

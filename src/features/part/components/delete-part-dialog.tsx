@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
-import Button from '@/components/ui/button';
 import { usePartStore } from '../part-store.ts';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { postPartDeleteMutation, postPartListQueryKey } from '@/api/@tanstack/react-query.gen.ts';
 import { useNavigate } from 'react-router-dom';
+import ConfirmDialog from '@/components/ui/confirm-dialog';
 
 const DeletePartDialog = () => {
   const { isDeleteDialogOpen, closeDeleteDialog, currentPart } = usePartStore();
@@ -39,41 +39,19 @@ const DeletePartDialog = () => {
     }
   };
 
-  // Handle dialog close
-  const handleClose = () => {
-    closeDeleteDialog();
-  };
-
   if (!isDeleteDialogOpen || !currentPart) return null;
 
   return (
-    <dialog className="modal modal-open">
-      <div className="modal-box">
-        <h3 className="text-lg font-bold">删除分区</h3>
-        <p className="py-4">
-          确定要删除分区"{currentPart.name}"吗？此操作不可恢复。
-        </p>
-        <div className="modal-action">
-          <Button
-            type="button"
-            variant="ghost"
-            onClick={handleClose}
-            disabled={isSubmitting}
-          >
-            取消
-          </Button>
-          <Button
-            type="button"
-            variant="error"
-            isLoading={isSubmitting}
-            onClick={handleDelete}
-          >
-            删除
-          </Button>
-        </div>
-      </div>
-      <div className="modal-backdrop" onClick={handleClose}></div>
-    </dialog>
+    <ConfirmDialog
+      isOpen={isDeleteDialogOpen}
+      onClose={closeDeleteDialog}
+      title="删除分区"
+      message={`确定要删除分区"${currentPart.name}"吗？此操作不可恢复。`}
+      onConfirm={handleDelete}
+      isSubmitting={isSubmitting}
+      confirmText="删除"
+      confirmVariant="error"
+    />
   );
 };
 
