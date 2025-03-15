@@ -8,6 +8,9 @@ import { FiArrowLeft, FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { getSpaceByIdOptions } from '@/api/@tanstack/react-query.gen.ts';
 import Button from '@/components/ui/button.tsx';
 import PageHeader from '@/components/ui/page-header.tsx';
+import { useSpaceStore } from '@/features/space/space-store';
+import SpaceFormDialog from '@/features/space/components/space-form-dialog';
+import DeleteSpaceDialog from '@/features/space/components/delete-space-dialog';
 
 // Enums from schema
 enum SpaceType {
@@ -82,6 +85,7 @@ const SpaceDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
+  const { openEditDialog, openDeleteDialog } = useSpaceStore();
 
   const { data: space, isLoading, error } = useQuery({
     ...getSpaceByIdOptions({
@@ -151,14 +155,19 @@ const SpaceDetail: React.FC = () => {
             <Button
               variant="primary"
               icon={<FiEdit2 className="h-5 w-5" />}
-              onClick={() => alert('编辑店铺功能待实现')}
+              onClick={(e) => {
+                e.stopPropagation();
+                openEditDialog(space);
+              }}
             >
               编辑
             </Button>
             <Button
               variant="error"
               icon={<FiTrash2 className="h-5 w-5" />}
-              onClick={() => alert('删除店铺功能待实现')}
+              onClick={() => {
+                openDeleteDialog(space)
+              }}
             >
               删除
             </Button>
@@ -308,13 +317,6 @@ const SpaceDetail: React.FC = () => {
               <h2 className="card-title">操作</h2>
 
               <div className="space-y-4 mt-4">
-                <button
-                  className="btn btn-primary btn-block"
-                  onClick={() => navigate(`/space/${id}/edit`)}
-                >
-                  编辑广告位
-                </button>
-
                 {space.state === SpaceState.ENABLED ? (
                   <button
                     className="btn btn-error btn-block"
@@ -358,6 +360,8 @@ const SpaceDetail: React.FC = () => {
           </div>
         </div>
       )}
+      <SpaceFormDialog mode="edit" />
+      <DeleteSpaceDialog />
     </>
   );
 };

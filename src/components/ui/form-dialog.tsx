@@ -34,8 +34,15 @@ const FormDialog = <T extends Record<string, any>>({
       onClose={handleClose}
       title={title}
       isSubmitting={isSubmitting}
-      footer={
-        <div className="modal-action">
+      footer={<></>}
+    >
+      <form id="form-dialog" onSubmit={(e) => {
+        form.handleSubmit(onSubmit)(e)
+        console.log(form.formState.errors, 'ο▬▬▬▬▬▬▬▬◙▅▅▆▆▇▇◤')
+      }}>
+        <div className="mt-4 space-y-4">
+          {children}
+          <div className="modal-action">
           <Button
             type="button"
             variant="ghost"
@@ -53,11 +60,6 @@ const FormDialog = <T extends Record<string, any>>({
             保存
           </Button>
         </div>
-      }
-    >
-      <form id="form-dialog" onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="mt-4 space-y-4">
-          {children}
         </div>
       </form>
     </BaseDialog>

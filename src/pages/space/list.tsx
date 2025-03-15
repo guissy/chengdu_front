@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { FiEdit2, FiPlus, FiSearch, FiFilter, FiEye, FiEyeOff } from 'react-icons/fi';
 import PageHeader from '@/components/ui/page-header';
@@ -9,86 +8,97 @@ import Select from '@/components/ui/select';
 import DataTable from '@/components/ui/table';
 import { useQuery } from '@tanstack/react-query';
 import { postSpaceListOptions } from '@/api/@tanstack/react-query.gen.ts';
-
-// 简化的广告位类型
-interface Space {
-  id: string;
-  shopId: string;
-  shopName: string;
-  type: number;
-  count: number;
-  state: number;
-  priceFactor: number;
-  site?: number;
-  stability?: number;
-  photo: string[];
-}
+import { useSpaceStore } from '@/features/space/space-store';
+import SpaceFormDialog from '@/features/space/components/space-form-dialog';
+import { Space } from '@/api/types';
+import { useNavigate } from 'react-router-dom';
 
 // 广告位类型映射
-const spaceTypeMap: Record<number, string> = {
-  1: '方桌不干胶贴',
-  2: '方桌餐垫纸',
-  3: '立牌',
-  4: 'X展架',
-  5: '电视/LED屏幕',
-  6: '投影仪',
+const spaceTypeMap: Record<string, string> = {
+  TABLE_STICKER: '方桌不干胶贴',
+  TABLE_PLACEMAT: '方桌餐垫纸',
+  STAND: '立牌',
+  X_BANNER: 'X展架',
+  TV_LED: '电视/LED屏幕',
+  PROJECTOR: '投影仪',
 };
 
 // 广告位状态映射
-const spaceStateMap: Record<number, { label: string; badge: string }> = {
-  1: { label: '启用', badge: 'badge-success' },
-  2: { label: '禁用', badge: 'badge-error' },
+const spaceStateMap: Record<string, { label: string; badge: string }> = {
+  ENABLED: { label: '启用', badge: 'badge-success' },
+  DISABLED: { label: '禁用', badge: 'badge-error' },
 };
 
 // 位置映射
-const sitesMap: Record<number, string> = {
-  1: '主客区/大堂',
-  2: '店铺入口',
-  3: '入口通道',
-  4: '独立房间/包间',
-  5: '通往洗手间过道',
-  6: '洗手间',
-  7: '店铺外摆区/店外公共区',
-  8: '店外墙面(非临街)',
-  9: '店外墙面(临街)',
+const sitesMap: Record<string, string> = {
+  MAIN_AREA: '主客区/大堂',
+  SHOP_ENTRANCE: '店铺入口',
+  ENTRANCE_PASSAGE: '入口通道',
+  PRIVATE_ROOM: '独立房间/包间',
+  TOILET_PASSAGE: '通往洗手间过道',
+  TOILET: '洗手间',
+  OUTDOOR_AREA: '店铺外摆区/店外公共区',
+  OUTSIDE_WALL: '店外墙面(非临街)',
+  STREET_WALL: '店外墙面(临街)',
 };
 
 // 稳定性映射
-const stabilityMap: Record<number, string> = {
-  1: '固定',
-  2: '半固定',
-  3: '移动',
-  4: '临时',
+const stabilityMap: Record<string, string> = {
+  FIXED: '固定',
+  SEMI_FIXED: '半固定',
+  MOVABLE: '移动',
+  TEMPORARY: '临时',
 };
 
 // 定义表格列
 const columnHelper = createColumnHelper<Space>();
 
 const SpaceListPage = () => {
-  const navigate = useNavigate();
+  const { openAddDialog, openEditDialog } = useSpaceStore();
   const [searchText, setSearchText] = useState('');
   const [filterType, setFilterType] = useState('');
   const [filterState, setFilterState] = useState('');
+  const navigate = useNavigate();
 
   // 获取广告位列表数据
   const { data: spaces, isLoading } = useQuery({
     ...postSpaceListOptions({
       body: {
-        shopId: 'shop-001',
+        shopId: '',
       },
     }),
-    select: (data) => data?.data?.list ?? [],
+    select: (data) => {
+      const apiSpaces = data?.data?.list || [];
+      return apiSpaces.map((apiSpace: Record<string, unknown>): Space => ({
+        id: String(apiSpace.id),
+        shopId: String(apiSpace.shop_id),
+        shopName: apiSpace.shop?.trademark || '',
+        type: String(apiSpace.type),
+        setting: (apiSpace.setting as Record<string, unknown>) || {},
+        count: Number(apiSpace.count),
+        state: String(apiSpace.state),
+        priceFactor: apiSpace.price_factor ? Number(apiSpace.price_factor) : undefined,
+        tag: apiSpace.tag ? String(apiSpace.tag) : undefined,
+        site: apiSpace.site ? String(apiSpace.site) : undefined,
+        stability: apiSpace.stability ? String(apiSpace.stability) : undefined,
+        photo: Array.isArray(apiSpace.photo) ? apiSpace.photo.map(String) : [],
+        description: apiSpace.description ? String(apiSpace.description) : undefined,
+        design_attention: apiSpace.design_attention ? String(apiSpace.design_attention) : undefined,
+        construction_attention: apiSpace.construction_attention ? String(apiSpace.construction_attention) : undefined,
+        updatedAt: String(apiSpace.updated_at),
+      }));
+    },
   });
 
   // 表格列定义
   const columns = [
     columnHelper.accessor('shopName', {
       header: '所属店铺',
-      cell: (info) => info.getValue(),
+      cell: (info) => info.getValue() || '-',
     }),
     columnHelper.accessor('type', {
       header: '广告位类型',
-      cell: (info) => spaceTypeMap[info.getValue()] || `${info.getValue()}`,
+      cell: (info) => spaceTypeMap[info.getValue()] || info.getValue(),
     }),
     columnHelper.accessor('count', {
       header: '数量',
@@ -98,17 +108,20 @@ const SpaceListPage = () => {
       header: '状态',
       cell: (info) => (
         <div className={`badge badge-sm ${spaceStateMap[info.getValue()]?.badge || ''}`}>
-          {spaceStateMap[info.getValue()]?.label || `${info.getValue()}`}
+          {spaceStateMap[info.getValue()]?.label || info.getValue()}
         </div>
       ),
     }),
     columnHelper.accessor('site', {
       header: '位置',
-      cell: (info) => info.getValue() ? sitesMap[info.getValue()!] || `位置${info.getValue()}` : '-',
+      cell: (info) => {
+        const site = info.getValue();
+        return site ? sitesMap[site] || site : '-';
+      },
     }),
     columnHelper.accessor('priceFactor', {
       header: '价格因子',
-      cell: (info) => `×${info.getValue()}`,
+      cell: (info) => `×${info.getValue() || 1}`,
     }),
     columnHelper.display({
       id: 'actions',
@@ -121,21 +134,21 @@ const SpaceListPage = () => {
             icon={<FiEdit2 className="h-4 w-4" />}
             onClick={(e) => {
               e.stopPropagation();
-              navigate(`/space/${info.row.original.id}`);
+              openEditDialog(info.row.original);
             }}
           >
-            详情
+            编辑
           </Button>
           <Button
             variant="ghost"
             size="sm"
-            icon={info.row.original.state === 1 ? <FiEyeOff className="h-4 w-4" /> : <FiEye className="h-4 w-4" />}
+            icon={info.row.original.state === 'ENABLED' ? <FiEyeOff className="h-4 w-4" /> : <FiEye className="h-4 w-4" />}
             onClick={(e) => {
               e.stopPropagation();
-              alert(`${info.row.original.state === 1 ? '禁用' : '启用'}广告位功能待实现`);
+              alert(`${info.row.original.state === 'ENABLED' ? '禁用' : '启用'}广告位功能待实现`);
             }}
           >
-            {info.row.original.state === 1 ? '禁用' : '启用'}
+            {info.row.original.state === 'ENABLED' ? '禁用' : '启用'}
           </Button>
         </div>
       ),
@@ -145,19 +158,19 @@ const SpaceListPage = () => {
   // 广告位类型选项
   const typeOptions = [
     { value: '', label: '全部类型' },
-    { value: '1', label: '方桌不干胶贴' },
-    { value: '2', label: '方桌餐垫纸' },
-    { value: '3', label: '立牌' },
-    { value: '4', label: 'X展架' },
-    { value: '5', label: '电视/LED屏幕' },
-    { value: '6', label: '投影仪' },
+    { value: 'TABLE_STICKER', label: '方桌不干胶贴' },
+    { value: 'TABLE_PLACEMAT', label: '方桌餐垫纸' },
+    { value: 'STAND', label: '立牌' },
+    { value: 'X_BANNER', label: 'X展架' },
+    { value: 'TV_LED', label: '电视/LED屏幕' },
+    { value: 'PROJECTOR', label: '投影仪' },
   ];
 
   // 状态选项
   const stateOptions = [
     { value: '', label: '全部状态' },
-    { value: '1', label: '启用' },
-    { value: '2', label: '禁用' },
+    { value: 'ENABLED', label: '启用' },
+    { value: 'DISABLED', label: '禁用' },
   ];
 
   // 处理表格行点击
@@ -171,14 +184,14 @@ const SpaceListPage = () => {
     const textMatch =
       searchText === '' ||
       space.shopName.toLowerCase().includes(searchText.toLowerCase()) ||
-      spaceTypeMap[space.type].toLowerCase().includes(searchText.toLowerCase()) ||
-      (space.site && sitesMap[space.site].toLowerCase().includes(searchText.toLowerCase()));
+      spaceTypeMap[space.type]?.toLowerCase().includes(searchText.toLowerCase()) ||
+      (space.site && sitesMap[space.site]?.toLowerCase().includes(searchText.toLowerCase()));
 
     // 广告位类型过滤
-    const typeMatch = filterType === '' || space.type.toString() === filterType;
+    const typeMatch = filterType === '' || space.type === filterType;
 
     // 状态过滤
-    const stateMatch = filterState === '' || space.state.toString() === filterState;
+    const stateMatch = filterState === '' || space.state === filterState;
 
     return textMatch && typeMatch && stateMatch;
   });
@@ -192,7 +205,7 @@ const SpaceListPage = () => {
           <Button
             variant="primary"
             icon={<FiPlus className="h-5 w-5" />}
-            onClick={() => alert('新增广告位功能待实现')}
+            onClick={openAddDialog}
           >
             新增广告位
           </Button>
@@ -239,6 +252,9 @@ const SpaceListPage = () => {
           onRowClick={handleRowClick}
         />
       </div>
+
+      <SpaceFormDialog mode="add" />
+      <SpaceFormDialog mode="edit" />
     </>
   );
 };

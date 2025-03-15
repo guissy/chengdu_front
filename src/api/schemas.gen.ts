@@ -154,7 +154,7 @@ export const shopResponseSchemaSchema = {
             type: 'string'
         }
     },
-    required: ['shopId', 'shop_no', 'trademark', 'branch', 'total_space', 'put_space', 'price_base', 'verified', 'displayed', 'type', 'type_tag', 'photo', 'remark', 'business_hours', 'total_area', 'customer_area', 'clerk_count', 'business_type', 'duration', 'sex', 'age', 'id_tag', 'sign_photo', 'contact_type'],
+    required: ['shopId', 'trademark', 'branch', 'total_space', 'put_space', 'price_base', 'verified', 'displayed', 'type', 'type_tag', 'photo', 'remark', 'business_hours', 'total_area', 'customer_area', 'clerk_count', 'business_type', 'duration', 'sex', 'age', 'id_tag', 'sign_photo', 'contact_type'],
     additionalProperties: false,
     title: 'shopResponseSchema'
 } as const;
@@ -192,9 +192,26 @@ export const spaceResponseSchemaSchema = {
         },
         updatedAt: {
             type: 'string'
+        },
+        shopId: {
+            type: 'string'
+        },
+        shop: {
+            type: 'object',
+            properties: {
+                trademark: {
+                    type: 'string',
+                    description: '商标'
+                },
+                shop_no: {
+                    type: 'string',
+                    description: '门店号'
+                }
+            },
+            additionalProperties: false
         }
     },
-    required: ['id', 'type', 'setting', 'count', 'state', 'photo', 'updatedAt'],
+    required: ['id', 'type', 'setting', 'count', 'state', 'photo', 'updatedAt', 'shopId'],
     additionalProperties: false,
     title: 'spaceResponseSchema'
 } as const;

@@ -27,7 +27,7 @@ export const zPartResponseSchema = z.object({
 
 export const zShopResponseSchema = z.object({
     shopId: z.string(),
-    shop_no: z.string(),
+    shop_no: z.string().optional(),
     trademark: z.string(),
     branch: z.unknown(),
     total_space: z.number(),
@@ -60,7 +60,12 @@ export const zSpaceResponseSchema = z.object({
     state: z.string(),
     photo: z.array(z.string()),
     priceFactor: z.number().optional().default(1),
-    updatedAt: z.string()
+    updatedAt: z.string(),
+    shopId: z.string(),
+    shop: z.object({
+        trademark: z.string().optional(),
+        shop_no: z.string().optional()
+    }).optional()
 });
 
 export const zPosition = z.object({
@@ -240,7 +245,7 @@ export const zGetShopListResponse = z.object({
     data: z.object({
         list: z.array(z.object({
             shopId: z.string(),
-            shop_no: z.string(),
+            shop_no: z.string().optional(),
             trademark: z.string(),
             branch: z.unknown(),
             total_space: z.number(),
@@ -272,7 +277,7 @@ export const zGetShopListUnbindResponse = z.object({
     data: z.object({
         list: z.array(z.object({
             shopId: z.string(),
-            shop_no: z.string(),
+            shop_no: z.string().optional(),
             trademark: z.string(),
             branch: z.unknown(),
             total_space: z.number(),
@@ -303,7 +308,7 @@ export const zGetShopByIdResponse = z.object({
     code: z.number().optional(),
     data: z.object({
         shopId: z.string(),
-        shop_no: z.string(),
+        shop_no: z.string().optional(),
         trademark: z.string(),
         branch: z.unknown(),
         total_space: z.number(),
@@ -357,7 +362,12 @@ export const zPostSpaceListResponse = z.object({
             state: z.string(),
             photo: z.array(z.string()),
             priceFactor: z.number().optional().default(1),
-            updatedAt: z.string()
+            updatedAt: z.string(),
+            shopId: z.string(),
+            shop: z.object({
+                trademark: z.string().optional(),
+                shop_no: z.string().optional()
+            }).optional()
         }))
     }).optional()
 });
@@ -372,7 +382,12 @@ export const zGetSpaceByIdResponse = z.object({
         state: z.string(),
         photo: z.array(z.string()),
         priceFactor: z.number().optional().default(1),
-        updatedAt: z.string()
+        updatedAt: z.string(),
+        shopId: z.string(),
+        shop: z.object({
+            trademark: z.string().optional(),
+            shop_no: z.string().optional()
+        }).optional()
     }).optional()
 });
 

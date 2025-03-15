@@ -25,7 +25,7 @@ export type PartResponseSchema = {
 
 export type ShopResponseSchema = {
     shopId: string;
-    shop_no: string;
+    shop_no?: string;
     trademark: string;
     branch: unknown;
     total_space: number;
@@ -62,6 +62,17 @@ export type SpaceResponseSchema = {
      */
     priceFactor?: number;
     updatedAt: string;
+    shopId: string;
+    shop?: {
+        /**
+         * 商标
+         */
+        trademark?: string;
+        /**
+         * 门店号
+         */
+        shop_no?: string;
+    };
 };
 
 export type Position = {
@@ -597,7 +608,7 @@ export type GetShopListResponses = {
         data?: {
             list: Array<{
                 shopId: string;
-                shop_no: string;
+                shop_no?: string;
                 trademark: string;
                 branch: unknown;
                 total_space: number;
@@ -643,7 +654,7 @@ export type GetShopListUnbindResponses = {
         data?: {
             list: Array<{
                 shopId: string;
-                shop_no: string;
+                shop_no?: string;
                 trademark: string;
                 branch: unknown;
                 total_space: number;
@@ -693,7 +704,7 @@ export type GetShopByIdResponses = {
         code?: number;
         data?: {
             shopId: string;
-            shop_no: string;
+            shop_no?: string;
             trademark: string;
             branch: unknown;
             total_space: number;
@@ -1134,6 +1145,17 @@ export type PostSpaceListResponses = {
                  */
                 priceFactor?: number;
                 updatedAt: string;
+                shopId: string;
+                shop?: {
+                    /**
+                     * 商标
+                     */
+                    trademark?: string;
+                    /**
+                     * 门店号
+                     */
+                    shop_no?: string;
+                };
             }>;
         };
     };
@@ -1171,6 +1193,17 @@ export type GetSpaceByIdResponses = {
              */
             priceFactor?: number;
             updatedAt: string;
+            shopId: string;
+            shop?: {
+                /**
+                 * 商标
+                 */
+                trademark?: string;
+                /**
+                 * 门店号
+                 */
+                shop_no?: string;
+            };
         };
     };
 };
@@ -1186,7 +1219,7 @@ export type PostSpaceAddData = {
         /**
          * 广告位类型，1-方桌不干胶贴 2-方桌餐垫纸 3-立牌 4-X展架 5-电视/LED屏幕 6-投影仪
          */
-        type: number;
+        type: string;
         /**
          * 广告位设置
          */
@@ -1210,11 +1243,11 @@ export type PostSpaceAddData = {
         /**
          * 位置，1-主客区/大堂 2-店铺入口 3-入口通道 4-独立房间/包间 5-通往洗手间过道 6-洗手间 7-店铺外摆区/店外公共区 8-店外墙面(非临街) 9-店外墙面(临街)
          */
-        site?: number;
+        site?: string;
         /**
          * 稳定性，1-固定 2-半固定 3-移动 4-临时
          */
-        stability?: number;
+        stability?: string;
         /**
          * 相册
          */
@@ -1254,7 +1287,7 @@ export type PostSpaceUpdateData = {
         /**
          * 广告位类型，1-方桌不干胶贴 2-方桌餐垫纸 3-立牌 4-X展架 5-电视/LED屏幕 6-投影仪
          */
-        type: number;
+        type: string;
         /**
          * 广告位设置
          */
@@ -1278,11 +1311,11 @@ export type PostSpaceUpdateData = {
         /**
          * 位置，1-主客区/大堂 2-店铺入口 3-入口通道 4-独立房间/包间 5-通往洗手间过道 6-洗手间 7-店铺外摆区/店外公共区 8-店外墙面(非临街) 9-店外墙面(临街)
          */
-        site?: number;
+        site?: string;
         /**
          * 稳定性，1-固定 2-半固定 3-移动 4-临时
          */
-        stability?: number;
+        stability?: string;
         /**
          * 相册
          */
