@@ -18,7 +18,7 @@ const queryClient = new QueryClient({
 
 
 client.setConfig({
-  baseUrl: '/api',
+  baseUrl: 'https://chengdu-back.vercel.app/api',
 });
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
