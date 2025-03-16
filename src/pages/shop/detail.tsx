@@ -87,7 +87,7 @@ const ShopDetailPage = () => {
         );
       },
     }),
-    columnHelper.accessor('priceFactor', {
+    columnHelper.accessor('price_factor', {
       header: '价格因子',
       cell: (info) => `×${info.getValue() || 1}`,
     }),

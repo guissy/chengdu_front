@@ -184,7 +184,7 @@ export const spaceResponseSchemaSchema = {
                 type: 'string'
             }
         },
-        priceFactor: {
+        price_factor: {
             type: 'number',
             exclusiveMinimum: 0,
             default: 1,

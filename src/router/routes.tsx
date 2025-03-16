@@ -46,7 +46,7 @@ export const routes: RouteConfig[] = [
   {
     path: '/part/:id',
     component: PartDetail,
-    name: '分区详情',
+    name: '小区详情',
     hideInMenu: true,
   },
   {

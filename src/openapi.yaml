@@ -4,7 +4,7 @@ info:
   description: 业务系统API文档
   version: 1.0.0
 tags:
-  - name: 物业分区
+  - name: 物业小区
   - name: 铺位
   - name: 行政区划
   - name: 商圈
@@ -13,11 +13,11 @@ tags:
 paths:
   /part/list:
     post:
-      summary: 获取物业分区列表
+      summary: 获取物业小区列表
       deprecated: false
-      description: 获取物业分区列表
+      description: 获取物业小区列表
       tags:
-        - 物业分区
+        - 物业小区
       requestBody:
         content:
           application/json:
@@ -49,10 +49,10 @@ paths:
                           properties:
                             id:
                               type: string
-                              description: 分区ID
+                              description: 小区ID
                             name:
                               type: string
-                              description: 分区名称
+                              description: 小区名称
                             sequence:
                               type: integer
                               format: int32
@@ -63,11 +63,11 @@ paths:
                               description: 广告位总数
   /part/add:
     post:
-      summary: 新增分区
+      summary: 新增小区
       deprecated: false
       description: ''
       tags:
-        - 物业分区
+        - 物业小区
       requestBody:
         content:
           application/json:
@@ -79,7 +79,7 @@ paths:
                   description: 商圈id
                 name:
                   type: string
-                  description: 分区名称
+                  description: 小区名称
                 sequence:
                   type: integer
                   format: int32
@@ -101,11 +101,11 @@ paths:
                     example: ''
   /part/update:
     post:
-      summary: 编辑分区
+      summary: 编辑小区
       deprecated: false
       description: ''
       tags:
-        - 物业分区
+        - 物业小区
       requestBody:
         content:
           application/json:
@@ -114,10 +114,10 @@ paths:
               properties:
                 id:
                   type: string
-                  description: 分区id
+                  description: 小区id
                 name:
                   type: string
-                  description: 分区名称
+                  description: 小区名称
       responses:
         '200':
           description: ''
@@ -135,11 +135,11 @@ paths:
                     example: ''
   /part/delete:
     post:
-      summary: 删除分区
+      summary: 删除小区
       deprecated: false
       description: ''
       tags:
-        - 物业分区
+        - 物业小区
       requestBody:
         content:
           application/json:
@@ -148,7 +148,7 @@ paths:
               properties:
                 id:
                   type: string
-                  description: 分区id
+                  description: 小区id
       responses:
         '200':
           description: ''
@@ -179,7 +179,7 @@ paths:
               properties:
                 partId:
                   type: string
-                  description: 分区id
+                  description: 小区id
       responses:
         '200':
           description: ''

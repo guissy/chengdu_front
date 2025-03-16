@@ -47,7 +47,7 @@ const PositionListPage = () => {
     select: (data) => data.data?.list || [],
   });
 
-  // 获取分区列表数据（用于筛选）
+  // 获取小区列表数据（用于筛选）
   const { data: partsRes } = useQuery({
     ...postPartListOptions()
   });
@@ -126,9 +126,9 @@ const PositionListPage = () => {
     }),
   ] as ColumnDef<Position>[];
 
-  // 准备分区选项
+  // 准备小区选项
   const partOptions = [
-    { value: '', label: '全部分区' },
+    { value: '', label: '全部小区' },
     ...(partsData || []).map(part => ({
       value: part.id,
       label: part.name
@@ -169,7 +169,7 @@ const PositionListPage = () => {
         <div className="flex flex-col gap-4 md:flex-row">
           <div className="w-full md:w-64">
             <Select
-              label="选择分区"
+              label="选择小区"
               options={partOptions}
               value={filterPartId}
               onChange={(e) => setFilterPartId(e.target.value)}

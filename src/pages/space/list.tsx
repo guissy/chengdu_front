@@ -77,7 +77,7 @@ const SpaceListPage = () => {
         setting: (apiSpace.setting as Record<string, unknown>) || {},
         count: Number(apiSpace.count),
         state: String(apiSpace.state),
-        priceFactor: apiSpace.price_factor ? Number(apiSpace.price_factor) : undefined,
+        price_factor: apiSpace.price_factor ? Number(apiSpace.price_factor) : undefined,
         tag: apiSpace.tag ? String(apiSpace.tag) : undefined,
         site: apiSpace.site ? String(apiSpace.site) : undefined,
         stability: apiSpace.stability ? String(apiSpace.stability) : undefined,
@@ -119,7 +119,7 @@ const SpaceListPage = () => {
         return site ? sitesMap[site] || site : '-';
       },
     }),
-    columnHelper.accessor('priceFactor', {
+    columnHelper.accessor('price_factor', {
       header: '价格因子',
       cell: (info) => `×${info.getValue() || 1}`,
     }),

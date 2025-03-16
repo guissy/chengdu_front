@@ -265,7 +265,7 @@ const CbdList: React.FC = () => {
                         <Link
                           to={`/cbd/${cbd.id}/parts`}
                           className="btn btn-ghost btn-sm mr-1"
-                          title="查看分区"
+                          title="查看小区"
                         >
                           <FiTarget className="text-green-500" />
                         </Link>
@@ -371,7 +371,7 @@ const CbdList: React.FC = () => {
         <div className="modal modal-open">
           <div className="modal-box">
             <h3 className="font-bold text-lg">确认删除</h3>
-            <p className="py-4">你确定要删除这个商圈吗？此操作不可撤销，并且可能影响关联的分区和商家数据。</p>
+            <p className="py-4">你确定要删除这个商圈吗？此操作不可撤销，并且可能影响关联的小区和商家数据。</p>
             <div className="modal-action">
               <button
                 className="btn btn-ghost"

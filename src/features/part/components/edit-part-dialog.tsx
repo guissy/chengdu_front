@@ -14,8 +14,8 @@ import FormDialog from '@/components/ui/form-dialog';
 type FormValues = PostPartUpdateData['body'];
 
 const schema = z.object({
-  id: z.string().describe('分区ID'),
-  name: z.string().min(1).describe('分区名称'),
+  id: z.string().describe('小区ID'),
+  name: z.string().min(1).describe('小区名称'),
 });
 
 const EditPartDialog = () => {
@@ -51,7 +51,7 @@ const EditPartDialog = () => {
     try {
       setIsSubmitting(true);
       await updatePartMutation.mutateAsync({ body: data });
-      toast.success('分区更新成功');
+      toast.success('小区更新成功');
       queryClient.invalidateQueries({ queryKey: postPartListQueryKey() });
       closeEditDialog();
     } catch (error) {
@@ -67,15 +67,15 @@ const EditPartDialog = () => {
     <FormDialog
       isOpen={isEditDialogOpen}
       onClose={closeEditDialog}
-      title="编辑分区"
+      title="编辑小区"
       form={form}
       onSubmit={onSubmit}
       isSubmitting={isSubmitting}
     >
       <Input type="hidden" {...form.register('id')} />
       <Input
-        label="分区名称"
-        placeholder="请输入分区名称"
+        label="小区名称"
+        placeholder="请输入小区名称"
         error={form.formState.errors.name?.message}
         fullWidth
         {...form.register('name')}

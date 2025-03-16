@@ -89,7 +89,7 @@ export const getPartById = <ThrowOnError extends boolean = false>(options: Optio
 };
 
 /**
- * 新增分区
+ * 新增小区
  */
 export const postPartAdd = <ThrowOnError extends boolean = false>(options: Options<PostPartAddData, ThrowOnError>) => {
     return (options.client ?? _heyApiClient).post<PostPartAddResponse, unknown, ThrowOnError>({
@@ -103,7 +103,7 @@ export const postPartAdd = <ThrowOnError extends boolean = false>(options: Optio
 };
 
 /**
- * 编辑分区
+ * 编辑小区
  */
 export const postPartUpdate = <ThrowOnError extends boolean = false>(options: Options<PostPartUpdateData, ThrowOnError>) => {
     return (options.client ?? _heyApiClient).post<PostPartUpdateResponse, unknown, ThrowOnError>({
@@ -117,7 +117,7 @@ export const postPartUpdate = <ThrowOnError extends boolean = false>(options: Op
 };
 
 /**
- * 删除分区
+ * 删除小区
  */
 export const postPartDelete = <ThrowOnError extends boolean = false>(options: Options<PostPartDeleteData, ThrowOnError>) => {
     return (options.client ?? _heyApiClient).post<PostPartDeleteResponse, unknown, ThrowOnError>({

@@ -7,7 +7,7 @@ interface SpaceFormData {
   setting: Record<string, unknown>;
   count: number;
   state: string;
-  priceFactor: number;
+  price_factor: number;
   tag?: string;
   site?: string;
   stability?: string;
@@ -43,7 +43,7 @@ const defaultFormData: SpaceFormData = {
   setting: {},
   count: 1,
   state: 'ENABLED',
-  priceFactor: 1.0,
+  price_factor: 1.0,
 };
 
 export const useSpaceStore = create<SpaceState>((set) => ({
@@ -77,7 +77,7 @@ export const useSpaceStore = create<SpaceState>((set) => ({
         setting: space.setting || {},
         count: space.count,
         state: space.state,
-        priceFactor: space.priceFactor || 1.0,
+        price_factor: space.price_factor || 1.0,
         tag: space.tag,
         site: space.site,
         stability: space.stability,

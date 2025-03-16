@@ -36,11 +36,11 @@ const PartListPage = () => {
   // Table column definitions with unknown as the second generic type
   const columns = [
     columnHelper.accessor('id', {
-      header: '分区ID',
+      header: '小区ID',
       cell: (info) => info.getValue(),
     }),
     columnHelper.accessor('name', {
-      header: '分区名称',
+      header: '小区名称',
       cell: (info) => info.getValue(),
     }),
     columnHelper.accessor('sequence', {
@@ -116,7 +116,7 @@ const PartListPage = () => {
             icon={<FiPlus className="h-5 w-5" />}
             onClick={openAddDialog}
           >
-            新增分区
+            新增小区
           </Button>
         }
       />
@@ -134,8 +134,8 @@ const PartListPage = () => {
           </div>
           <div className="w-full md:w-64">
             <Input
-              label="搜索分区"
-              placeholder="输入分区名称"
+              label="搜索小区"
+              placeholder="输入小区名称"
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
               leftIcon={<FiSearch className="h-5 w-5" />}

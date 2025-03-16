@@ -20,7 +20,7 @@ type FormValues = PostPositionAddData['body'];
 
 const schema = z.object({
   cbdId: z.string().min(1).describe('商圈ID'),
-  partId: z.string().min(1).describe('分区ID'),
+  partId: z.string().min(1).describe('小区ID'),
   no: z.string().min(1).describe('铺位编号'),
 });
 
@@ -119,7 +119,7 @@ const AddPositionDialog = () => {
       />
 
       <Select
-        label="所属分区"
+        label="所属小区"
         options={partOptions}
         error={form.formState.errors.partId?.message}
         fullWidth

@@ -16,7 +16,7 @@ type FormValues = PostPartAddData['body'];
 
 const schema = z.object({
   cbdId: z.string().min(1).describe('商圈ID'),
-  name: z.string().min(1).describe('分区名称'),
+  name: z.string().min(1).describe('小区名称'),
   sequence: z.number().int().positive().describe('排序值'),
 });
 
@@ -52,7 +52,7 @@ const AddPartDialog = () => {
     try {
       setIsSubmitting(true);
       await addPartMutation.mutateAsync({ body: data });
-      toast.success('分区添加成功');
+      toast.success('小区添加成功');
       form.reset();
       closeAddDialog();
     } catch (error) {
@@ -68,7 +68,7 @@ const AddPartDialog = () => {
     <FormDialog
       isOpen={isAddDialogOpen}
       onClose={closeAddDialog}
-      title="新增分区"
+      title="新增小区"
       form={form}
       onSubmit={onSubmit}
       isSubmitting={isSubmitting}
@@ -82,8 +82,8 @@ const AddPartDialog = () => {
       />
 
       <Input
-        label="分区名称"
-        placeholder="请输入分区名称"
+        label="小区名称"
+        placeholder="请输入小区名称"
         error={form.formState.errors.name?.message}
         fullWidth
         {...form.register('name')}

@@ -18,7 +18,7 @@ import { formatTime } from '@/utils/time';
 //   type: number;
 //   count: number;
 //   state: number;
-//   priceFactor: number;
+//   price_factor: number;
 //   photo: string[];
 // }
 
@@ -343,7 +343,7 @@ const PositionDetailPage = () => {
                             {spaceStateMap[space.state!]?.label || `${space.state}`}
                           </span>
                       </td>
-                      <td>×{space.priceFactor}</td>
+                      <td>×{space.price_factor}</td>
                       <td>
                         <Button
                           variant="ghost"

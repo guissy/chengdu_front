@@ -59,7 +59,7 @@ export const zSpaceResponseSchema = z.object({
     count: z.number(),
     state: z.string(),
     photo: z.array(z.string()),
-    priceFactor: z.number().optional().default(1),
+    price_factor: z.number().optional().default(1),
     updatedAt: z.string(),
     shopId: z.string(),
     shop: z.object({
@@ -361,7 +361,7 @@ export const zPostSpaceListResponse = z.object({
             count: z.number(),
             state: z.string(),
             photo: z.array(z.string()),
-            priceFactor: z.number().optional().default(1),
+            price_factor: z.number().optional().default(1),
             updatedAt: z.string(),
             shopId: z.string(),
             shop: z.object({
@@ -381,7 +381,7 @@ export const zGetSpaceByIdResponse = z.object({
         count: z.number(),
         state: z.string(),
         photo: z.array(z.string()),
-        priceFactor: z.number().optional().default(1),
+        price_factor: z.number().optional().default(1),
         updatedAt: z.string(),
         shopId: z.string(),
         shop: z.object({

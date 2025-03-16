@@ -60,7 +60,7 @@ export type SpaceResponseSchema = {
     /**
      * 价格因子
      */
-    priceFactor?: number;
+    price_factor?: number;
     updatedAt: string;
     shopId: string;
     shop?: {
@@ -239,7 +239,7 @@ export type GetPartByIdData = {
     body?: never;
     path: {
         /**
-         * 分区ID
+         * 小区ID
          */
         id: string;
     };
@@ -271,7 +271,7 @@ export type PostPartAddData = {
          */
         cbdId: string;
         /**
-         * 分区名称
+         * 小区名称
          */
         name: string;
         /**
@@ -299,11 +299,11 @@ export type PostPartAddResponse = PostPartAddResponses[keyof PostPartAddResponse
 export type PostPartUpdateData = {
     body: {
         /**
-         * 分区ID
+         * 小区ID
          */
         id: string;
         /**
-         * 分区名称
+         * 小区名称
          */
         name: string;
     };
@@ -327,7 +327,7 @@ export type PostPartUpdateResponse = PostPartUpdateResponses[keyof PostPartUpdat
 export type PostPartDeleteData = {
     body: {
         /**
-         * 分区ID
+         * 小区ID
          */
         id: string;
     };
@@ -351,7 +351,7 @@ export type PostPartDeleteResponse = PostPartDeleteResponses[keyof PostPartDelet
 export type PostPositionListData = {
     body?: {
         /**
-         * 分区ID
+         * 小区ID
          */
         partId?: string;
     };
@@ -435,7 +435,7 @@ export type PostPositionAddData = {
          */
         cbdId: string;
         /**
-         * 分区ID
+         * 小区ID
          */
         partId: string;
         /**
@@ -740,7 +740,7 @@ export type PostShopAddData = {
          */
         cbdId: string;
         /**
-         * 分区ID
+         * 小区ID
          */
         partId: string;
         /**
@@ -1143,7 +1143,7 @@ export type PostSpaceListResponses = {
                 /**
                  * 价格因子
                  */
-                priceFactor?: number;
+                price_factor?: number;
                 updatedAt: string;
                 shopId: string;
                 shop?: {
@@ -1191,7 +1191,7 @@ export type GetSpaceByIdResponses = {
             /**
              * 价格因子
              */
-            priceFactor?: number;
+            price_factor?: number;
             updatedAt: string;
             shopId: string;
             shop?: {
@@ -1235,7 +1235,7 @@ export type PostSpaceAddData = {
         /**
          * 价格因子
          */
-        priceFactor?: number;
+        price_factor?: number;
         /**
          * 分类标签
          */
@@ -1303,7 +1303,7 @@ export type PostSpaceUpdateData = {
         /**
          * 价格因子
          */
-        priceFactor?: number;
+        price_factor?: number;
         /**
          * 分类标签
          */

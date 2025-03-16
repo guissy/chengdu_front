@@ -23,7 +23,7 @@ const PartDetailPage = () => {
   const { openEditDialog, openDeleteDialog, setCurrentPart } = usePartStore();
   const [part, setPart] = useState<Part | null>(null);
 
-  // 获取分区详情
+  // 获取小区详情
   const { data: partData, isLoading: isLoadingPart } = useQuery({
     ...getPartByIdOptions({
       path: {
@@ -36,7 +36,7 @@ const PartDetailPage = () => {
     enabled: !!id,
   });
 
-  // 获取该分区下的铺位列表
+  // 获取该小区下的铺位列表
   const { data: positionsData, isLoading: isLoadingPositions } = useQuery({
     ...postPositionListOptions({
       body: {
@@ -47,7 +47,7 @@ const PartDetailPage = () => {
     select: (data) => data.data?.list || [],
   });
 
-  // 更新本地state和store中的分区数据
+  // 更新本地state和store中的小区数据
   useEffect(() => {
     if (partData) {
       setPart(partData as unknown as PartResponseSchema);
@@ -143,18 +143,18 @@ const PartDetailPage = () => {
     );
   }
 
-  // 分区不存在
+  // 小区不存在
   if (!part) {
     return (
       <div className="flex flex-col items-center justify-center space-y-4 p-8">
-        <h2 className="text-2xl font-bold">分区不存在</h2>
-        <p>未找到ID为 {id} 的分区</p>
+        <h2 className="text-2xl font-bold">小区不存在</h2>
+        <p>未找到ID为 {id} 的小区</p>
         <Button
           variant="primary"
           icon={<FiArrowLeft className="h-5 w-5" />}
           onClick={handleBack}
         >
-          返回分区列表
+          返回小区列表
         </Button>
       </div>
     );
@@ -163,7 +163,7 @@ const PartDetailPage = () => {
   return (
     <>
       <PageHeader
-        title={`分区详情: ${part.name}`}
+        title={`小区详情: ${part.name}`}
         subtitle={`排序值: ${part.sequence} | 广告位总数: ${part.total_space}`}
         action={
           <div className="flex space-x-2">

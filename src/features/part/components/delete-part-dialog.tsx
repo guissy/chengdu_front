@@ -29,7 +29,7 @@ const DeletePartDialog = () => {
       queryClient.invalidateQueries({
         queryKey: postPartListQueryKey()
       });
-      toast.success('分区删除成功');
+      toast.success('小区删除成功');
       closeDeleteDialog();
       navigate('/part');
     } catch (error) {
@@ -45,8 +45,8 @@ const DeletePartDialog = () => {
     <ConfirmDialog
       isOpen={isDeleteDialogOpen}
       onClose={closeDeleteDialog}
-      title="删除分区"
-      message={`确定要删除分区"${currentPart.name}"吗？此操作不可恢复。`}
+      title="删除小区"
+      message={`确定要删除小区"${currentPart.name}"吗？此操作不可恢复。`}
       onConfirm={handleDelete}
       isSubmitting={isSubmitting}
       confirmText="删除"

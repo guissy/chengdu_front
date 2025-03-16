@@ -233,7 +233,7 @@ const SpaceDetail: React.FC = () => {
                 </div>
                 <div className="flex items-center">
                   <span className="text-sm text-gray-500 w-24">价格因子:</span>
-                  <span>{space.priceFactor}</span>
+                  <span>{space.price_factor}</span>
                 </div>
                 <div className="flex items-center">
                   <span className="text-sm text-gray-500 w-24">分类标签:</span>

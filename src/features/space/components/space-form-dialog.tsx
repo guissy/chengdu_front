@@ -19,7 +19,7 @@ export const spaceSchema = z.object({
   setting: z.record(z.string(), z.unknown()),
   count: z.number().int().positive('数量必须大于0').default(1),
   state: z.string(),
-  priceFactor: z.number().positive('价格因子必须大于0').default(1.0),
+  price_factor: z.number().positive('价格因子必须大于0').default(1.0),
   tag: z.string().optional(),
   site: z.string().optional(),
   stability: z.string().optional(),
@@ -180,9 +180,9 @@ const SpaceFormDialog = ({ mode }: SpaceFormDialogProps) => {
         type="number"
         label="价格因子"
         step="0.1"
-        error={form.formState.errors.priceFactor?.message}
+        error={form.formState.errors.price_factor?.message}
         fullWidth
-        {...form.register('priceFactor', { valueAsNumber: true })}
+        {...form.register('price_factor', { valueAsNumber: true })}
       />
 
       <Select

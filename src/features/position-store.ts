@@ -79,7 +79,7 @@ export const usePositionStore = create<PositionState>((set) => ({
       currentPosition: position,
       formData: {
         cbdId: '', // 编辑时通常不能更改所属商圈
-        partId: '', // 编辑时通常不能更改所属分区
+        partId: '', // 编辑时通常不能更改所属小区
         no: position.position_no,
       },
     });
