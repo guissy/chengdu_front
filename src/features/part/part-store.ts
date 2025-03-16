@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { PartResponseSchema } from '@/api';
+import { PartResponseSchema } from '@/service';
 
 type Part = PartResponseSchema;
 

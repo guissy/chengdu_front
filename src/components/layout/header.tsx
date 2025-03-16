@@ -1,6 +1,6 @@
 import { FiMenu, FiSun, FiMoon, FiBell, FiUser } from 'react-icons/fi';
 import { useUiStore } from '@/store/ui';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 const Header = () => {
   const { theme, toggleTheme, toggleSidebar } = useUiStore();
@@ -16,7 +16,7 @@ const Header = () => {
           >
             <FiMenu className="h-5 w-5" />
           </button>
-          <Link to="/" className="btn btn-ghost text-xl normal-case">
+          <Link href="/" className="btn btn-ghost text-xl normal-case">
             广告位管理平台
           </Link>
         </div>

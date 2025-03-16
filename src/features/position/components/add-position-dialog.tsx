@@ -4,14 +4,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-hot-toast';
 import Input from '@/components/ui/input';
 import Select from '@/components/ui/select';
-import { PostPositionAddData } from '@/api';
+import { PostPositionAddData } from '@/service';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   postPositionAddMutation,
   postPartListOptions,
   postCbdListOptions,
   postPositionListQueryKey
-} from '@/api/@tanstack/react-query.gen.ts';
+} from '@/service/@tanstack/react-query.gen.ts';
 import { z } from 'zod';
 import { usePositionStore } from '@/features/position-store.ts';
 import FormDialog from '@/components/ui/form-dialog';

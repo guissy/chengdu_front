@@ -7,7 +7,7 @@ import Input from '@/components/ui/input';
 import Select from '@/components/ui/select';
 import FormDialog from '@/components/ui/form-dialog';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { postSpaceAddMutation, postSpaceUpdateMutation, postSpaceListQueryKey, getSpaceByIdQueryKey } from '@/api/@tanstack/react-query.gen.ts';
+import { postSpaceAddMutation, postSpaceUpdateMutation, postSpaceListQueryKey, getSpaceByIdQueryKey } from '@/service/@tanstack/react-query.gen.ts';
 import { useSpaceStore } from '../space-store';
 import TextArea from '@/components/ui/textarea';
 import Button from '@/components/ui/button';

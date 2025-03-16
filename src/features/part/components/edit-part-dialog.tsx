@@ -5,9 +5,9 @@ import { z } from 'zod';
 import { toast } from 'react-hot-toast';
 import Input from '@/components/ui/input';
 import { usePartStore } from '../part-store.ts';
-import { PostPartUpdateData } from '@/api';
+import { PostPartUpdateData } from '@/service';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { postPartListQueryKey, postPartUpdateMutation } from '@/api/@tanstack/react-query.gen.ts';
+import { postPartListQueryKey, postPartUpdateMutation } from '@/service/@tanstack/react-query.gen.ts';
 import FormDialog from '@/components/ui/form-dialog';
 
 // 表单验证模式

@@ -1,14 +1,17 @@
-import { useLocation, Link } from 'react-router-dom';
+'use client';
+
+import { usePathname } from 'next/navigation';
 import { useUiStore } from '@/store/ui';
-import { routes } from '@/router/routes';
+import { routes } from './routes';
+import Link from 'next/link';
 
 const Sidebar = () => {
-  const { pathname } = useLocation();
+  const pathname = usePathname();
   const { sidebarOpen } = useUiStore();
-
+  
   // 只显示没有hideInMenu标记的路由
   const menuRoutes = routes.filter((route) => !route.hideInMenu);
-
+  
   return (
     <aside
       className={`fixed left-0 top-16 z-20 h-[calc(100vh-64px)] w-64 transform bg-base-200 shadow-lg transition-transform duration-300 ease-in-out ${
@@ -20,7 +23,7 @@ const Sidebar = () => {
           {menuRoutes.map((route) => (
             <li key={route.path}>
               <Link
-                to={route.path}
+                href={route.path || ''}
                 className={`flex items-center gap-3 ${pathname === route.path ? 'active' : ''}`}
               >
                 {route.icon && <span>{route.icon}</span>}

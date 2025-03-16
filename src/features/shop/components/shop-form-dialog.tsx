@@ -14,8 +14,8 @@ import {
   getShopListUnbindQueryKey,
   getShopByIdQueryKey, 
   getShopListQueryKey
-} from '@/api/@tanstack/react-query.gen.ts';
-import { ShopResponseSchema } from '@/api/types.gen';
+} from '@/service/@tanstack/react-query.gen.ts';
+import { ShopResponseSchema } from '@/service/types.gen';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Space } from '@/api/types';
+import { Space } from '@/service/types';
 
 interface SpaceFormData {
   shopId: string;

@@ -1,16 +1,16 @@
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { postPositionDeleteMutation, postPositionListQueryKey } from '@/api/@tanstack/react-query.gen.ts';
+import { postPositionDeleteMutation, postPositionListQueryKey } from '@/service/@tanstack/react-query.gen.ts';
 import { usePositionStore } from '@/features/position-store.ts';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import ConfirmDialog from '@/components/ui/confirm-dialog';
 
 const DeletePositionDialog = () => {
   const { isDeleteDialogOpen, closeDeleteDialog, currentPosition } = usePositionStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
+  const router = useRouter();
 
   // Delete position mutation
   const deletePositionMutation = useMutation({
@@ -31,7 +31,7 @@ const DeletePositionDialog = () => {
       });
       toast.success('铺位删除成功');
       closeDeleteDialog();
-      navigate('/position');
+      router.push('/position');
     } catch (error) {
       // Error handling is done in API client
     } finally {

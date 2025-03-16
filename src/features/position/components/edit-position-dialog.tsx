@@ -3,13 +3,13 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-hot-toast';
 import Input from '@/components/ui/input';
-import { PostPositionUpdateData } from '@/api';
+import { PostPositionUpdateData } from '@/service';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   getPositionByIdQueryKey,
   postPositionListQueryKey,
   postPositionUpdateMutation
-} from '@/api/@tanstack/react-query.gen.ts';
+} from '@/service/@tanstack/react-query.gen.ts';
 import { z } from 'zod';
 import { usePositionStore } from '@/features/position-store.ts';
 import FormDialog from '@/components/ui/form-dialog';

@@ -5,9 +5,9 @@ import { toast } from 'react-hot-toast';
 import Input from '@/components/ui/input';
 import Select from '@/components/ui/select';
 import { usePartStore } from '../part-store.ts';
-import { PostPartAddData } from '@/api';
+import { PostPartAddData } from '@/service';
 import { useMutation } from '@tanstack/react-query';
-import { postPartAddMutation } from '@/api/@tanstack/react-query.gen.ts';
+import { postPartAddMutation } from '@/service/@tanstack/react-query.gen.ts';
 import { z } from 'zod';
 import FormDialog from '@/components/ui/form-dialog';
 

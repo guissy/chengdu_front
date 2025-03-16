@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Position } from '@/api';
+import { Position } from '@/service';
 
 
 interface PositionFormData {

@@ -1,16 +1,16 @@
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { postSpaceDeleteMutation, postSpaceListQueryKey } from '@/api/@tanstack/react-query.gen.ts';
+import { postSpaceDeleteMutation, postSpaceListQueryKey } from '@/service/@tanstack/react-query.gen.ts';
 import { useSpaceStore } from '@/features/space/space-store';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import ConfirmDialog from '@/components/ui/confirm-dialog';
 
 const DeleteSpaceDialog = () => {
   const { isDeleteDialogOpen, closeDeleteDialog, currentSpace } = useSpaceStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
+  const router = useRouter();
 
   // Delete space mutation
   const deleteSpaceMutation = useMutation({
@@ -31,7 +31,7 @@ const DeleteSpaceDialog = () => {
       });
       toast.success('空间删除成功');
       closeDeleteDialog();
-      navigate('/space');
+      router.push('/space');
     } catch (error) {
       // Error handling is done in API client
     } finally {

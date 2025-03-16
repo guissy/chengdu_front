@@ -1,5 +1,5 @@
+import Link, { LinkProps } from 'next/link';
 import React from 'react';
-import { Link, LinkProps } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 
 type ButtonVariant = 'primary' | 'secondary' | 'accent' | 'info' | 'success' | 'warning' | 'error' | 'ghost' | 'link';
@@ -52,7 +52,7 @@ export const Button = ({
 
   if (href && !disabled) {
     return (
-      <Link to={href} className={classes} {...rest as Omit<LinkProps, 'to'>}>
+      <Link href={href} className={classes} {...rest as Omit<LinkProps, 'to'>}>
         {content}
       </Link>
     );

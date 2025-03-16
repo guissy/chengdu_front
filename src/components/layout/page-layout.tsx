@@ -1,11 +1,17 @@
-import { Outlet } from 'react-router-dom';
-import Header from './header';
-import Sidebar from './sidebar';
-import Footer from './footer';
-import { useUiStore } from '@/store/ui';
+"use client"
 
-const PageLayout = () => {
-  const { sidebarOpen } = useUiStore();
+import { ReactNode } from 'react'
+import Header from './header'
+import Sidebar from './sidebar'
+import Footer from './footer'
+import { useUiStore } from '@/store/ui'
+
+interface PageLayoutProps {
+  children: ReactNode
+}
+
+export default function PageLayout({ children }: PageLayoutProps) {
+  const { sidebarOpen } = useUiStore()
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -20,13 +26,11 @@ const PageLayout = () => {
           }`}
         >
           <div className="container mx-auto p-6">
-            <Outlet />
+            {children}
           </div>
           <Footer />
         </main>
       </div>
     </div>
-  );
-};
-
-export default PageLayout;
+  )
+}

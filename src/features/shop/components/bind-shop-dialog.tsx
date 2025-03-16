@@ -11,7 +11,7 @@ import {
   postPositionBindShopMutation,
   getPositionByIdQueryKey,
   postPositionListQueryKey 
-} from '@/api/@tanstack/react-query.gen.ts';
+} from '@/service/@tanstack/react-query.gen.ts';
 import Select from '@/components/ui/select';
 
 interface FormValues {

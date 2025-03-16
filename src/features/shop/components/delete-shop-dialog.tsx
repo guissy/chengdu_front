@@ -2,16 +2,16 @@ import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useShopStore } from '@/features/shop-store';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import ConfirmDialog from '@/components/ui/confirm-dialog';
-import { postShopDeleteMutation, getShopListUnbindQueryKey } from '@/api/@tanstack/react-query.gen.ts';
-import type { PostShopDeleteData } from '@/api/types.gen';
+import { postShopDeleteMutation, getShopListUnbindQueryKey } from '@/service/@tanstack/react-query.gen.ts';
+import type { PostShopDeleteData } from '@/service/types.gen';
 
 const DeleteShopDialog = () => {
   const { isDeleteDialogOpen, closeDeleteDialog, currentShop } = useShopStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
+  const router = useRouter();
 
   // 使用生成的API mutation
   const deleteShopMutation = useMutation({
@@ -30,7 +30,7 @@ const DeleteShopDialog = () => {
       });
       toast.success('商家删除成功');
       closeDeleteDialog();
-      navigate('/shop');
+      router.push('/shop');
     } catch (error) {
       toast.error(`删除商家失败: ${error?.error}`);
     } finally {
