@@ -1,0 +1,314 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// 枚举: 商家类型
+enum ShopType {
+  RESTAURANT  @map("1") // 餐饮
+  LIGHT_FOOD  @map("2") // 轻食
+  TEA_HOUSE   @map("3") // 茶楼
+  TEA_COFFEE  @map("4") // 茶饮/咖啡
+  COFFEE_SHOP @map("5") // 咖啡馆
+  HOTEL       @map("6") // 酒店
+}
+
+// 枚举: 商业类型
+enum BusinessType {
+  INDEPENDENT     @map("1") // 独立自营店
+  CHAIN_DIRECT    @map("2") // 连锁自营店
+  CHAIN_FRANCHISE @map("3") // 连锁加盟店
+}
+
+// 枚举: 性别对象
+enum Gender {
+  ALL    @map("1") // 不限
+  MALE   @map("2") // 男
+  FEMALE @map("3") // 女
+}
+
+// 枚举: 联系人类型
+enum ContactType {
+  OWNER        @map("1") // 老板
+  MANAGER      @map("2") // 店长
+  STAFF        @map("3") // 店员
+  HEADQUARTERS @map("4") // 总店管理人员
+}
+
+// 枚举: 经营时长
+enum OperationDuration {
+  LESS_THAN_ONE  @map("1") // 一年内新店
+  ONE_TO_TWO     @map("2") // 1~2年
+  TWO_TO_FIVE    @map("3") // 2~5年
+  MORE_THAN_FIVE @map("4") // 五年以上
+}
+
+// 枚举: 休息日
+enum RestDay {
+  MONDAY    @map("1") // 周一
+  TUESDAY   @map("2") // 周二
+  WEDNESDAY @map("3") // 周三
+  THURSDAY  @map("4") // 周四
+  FRIDAY    @map("5") // 周五
+  SATURDAY  @map("6") // 周六
+  SUNDAY    @map("7") // 周日
+  ON_DEMAND @map("8") // 按需
+}
+
+// 枚举: 客流高峰
+enum PeakTime {
+  BREAKFAST  @map("1") // 早餐
+  LUNCH      @map("2") // 午餐
+  DINNER     @map("3") // 晚餐
+  LATE_NIGHT @map("4") // 宵夜
+  MORNING    @map("5") // 上午
+  AFTERNOON  @map("6") // 下午
+  EVENING    @map("7") // 晚上
+  MIDNIGHT   @map("8") // 深夜
+}
+
+// 枚举: 季节
+enum Season {
+  SPRING      @map("1") // 春
+  SUMMER      @map("2") // 夏
+  AUTUMN      @map("3") // 秋
+  WINTER      @map("4") // 冬
+  HOLIDAY     @map("5") // 节假日
+  WORKDAY     @map("6") // 工作日
+  NON_WORKDAY @map("7") // 非工作日
+}
+
+// 枚举: 广告位类型
+enum SpaceType {
+  TABLE_STICKER  @map("1") // 方桌不干胶贴
+  TABLE_PLACEMAT @map("2") // 方桌餐垫纸
+  STAND          @map("3") // 立牌
+  X_BANNER       @map("4") // X展架
+  TV_LED         @map("5") // 电视/LED屏幕
+  PROJECTOR      @map("6") // 投影仪
+}
+
+// 枚举: 广告位状态
+enum SpaceState {
+  ENABLED  @map("1") // 启用
+  DISABLED @map("2") // 禁用
+}
+
+// 枚举: 广告位位置
+enum SpaceSite {
+  MAIN_AREA        @map("1") // 主客区/大堂
+  SHOP_ENTRANCE    @map("2") // 商家入口
+  ENTRANCE_PASSAGE @map("3") // 入口通道
+  PRIVATE_ROOM     @map("4") // 独立房间/包间
+  TOILET_PASSAGE   @map("5") // 通往洗手间过道
+  TOILET           @map("6") // 洗手间
+  OUTDOOR_AREA     @map("7") // 商家外摆区/店外公共区
+  OUTSIDE_WALL     @map("8") // 店外墙面(非临街)
+  STREET_WALL      @map("9") // 店外墙面(临街)
+}
+
+// 枚举: 广告位稳定性
+enum SpaceStability {
+  FIXED      @map("1") // 固定
+  SEMI_FIXED @map("2") // 半固定
+  MOVABLE    @map("3") // 移动
+  TEMPORARY  @map("4") // 临时
+}
+
+// 城市模型
+model City {
+  id        String     @id @default(uuid())
+  name      String // 城市名称
+  districts District[] // 区域列表
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@map("cities")
+}
+
+// 行政区划模型
+model District {
+  id        String   @id @default(uuid())
+  name      String // 区域名称
+  cityId    String // 城市id
+  city      City     @relation(fields: [cityId], references: [id])
+  cbds      CBD[] // 商圈列表
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("districts")
+}
+
+// 商圈模型
+model CBD {
+  id         String   @id @default(uuid())
+  name       String // 商圈名称
+  addr       String? // 地址
+  districtId String // 行政区划id
+  district   District @relation(fields: [districtId], references: [id])
+  parts      Part[] // 分区列表
+  shops      Shop[] // 商家列表
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("cbds")
+}
+
+// 物业小区模型
+model Part {
+  id        String     @id @default(uuid())
+  name      String // 分区名称
+  sequence  Int // 排序值
+  cbdId     String // 商圈id
+  cbd       CBD        @relation(fields: [cbdId], references: [id])
+  positions Position[] // 铺位列表
+  shops     Shop[] // 商家列表
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@map("parts")
+}
+
+// 铺位模型
+model Position {
+  id             String    @id @default(uuid())
+  position_no    String // 铺位编号
+  partId         String // 分区id
+  part           Part      @relation(fields: [partId], references: [id])
+  total_space    Int       @default(0) // 广告位总数
+  put_space      Int       @default(0) // 已投放广告位总数
+  price_base     Int // 价格基数（单位：分）
+  verified       Boolean   @default(false) // 是否认证
+  displayed      Boolean   @default(true) // 是否展示
+  type           ShopType? // 类型，1-餐饮 2-轻食 3-茶楼 4-茶饮/咖啡 5-咖啡馆 6-酒店
+  type_tag       String? // 品类标签
+  photo          String[] // 图片
+  remark         String? // 备注
+  business_hours Int[] // 营业时间 [开始时间, 结束时间]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  shopId         String?   @unique
+  shop           Shop?     @relation(fields: [shopId], references: [id]) // 保留完整关系定义
+
+  @@map("positions")
+}
+
+// 商家模型
+model Shop {
+  id                String            @id @default(uuid())
+  shop_no           String // 商家编号
+  cbdId             String // 商圈id
+  cbd               CBD               @relation(fields: [cbdId], references: [id])
+  partId            String // 分区id
+  part              Part              @relation(fields: [partId], references: [id])
+  // positionId        String?           @unique // 铺位id
+  position          Position? // @relation(fields: [positionId], references: [id]) // 关联的铺位
+  type              ShopType // 类型，1-餐饮 2-轻食 3-茶楼 4-茶饮/咖啡 5-咖啡馆 6-酒店
+  type_tag          String? // 品类标签
+  business_type     BusinessType // 商业类型， 1-独立自营店 2-连锁自营店 3-连锁加盟店
+  trademark         String // 字号
+  branch            String? // 分店
+  location          Float[] // 坐标，经纬度 [经度, 纬度]
+  verified          Boolean           @default(false) // 是否认证
+  duration          OperationDuration // 经营时长，1-一年内新店 2-1~2年 3-2~5年 4-五年以上
+  consume_display   Boolean           @default(true) // 是否展示消费数据
+  average_expense   Int[] // 人均消费最低到最高值，单位(分) [最低, 最高]
+  sex               Gender            @default(ALL) // 性别，1-不限 2-男 3-女
+  age               Int[] // 年龄段最低到最高值 [最低, 最高]
+  id_tag            String? // 身份标签
+  sign_photo        String? // 标识图片
+  verify_photo      String[] // 认证图片
+  environment_photo String[] // 外景图片
+  building_photo    String[] // 内景图片
+  brand_photo       String[] // 品牌营销图片
+  contact_name      String? // 联系人姓名
+  contact_phone     String? // 联系人电话
+  contact_type      ContactType? // 联系人类型，1-老板 2-店长 3-店员 4-总店管理人员
+  total_area        Int? // 面积，单位(平方米)
+  customer_area     Int? // 客区面积
+  clerk_count       Int? // 店员人数
+  business_hours    Int[] // 营业时间 [开始时间, 结束时间]
+  rest_days         RestDay[] // 休息日，1-周一 2-周二 3-周三 4-周四 5-周五 6-周六 7-周日 8-按需
+  volume_peak       PeakTime[] // 客流高峰，1-早餐 2-午餐 3-晚餐 4-宵夜 5-上午 6-下午 7-晚上 8-深夜
+  season            Season[] // 季节，1-春 2-夏 3-秋 4-冬 5-节假日 6-工作日 7-非工作日
+  shop_description  String? // 商家简介
+  put_description   String? // 投放简介
+  displayed         Boolean           @default(true) // 是否开放
+  price_base        Int // 价格基数（单位：分）
+  classify_tag      String? // 分类标签
+  remark            String? // 备注
+  spaces            Space[] // 广告位
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  @@map("shops")
+}
+
+// 广告位模型
+model Space {
+  id                     String          @id @default(uuid())
+  shopId                 String // 商家id
+  shop                   Shop            @relation(fields: [shopId], references: [id])
+  type                   SpaceType // 广告位类型，1-方桌不干胶贴 2-方桌餐垫纸 3-立牌 4-X展架 5-电视/LED屏幕 6-投影仪
+  setting                Json // 广告位设置
+  count                  Int             @default(1) // 广告位数量
+  state                  SpaceState      @default(ENABLED) // 状态 1-启用 2-禁用
+  price_factor           Float           @default(1.0) // 价格因子
+  tag                    String? // 分类标签
+  site                   SpaceSite? // 位置，1-主客区/大堂 2-商家入口 3-入口通道 4-独立房间/包间 5-通往洗手间过道 6-洗手间 7-商家外摆区/店外公共区 8-店外墙面(非临街) 9-店外墙面(临街)
+  stability              SpaceStability? // 稳定性，1-固定 2-半固定 3-移动 4-临时
+  photo                  String[] // 相册
+  description            String? // 投放推介
+  design_attention       String? // 设计注意事项
+  construction_attention String? // 施工注意事项
+  createdAt              DateTime        @default(now())
+  updatedAt              DateTime        @updatedAt
+
+  @@map("spaces")
+}
+
+// 枚举: 操作类型
+enum OperationType {
+  CREATE @map("create") // 新增
+  UPDATE @map("update") // 编辑
+  DELETE @map("delete") // 删除
+}
+
+// 枚举: 操作对象
+enum OperationTarget {
+  CBD      @map("cbd") // 商圈
+  PART     @map("part") // 分区
+  POSITION @map("position") // 铺位
+  SHOP     @map("shop") // 商家
+  SPACE    @map("space") // 广告位
+  CAMPAIGN @map("campaign") // 广告活动
+}
+
+// 审计日志模型
+model AuditLog {
+  id            String          @id @default(uuid())
+  operationType OperationType // 操作类型
+  targetType    OperationTarget // 操作对象类型
+  targetId      String // 操作对象ID
+  targetName    String // 操作对象名称
+  content       String // 操作内容
+  operatorId    String // 操作人ID
+  operatorName  String // 操作人姓名
+  operationTime DateTime        @default(now()) // 操作时间
+  details       Json? // 详细变更内容
+  ipAddress     String? // IP地址
+  userAgent     String? // 用户代理信息
+
+  @@index([operationType])
+  @@index([targetType])
+  @@index([operatorId])
+  @@index([operationTime])
+  @@map("audit_logs")
+}
