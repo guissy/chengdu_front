@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { FiArrowLeft, FiEdit2, FiTrash2, FiShoppingBag, FiTag, FiLink } from 'react-icons/fi';
+import { FiArrowLeft, FiEdit2, FiLink, FiShoppingBag, FiTag, FiTrash2 } from 'react-icons/fi';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import PageHeader from '@/components/ui/page-header';
 import { Button } from '@/components/ui/button';
@@ -12,7 +12,7 @@ import { ShopResponseSchema, SpaceResponseSchema } from '@/service';
 import { shopTypeMap, useShopStore } from '@/features/shop-store.ts';
 import ShopFormDialog from '@/features/shop/components/shop-form-dialog';
 import DeleteShopDialog from '@/features/shop/components/delete-shop-dialog';
-import { formatBusinessHours, formatTime } from '@/utils/time';
+import { formatBusinessHours } from '@/utils/time';
 import { useQuery } from '@tanstack/react-query';
 
 // 广告位类型映射
@@ -98,7 +98,7 @@ const ShopDetail = ({ params }: { params: { id: string } }) => {
         </Button>
       ),
     }),
-  ] as ColumnDef<SpaceResponseSchema>[], [router]);
+  ] as ColumnDef<SpaceResponseSchema>[], [columnHelper, router]);
 
   // 加载中状态
   if (isLoadingShop) {

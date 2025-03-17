@@ -1,5 +1,5 @@
 import React from 'react';
-import { FiHome, FiGrid, FiMapPin, FiShoppingBag, FiMonitor, FiMap, FiTarget } from 'react-icons/fi';
+import { FiGrid, FiHome, FiMap, FiMapPin, FiMonitor, FiShoppingBag, FiTarget } from 'react-icons/fi';
 
 // 路由配置接口
 export interface RouteConfig {

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
-import { FiEdit2, FiPlus, FiSearch, FiFilter, FiEye, FiEyeOff } from 'react-icons/fi';
+import { FiEdit2, FiEye, FiEyeOff, FiFilter, FiPlus, FiSearch } from 'react-icons/fi';
 import PageHeader from '@/components/ui/page-header';
 import Button from '@/components/ui/button';
 import Input from '@/components/ui/input';
@@ -44,13 +44,6 @@ const sitesMap: Record<string, string> = {
   STREET_WALL: '店外墙面(临街)',
 };
 
-// 稳定性映射
-const stabilityMap: Record<string, string> = {
-  FIXED: '固定',
-  SEMI_FIXED: '半固定',
-  MOVABLE: '移动',
-  TEMPORARY: '临时',
-};
 
 type Space = SpaceResponseSchema
 // 定义表格列

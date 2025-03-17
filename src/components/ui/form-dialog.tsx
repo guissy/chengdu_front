@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { UseFormReturn, FieldValues } from 'react-hook-form';
+import { FieldValues, UseFormReturn } from 'react-hook-form';
 import BaseDialog from './base-dialog';
 import Button from './button';
 

@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import PageHeader from '@/components/ui/page-header';
 import { Button } from '@/components/ui/button';
@@ -9,7 +8,6 @@ import { getCityCityListOptions, postDistrictListOptions } from '@/service/@tans
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { FiEdit2, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { DistrictResponseSchema } from '@/service';
-import toast from 'react-hot-toast';
 import { useEffect, useMemo, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -25,15 +23,14 @@ const districtFormSchema = z.object({
 type DistrictFormValues = z.infer<typeof districtFormSchema>;
 
 export default function DistrictList() {
-  const router = useRouter();
   const [selectedCity, setSelectedCity] = useState<string>('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [editingDistrict, setEditingDistrict] = useState<DistrictResponseSchema | null>(null);
-  const [deleteId, setDeleteId] = useState<string | null>(null);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  // const [editingDistrict, setEditingDistrict] = useState<DistrictResponseSchema | null>(null);
+  // const [deleteId, setDeleteId] = useState<string | null>(null);
 
   // React Hook Form setup
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<DistrictFormValues>({
+  const { reset } = useForm<DistrictFormValues>({
     resolver: zodResolver(districtFormSchema),
   });
 
@@ -47,7 +44,6 @@ export default function DistrictList() {
   const {
     data: districts,
     isLoading: isLoadingDistricts,
-    refetch: refetchDistricts,
   } = useQuery({
     ...postDistrictListOptions({
       body: { parentId: selectedCity }
@@ -65,66 +61,29 @@ export default function DistrictList() {
 
   // Open modal for adding a new district
   const handleAddDistrict = () => {
-    setEditingDistrict(null);
+    // setEditingDistrict(null);
     reset({ cityId: selectedCity, name: '' });
-    setIsModalOpen(true);
+    // setIsModalOpen(true);
   };
 
   // Open modal for editing an existing district
   const handleEditDistrict = (district: DistrictResponseSchema) => {
-    setEditingDistrict(district);
+    // setEditingDistrict(district);
     reset({
       name: district.name,
       cityId: selectedCity,
     });
-    setIsModalOpen(true);
+    // setIsModalOpen(true);
   };
 
   // Open confirmation modal for deleting a district
   const handleDeleteClick = (id: string) => {
-    setDeleteId(id);
-    setIsDeleteModalOpen(true);
+    console.warn(id)
+    // setDeleteId(id);
+    // setIsDeleteModalOpen(true);
   };
 
   // TODO: Submit form for adding/editing a district
-  const onSubmit = async (data: DistrictFormValues) => {
-    try {
-      if (editingDistrict) {
-        // Update existing district
-        // await axios.patch(`/api/districts/${editingDistrict.id}`, data);
-        toast.success('区域更新成功');
-      } else {
-        // Create new district
-        // await axios.post('/api/districts', data);
-        toast.success('区域添加成功');
-      }
-
-      setIsModalOpen(false);
-      refetchDistricts();
-    } catch (error) {
-      toast.error('操作失败，请重试');
-      console.error(error);
-    }
-  };
-
-  // Delete a district
-  const handleDeleteConfirm = async () => {
-    if (!deleteId) return;
-
-    try {
-      // await axios.delete(`/api/districts/${deleteId}`);
-      toast.success('区域删除成功');
-      setIsDeleteModalOpen(false);
-      refetchDistricts();
-    } catch (error) {
-      toast.error('删除失败，请重试');
-      console.error(error);
-    }
-  };
-
-  // const handleRowClick = (id: string) => {
-  //   router.push(`/district/${id}`);
-  // };
 
   const columns = [
     columnHelper.accessor('name', {

@@ -1,9 +1,6 @@
 import { useMemo } from 'react';
 import { format } from 'date-fns';
-import {
-  ColumnDef,
-  createColumnHelper
-} from '@tanstack/react-table';
+import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { FiInfo } from 'react-icons/fi';
 import { DataTable } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';

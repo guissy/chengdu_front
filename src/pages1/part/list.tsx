@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
-import { FiEdit2, FiTrash2, FiPlus, FiSearch } from 'react-icons/fi';
+import { FiEdit2, FiPlus, FiSearch, FiTrash2 } from 'react-icons/fi';
 import PageHeader from '@/components/ui/page-header';
 import { Button } from '@/components/ui/button';
 import Input from '@/components/ui/input';
@@ -15,7 +15,6 @@ import EditPartDialog from '@/features/part/components/edit-part-dialog';
 import DeletePartDialog from '@/features/part/components/delete-part-dialog';
 import { PartResponseSchema } from '@/service';
 import { useQuery } from '@tanstack/react-query';
-import Link from 'next/link';
 import { postPartListOptions } from '@/service/@tanstack/react-query.gen.ts';
 
 // Define table columns

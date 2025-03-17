@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useShopStore } from '@/features/shop-store';
 import { useRouter } from 'next/navigation';
 import ConfirmDialog from '@/components/ui/confirm-dialog';
-import { postShopDeleteMutation, getShopListUnbindQueryKey } from '@/service/@tanstack/react-query.gen.ts';
+import { getShopListUnbindQueryKey, postShopDeleteMutation } from '@/service/@tanstack/react-query.gen.ts';
 import type { PostShopDeleteData } from '@/service/types.gen';
 
 const DeleteShopDialog = () => {

@@ -1,16 +1,23 @@
 import {
-  useReactTable,
+  ColumnDef,
+  FilterFn,
+  flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  flexRender,
-  ColumnDef,
   SortingState,
-  FilterFn,
+  useReactTable,
 } from '@tanstack/react-table';
 import { useState } from 'react';
-import { FiChevronDown, FiChevronUp, FiChevronsLeft, FiChevronsRight, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import {
+  FiChevronDown,
+  FiChevronLeft,
+  FiChevronRight,
+  FiChevronsLeft,
+  FiChevronsRight,
+  FiChevronUp
+} from 'react-icons/fi';
 import Button from './button';
 
 export interface DataTableProps<TData, TValue = unknown> {

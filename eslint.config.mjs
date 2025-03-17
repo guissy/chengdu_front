@@ -25,7 +25,8 @@ export default tseslint.config(
       ],
     },
     ignores: [
-      'src/api/*',
+      'src/service/transformers.gen.ts',
+      // 'src/service/@tanstack/react-query.gen.ts',
     ]
   },
 )

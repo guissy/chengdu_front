@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { SpaceResponseSchema } from '@/service';
+
 interface SpaceFormData {
   shopId: string;
   type: string;

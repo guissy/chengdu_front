@@ -1,18 +1,14 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { FiEdit2, FiTrash2, FiTarget, FiPlus } from "react-icons/fi";
+import { FiEdit2, FiPlus, FiTarget, FiTrash2 } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  CbdResponseSchema,
-  CityResponseSchema,
-  DistrictResponseSchema,
-} from "@/service";
+import { CbdResponseSchema, CityResponseSchema, DistrictResponseSchema, } from "@/service";
 import {
   getCityCityListOptions,
   postCbdListOptions,
@@ -39,7 +35,7 @@ const CbdList: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [editingCbd, setEditingCbd] = useState<CbdResponseSchema | null>(null);
-  const [deleteId, setDeleteId] = useState<string | null>(null);
+  // const [deleteId, setDeleteId] = useState<string | null>(null);
 
   // React Hook Form setup
   const {
@@ -69,7 +65,7 @@ const CbdList: React.FC = () => {
   // Fetch CBDs data based on selected district
   const {
     data: cbds,
-    isLoading: isLoadingCbds,
+    isLoading,
     refetch: refetchCbds,
   } = useQuery({
     ...postCbdListOptions({
@@ -106,21 +102,21 @@ const CbdList: React.FC = () => {
   };
 
   // Open modal for editing an existing CBD
-  const handleEditCbd = (cbd: CbdResponseSchema) => {
-    setEditingCbd(cbd);
-    reset({
-      name: cbd.name,
-      districtId: selectedDistrict,
-      addr: String(cbd.addr) || "",
-    });
-    setIsModalOpen(true);
-  };
+  // const handleEditCbd = (cbd: CbdResponseSchema) => {
+  //   setEditingCbd(cbd);
+  //   reset({
+  //     name: cbd.name,
+  //     districtId: selectedDistrict,
+  //     addr: String(cbd.addr) || "",
+  //   });
+  //   setIsModalOpen(true);
+  // };
 
   // Open confirmation modal for deleting a CBD
-  const handleDeleteClick = (id: string) => {
-    setDeleteId(id);
-    setIsDeleteModalOpen(true);
-  };
+  // const handleDeleteClick = (id: string) => {
+  //   setDeleteId(id);
+  //   setIsDeleteModalOpen(true);
+  // };
 
   // Submit form for adding/editing a CBD
   const onSubmit = async (data: CbdFormValues) => {
@@ -159,13 +155,13 @@ const CbdList: React.FC = () => {
   };
 
   // Find district name by ID
-  const getDistrictName = (districtId: string) => {
-    return (
-      districts?.find(
-        (district: DistrictResponseSchema) => district.id === districtId
-      )?.name || ""
-    );
-  };
+  // const getDistrictName = (districtId: string) => {
+  //   return (
+  //     districts?.find(
+  //       (district: DistrictResponseSchema) => district.id === districtId
+  //     )?.name || ""
+  //   );
+  // };
 
   const columns = [
     columnHelper.accessor("name", {
@@ -313,6 +309,7 @@ const CbdList: React.FC = () => {
       <DataTable<CbdResponseSchema>
         columns={columns}
         data={cbds || []}
+        loading={isLoading}
       />
 
       {/* Add/Edit CBD Modal */}

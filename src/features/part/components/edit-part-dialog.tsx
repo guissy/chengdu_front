@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -39,7 +39,7 @@ const EditPartDialog = () => {
         name: currentPart.name,
       });
     }
-  }, [currentPart, form.reset]);
+  }, [currentPart, form]);
 
   // Update part mutation
   const updatePartMutation = useMutation({
@@ -56,6 +56,7 @@ const EditPartDialog = () => {
       closeEditDialog();
     } catch (error) {
       // Error handling is done in API client
+      console.error(error);
     } finally {
       setIsSubmitting(false);
     }

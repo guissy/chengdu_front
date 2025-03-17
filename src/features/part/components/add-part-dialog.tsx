@@ -57,6 +57,7 @@ const AddPartDialog = () => {
       closeAddDialog();
     } catch (error) {
       // Error handling is done in API client
+      console.error(error);
     } finally {
       setIsSubmitting(false);
     }

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-hot-toast';
@@ -41,7 +41,7 @@ const EditPositionDialog = () => {
         no: currentPosition.position_no,
       });
     }
-  }, [currentPosition, form.reset]);
+  }, [currentPosition, form]);
 
   const updatePositionMutation = useMutation({
     ...postPositionUpdateMutation()
@@ -61,6 +61,7 @@ const EditPositionDialog = () => {
       closeEditDialog();
     } catch (error) {
       // Error handling is done in API client
+      console.error(error);
     } finally {
       setIsSubmitting(false);
     }

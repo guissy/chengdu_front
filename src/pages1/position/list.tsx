@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { FiEdit2, FiLink, FiPlus, FiSearch } from 'react-icons/fi';
 import PageHeader from '@/components/ui/page-header';

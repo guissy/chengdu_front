@@ -13,7 +13,7 @@ import EditPositionDialog from '@/features/position/components/edit-position-dia
 import DeletePositionDialog from '@/features/position/components/delete-position-dialog';
 import BindShopDialog from '@/features/shop/components/bind-shop-dialog';
 import { formatTime } from '@/utils/time';
-import { PartResponseSchema, Position } from '@/service';
+import { Position } from '@/service';
 
 // 假设这是广告位类型
 // interface Space {

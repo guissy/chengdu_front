@@ -1,7 +1,7 @@
 "use client";
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
-import { FiFilter, FiRefreshCw, FiActivity } from 'react-icons/fi';
+import { FiActivity, FiFilter, FiRefreshCw } from 'react-icons/fi';
 import { Button } from '@/components/ui/button';
 import Input from '@/components/ui/input';
 import Select from '@/components/ui/select';
@@ -11,7 +11,6 @@ import { getAuditLogByIdOptions, getAuditLogOptions } from '@/service/@tanstack/
 import { AuditLog } from '@/service';
 import AuditLogTable from './table';
 import AuditLogDetailDrawer from './detail-drawer';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import PageHeader from '@/components/ui/page-header';
 
@@ -39,7 +38,6 @@ const AuditLogList = () => {
   const [detailOpen, setDetailOpen] = useState(false);
   const [selectedLog, setSelectedLog] = useState<AuditLog>();
   const [detailLog, setDetailLog] = useState<AuditLog>();
-  const router = useRouter();
 
   // 过滤条件
   const [filters, setFilters] = useState({

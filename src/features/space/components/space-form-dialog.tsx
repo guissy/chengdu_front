@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-hot-toast';
@@ -7,10 +7,14 @@ import Input from '@/components/ui/input';
 import Select from '@/components/ui/select';
 import FormDialog from '@/components/ui/form-dialog';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { postSpaceAddMutation, postSpaceUpdateMutation, postSpaceListQueryKey, getSpaceByIdQueryKey } from '@/service/@tanstack/react-query.gen.ts';
+import {
+  getSpaceByIdQueryKey,
+  postSpaceAddMutation,
+  postSpaceListQueryKey,
+  postSpaceUpdateMutation
+} from '@/service/@tanstack/react-query.gen.ts';
 import { useSpaceStore } from '../space-store';
 import TextArea from '@/components/ui/textarea';
-import Button from '@/components/ui/button';
 import { PostSpaceAddData, PostSpaceUpdateData } from '@/service';
 
 // 表单验证 schema
@@ -98,7 +102,7 @@ const SpaceFormDialog = ({ mode }: SpaceFormDialogProps) => {
     if (formData) {
       form.reset(formData);
     }
-  }, [formData])
+  }, [formData, form])
 
 
   const addSpaceMutation = useMutation({
@@ -141,6 +145,7 @@ const SpaceFormDialog = ({ mode }: SpaceFormDialogProps) => {
       onClose();
     } catch (error) {
       // Error handling is done in API client
+      console.error(error);
     } finally {
       setIsSubmitting(false);
     }

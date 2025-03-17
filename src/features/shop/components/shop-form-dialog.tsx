@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-hot-toast';
@@ -9,11 +9,11 @@ import { z } from 'zod';
 import { shopTypeMap, useShopStore } from '@/features/shop-store';
 import FormDialog from '@/components/ui/form-dialog';
 import {
-  postShopAddMutation,
-  postShopUpdateMutation,
-  getShopListUnbindQueryKey,
   getShopByIdQueryKey,
-  getShopListQueryKey
+  getShopListQueryKey,
+  getShopListUnbindQueryKey,
+  postShopAddMutation,
+  postShopUpdateMutation
 } from '@/service/@tanstack/react-query.gen.ts';
 import { PostShopAddData, PostShopUpdateData, ShopResponseSchema } from '@/service/types.gen';
 import { Switch } from '@/components/ui/switch';
@@ -203,6 +203,7 @@ const ShopFormDialog = ({ mode }: ShopFormDialogProps) => {
       });
       onClose();
     } catch (error) {
+      console.error(error);
       toast.error(mode === 'add' ? '添加商家失败' : '更新商家失败');
     } finally {
       setIsSubmitting(false);

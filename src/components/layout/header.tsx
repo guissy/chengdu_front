@@ -1,4 +1,4 @@
-import { FiMenu, FiSun, FiMoon, FiBell, FiUser } from 'react-icons/fi';
+import { FiBell, FiMenu, FiMoon, FiSun } from 'react-icons/fi';
 import { useUiStore } from '@/store/ui';
 import Link from 'next/link';
 

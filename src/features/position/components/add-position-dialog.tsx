@@ -7,9 +7,9 @@ import Select from '@/components/ui/select';
 import { PostPositionAddData } from '@/service';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
-  postPositionAddMutation,
-  postPartListOptions,
   postCbdListOptions,
+  postPartListOptions,
+  postPositionAddMutation,
   postPositionListQueryKey
 } from '@/service/@tanstack/react-query.gen.ts';
 import { z } from 'zod';
@@ -87,6 +87,7 @@ const AddPositionDialog = () => {
       closeAddDialog();
     } catch (error) {
       // Error handling is done in API client
+      console.error(error);
     } finally {
       setIsSubmitting(false);
     }

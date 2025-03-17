@@ -7,9 +7,9 @@ import { z } from 'zod';
 import { usePositionStore } from '@/features/position-store';
 import FormDialog from '@/components/ui/form-dialog';
 import {
+  getPositionByIdQueryKey,
   getShopListUnbindOptions,
   postPositionBindShopMutation,
-  getPositionByIdQueryKey,
   postPositionListQueryKey
 } from '@/service/@tanstack/react-query.gen.ts';
 import Select from '@/components/ui/select';
@@ -75,6 +75,7 @@ const BindShopDialog = () => {
       closeBindShopDialog();
     } catch (error) {
       // Error handling is done in API client
+      console.error(error);
     } finally {
       setIsSubmitting(false);
     }

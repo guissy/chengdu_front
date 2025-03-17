@@ -34,6 +34,7 @@ const DeletePartDialog = () => {
       router.push('/part');
     } catch (error) {
       // Error handling is done in API client
+      console.error(error);
     } finally {
       setIsSubmitting(false);
     }

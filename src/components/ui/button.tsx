@@ -1,4 +1,4 @@
-import Link, { LinkProps } from 'next/link';
+import Link from 'next/link';
 import React from 'react';
 import { twMerge } from 'tailwind-merge';
 
@@ -52,7 +52,7 @@ export const Button = ({
 
   if (href && !disabled) {
     return (
-      <Link href={href} className={classes} onClick={onClick as any}>
+      <Link href={href} className={classes} onClick={onClick as React.MouseEventHandler<HTMLAnchorElement>}>
         {content}
       </Link>
     );
