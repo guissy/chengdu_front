@@ -17,7 +17,7 @@ const inter = Inter({ subsets: ['latin'] })
 // }
 
 client.setConfig({
-  baseUrl: 'http://localhost:3000/api',
+  baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
 });
 
 export default function RootLayout({
