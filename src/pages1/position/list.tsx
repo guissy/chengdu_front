@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { FiEdit2, FiLink, FiPlus, FiSearch } from 'react-icons/fi';
 import PageHeader from '@/components/ui/page-header';
@@ -22,9 +22,7 @@ const PositionListPage = () => {
   const { filterPartId, setFilterPartId, openAddDialog, openBindShopDialog } = usePositionStore();
 
   const router = useRouter();
-
-  // 从URL查询参数中获取partId
-  const queryParams = new URLSearchParams(location.search);
+  const queryParams = useSearchParams();
   const partIdFromUrl = queryParams.get('partId') || '';
 
   const [searchText, setSearchText] = useState('');
