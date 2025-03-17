@@ -8,6 +8,8 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { useEffect, useState } from 'react'
 import { client } from '@/service/client.gen.ts';
 import { useUiStore } from '@/store/ui.ts';
+import { ToastProvider } from '@/components/ui/toast.tsx';
+import { Toaster } from 'react-hot-toast';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -66,7 +68,10 @@ export default function RootLayout({
     <html lang="zh-CN">
       <body className={inter.className}>
         <QueryClientProvider client={queryClient}>
-          <PageLayout>{children}</PageLayout>
+          <ToastProvider>
+            <PageLayout>{children}</PageLayout>
+          </ToastProvider>
+          <Toaster />
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </body>

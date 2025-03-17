@@ -1,6 +1,6 @@
 import React from 'react';
 import { FiX } from 'react-icons/fi';
-import { ToastProps, useToast } from './useToast.js';
+import { ToastProps, useToast } from './useToast';
 
 const toastVariants = {
   default: 'bg-white border border-gray-200 text-gray-900',
