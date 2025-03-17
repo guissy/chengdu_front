@@ -33,7 +33,6 @@ const BindShopDialog = () => {
       shopId: (currentPosition?.shopId as string) || '',
     },
   });
-  toast.success('商家关联成功');
   // 获取未绑定的商家列表
   const { data: shopsData } = useQuery({
     ...getShopListUnbindOptions(),

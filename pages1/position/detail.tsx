@@ -9,7 +9,7 @@ import PageHeader from '@/components/ui/page-header';
 import { Button } from '@/components/ui/button';
 import { getPositionByIdOptions, postSpaceListOptions } from '@/service/@tanstack/react-query.gen.ts';
 import { usePositionStore } from '@/features/position-store.ts';
-import EditPositionDialog from '@/features/position/components/edit-position-dialog.tsx';
+import PositionFormDialog from '@/features/position/components/position-form-dialog.tsx';
 import DeletePositionDialog from '@/features/position/components/delete-position-dialog';
 import BindShopDialog from '@/features/shop/components/bind-shop-dialog';
 import { formatTime } from '@/utils/time';
@@ -418,7 +418,7 @@ const PositionDetail = ({ params }: PositionDetailProps) => {
         </div>
       )}
 
-      <EditPositionDialog />
+      <PositionFormDialog mode={'edit'} />
       <DeletePositionDialog />
       <BindShopDialog />
     </>

@@ -11,7 +11,7 @@ import { useQuery } from '@tanstack/react-query';
 import { postPartListOptions, postPositionListOptions } from '@/service/@tanstack/react-query.gen.ts';
 import { Position } from '@/service';
 import { usePositionStore } from '@/features/position-store';
-import AddPositionDialog from '@/features/position/components/add-position-dialog';
+import PositionFormDialog from '@/features/position/components/position-form-dialog';
 import BindShopDialog from '@/features/shop/components/bind-shop-dialog';
 
 
@@ -195,7 +195,7 @@ const PositionListPage = () => {
         />
       </div>
 
-      <AddPositionDialog />
+      <PositionFormDialog mode="add" />
       <BindShopDialog />
     </>
   );
