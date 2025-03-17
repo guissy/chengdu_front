@@ -1,6 +1,7 @@
 "use client";
 import { Suspense } from 'react'
 import SpaceList from '@/pages1/space/list'
+import LoadingSpinner from '@/components/ui/loading-spinner.tsx';
 
 // export const metadata = {
 //   title: '广告位管理 - Business System',
@@ -13,9 +14,3 @@ export default function SpaceListPage() {
     </Suspense>
   )
 }
-
-const LoadingSpinner = () => (
-  <div className="flex h-full w-full items-center justify-center">
-    <div className="loading loading-spinner loading-lg text-primary"></div>
-  </div>
-) 

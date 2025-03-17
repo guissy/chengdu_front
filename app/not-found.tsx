@@ -3,6 +3,7 @@ import Button from "@/components/ui/button";
 import Link from "next/link";
 import { Suspense } from "react";
 import { FiArrowLeft } from "react-icons/fi";
+import LoadingSpinner from '@/components/ui/loading-spinner';
 
 // export const metadata = {
 //   title: "404 Not Found - Business System",
@@ -32,8 +33,3 @@ export default function NotFound() {
   );
 }
 
-const LoadingSpinner = () => (
-  <div className="flex h-full w-full items-center justify-center">
-    <div className="loading loading-spinner loading-lg text-primary"></div>
-  </div>
-);

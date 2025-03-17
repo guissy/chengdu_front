@@ -15,8 +15,3 @@ export default function PositionDetailPage({ params }: { params: Promise<{ id: s
   )
 }
 
-const LoadingSpinner = () => (
-  <div className="flex h-full w-full items-center justify-center">
-    <div className="loading loading-spinner loading-lg text-primary"></div>
-  </div>
-)

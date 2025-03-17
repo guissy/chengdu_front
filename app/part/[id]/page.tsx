@@ -14,9 +14,3 @@ export default function PartDetailPage({ params }: { params: Promise<{ id: strin
     </Suspense>
   )
 }
-
-const LoadingSpinner = () => (
-  <div className="flex h-full w-full items-center justify-center">
-    <div className="loading loading-spinner loading-lg text-primary"></div>
-  </div>
-)
