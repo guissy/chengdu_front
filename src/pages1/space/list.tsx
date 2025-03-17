@@ -12,9 +12,8 @@ import { useQuery } from '@tanstack/react-query';
 import { postSpaceListOptions } from '@/service/@tanstack/react-query.gen.ts';
 import { useSpaceStore } from '@/features/space/space-store';
 import SpaceFormDialog from '@/features/space/components/space-form-dialog';
-import { Space } from '@/service/types';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+import { SpaceResponseSchema } from '@/service';
 
 // 广告位类型映射
 const spaceTypeMap: Record<string, string> = {
@@ -53,6 +52,7 @@ const stabilityMap: Record<string, string> = {
   TEMPORARY: '临时',
 };
 
+type Space = SpaceResponseSchema
 // 定义表格列
 const columnHelper = createColumnHelper<Space>();
 
@@ -70,35 +70,15 @@ const SpaceListPage = () => {
         shopId: '',
       },
     }),
-    select: (data) => {
-      const apiSpaces = data?.data?.list || [];
-      return apiSpaces.map((apiSpace: Record<string, unknown>): Space => ({
-        id: String(apiSpace.id),
-        shopId: String(apiSpace.shop_id),
-        shopName: apiSpace.shop?.trademark || '',
-        type: String(apiSpace.type),
-        setting: (apiSpace.setting as Record<string, unknown>) || {},
-        count: Number(apiSpace.count),
-        state: String(apiSpace.state),
-        price_factor: apiSpace.price_factor ? Number(apiSpace.price_factor) : undefined,
-        tag: apiSpace.tag ? String(apiSpace.tag) : undefined,
-        site: apiSpace.site ? String(apiSpace.site) : undefined,
-        stability: apiSpace.stability ? String(apiSpace.stability) : undefined,
-        photo: Array.isArray(apiSpace.photo) ? apiSpace.photo.map(String) : [],
-        description: apiSpace.description ? String(apiSpace.description) : undefined,
-        design_attention: apiSpace.design_attention ? String(apiSpace.design_attention) : undefined,
-        construction_attention: apiSpace.construction_attention ? String(apiSpace.construction_attention) : undefined,
-        updatedAt: String(apiSpace.updated_at),
-      }));
-    },
+    select: (data) => (data?.data?.list || []) as Space[],
   });
 
   // 表格列定义
   const columns = [
-    columnHelper.accessor('shopName', {
-      header: '所属商家',
-      cell: (info) => info.getValue() || '-',
-    }),
+    // columnHelper.accessor('shopName', {
+    //   header: '所属商家',
+    //   cell: (info) => info.getValue() || '-',
+    // }),
     columnHelper.accessor('type', {
       header: '广告位类型',
       cell: (info) => spaceTypeMap[info.getValue()] || info.getValue(),
@@ -186,7 +166,7 @@ const SpaceListPage = () => {
     // 搜索文本过滤
     const textMatch =
       searchText === '' ||
-      space.shopName.toLowerCase().includes(searchText.toLowerCase()) ||
+      space.shop?.trademark?.toLowerCase().includes(searchText.toLowerCase()) ||
       spaceTypeMap[space.type]?.toLowerCase().includes(searchText.toLowerCase()) ||
       (space.site && sitesMap[space.site]?.toLowerCase().includes(searchText.toLowerCase()));
 

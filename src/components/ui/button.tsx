@@ -52,7 +52,7 @@ export const Button = ({
 
   if (href && !disabled) {
     return (
-      <Link href={href} className={classes} {...rest as Omit<LinkProps, 'to'>}>
+      <Link href={href} className={classes} onClick={onClick as any}>
         {content}
       </Link>
     );
@@ -60,7 +60,7 @@ export const Button = ({
 
   if (as === 'a') {
     return (
-      <a className={classes} {...rest as LinkProps}>
+      <a className={classes}>
         {content}
       </a>
     );

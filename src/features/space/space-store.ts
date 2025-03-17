@@ -1,6 +1,5 @@
 import { create } from 'zustand';
-import { Space } from '@/service/types';
-
+import { SpaceResponseSchema } from '@/service';
 interface SpaceFormData {
   shopId: string;
   type: string;
@@ -22,15 +21,15 @@ interface SpaceState {
   isAddDialogOpen: boolean;
   isEditDialogOpen: boolean;
   isDeleteDialogOpen: boolean;
-  currentSpace: Space | null;
+  currentSpace: SpaceResponseSchema | null;
   formData: SpaceFormData;
 
   // 操作方法
   openAddDialog: () => void;
   closeAddDialog: () => void;
-  openEditDialog: (space: Space) => void;
+  openEditDialog: (space: SpaceResponseSchema) => void;
   closeEditDialog: () => void;
-  openDeleteDialog: (space: Space) => void;
+  openDeleteDialog: (space: SpaceResponseSchema) => void;
   closeDeleteDialog: () => void;
   updateFormData: (data: Partial<SpaceFormData>) => void;
   resetFormData: () => void;
@@ -117,4 +116,4 @@ export const useSpaceStore = create<SpaceState>((set) => ({
       formData: { ...defaultFormData },
     });
   },
-})); 
+}));

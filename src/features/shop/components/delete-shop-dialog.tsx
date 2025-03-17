@@ -32,7 +32,7 @@ const DeleteShopDialog = () => {
       closeDeleteDialog();
       router.push('/shop');
     } catch (error) {
-      toast.error(`删除商家失败: ${error?.error}`);
+      toast.error(`删除商家失败: ${(error as { error: string })?.error}`);
     } finally {
       setIsSubmitting(false);
     }
@@ -54,4 +54,4 @@ const DeleteShopDialog = () => {
   );
 };
 
-export default DeleteShopDialog; 
+export default DeleteShopDialog;

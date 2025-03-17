@@ -4,7 +4,7 @@ export default defineConfig({
   // OpenAPI 文档文件，可以是 JSON 或 YAML 文件，也可以是 URL
   input: './chengdu.openapi.json',
   // 指定生成代码的输出目录（建议将生成的代码当作依赖管理，不直接修改）
-  output: './src/api',
+  output: './src/service',
   // 选择你喜欢的请求客户端插件，这里示例使用 fetch 客户端（也可以使用 axios 等）
   plugins: [
     {

@@ -11,6 +11,7 @@ import { postSpaceAddMutation, postSpaceUpdateMutation, postSpaceListQueryKey, g
 import { useSpaceStore } from '../space-store';
 import TextArea from '@/components/ui/textarea';
 import Button from '@/components/ui/button';
+import { PostSpaceAddData, PostSpaceUpdateData } from '@/service';
 
 // 表单验证 schema
 export const spaceSchema = z.object({
@@ -111,14 +112,14 @@ const SpaceFormDialog = ({ mode }: SpaceFormDialogProps) => {
   const onSubmit = async (data: FormValues) => {
     try {
       setIsSubmitting(true);
-      if (mode === 'add') {
+      if (mode === 'add' && currentSpace?.shopId) {
         await addSpaceMutation.mutateAsync({
-          body: {...data, shopId: currentSpace?.shopId},
+          body: { ...data, shopId: currentSpace.shopId} as PostSpaceAddData['body'],
         });
         toast.success('广告位添加成功');
       } else if (currentSpace) {
         await updateSpaceMutation.mutateAsync({
-          body: {...data, id: currentSpace.id, shopId: currentSpace.shopId},
+          body: {...data, id: currentSpace.id} as PostSpaceUpdateData['body'],
         });
         queryClient.invalidateQueries({
           queryKey: getSpaceByIdQueryKey({
@@ -130,7 +131,11 @@ const SpaceFormDialog = ({ mode }: SpaceFormDialogProps) => {
         toast.success('广告位更新成功');
       }
       queryClient.invalidateQueries({
-        queryKey: postSpaceListQueryKey(),
+        queryKey: postSpaceListQueryKey({
+          body: {
+            shopId: currentSpace?.shopId as string,
+          }
+        }),
       });
       form.reset();
       onClose();
@@ -235,4 +240,4 @@ const SpaceFormDialog = ({ mode }: SpaceFormDialogProps) => {
   );
 };
 
-export default SpaceFormDialog; 
+export default SpaceFormDialog;

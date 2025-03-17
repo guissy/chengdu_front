@@ -12,7 +12,7 @@ import { z } from 'zod';
 import FormDialog from '@/components/ui/form-dialog';
 
 // 表单验证模式
-type FormValues = PostPartAddData['body'];
+type FormValues = NonNullable<PostPartAddData['body']>;
 
 const schema = z.object({
   cbdId: z.string().min(1).describe('商圈ID'),

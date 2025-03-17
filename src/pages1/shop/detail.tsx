@@ -12,7 +12,7 @@ import { ShopResponseSchema, SpaceResponseSchema } from '@/service';
 import { shopTypeMap, useShopStore } from '@/features/shop-store.ts';
 import ShopFormDialog from '@/features/shop/components/shop-form-dialog';
 import DeleteShopDialog from '@/features/shop/components/delete-shop-dialog';
-import { formatTime } from '@/utils/time';
+import { formatBusinessHours, formatTime } from '@/utils/time';
 import { useQuery } from '@tanstack/react-query';
 
 // 广告位类型映射
@@ -35,14 +35,13 @@ const ShopDetail = ({ params }: { params: { id: string } }) => {
   const router = useRouter();
   const id = params.id;
   const { openEditDialog, openDeleteDialog } = useShopStore();
-  const [shop, setShop] = useState<ShopResponseSchema | null>(null);
 
   // 获取商家详情
-  const { data: shopData, isLoading: isLoadingShop } = useQuery({
+  const { data: shop, isLoading: isLoadingShop } = useQuery({
     ...getShopByIdOptions({
       path: { id: id! },
     }),
-    select: (data) => data?.data,
+    select: (data) => data?.data as ShopResponseSchema,
     enabled: !!id,
   });
 
@@ -56,13 +55,6 @@ const ShopDetail = ({ params }: { params: { id: string } }) => {
     enabled: !!id,
   });
   const spacesData = useMemo(() => data?.data?.list || [], [data]);
-
-  // 更新本地state
-  useEffect(() => {
-    if (shopData) {
-      setShop(shopData);
-    }
-  }, [shopData]);
 
   // 广告位列定义
   const columnHelper = createColumnHelper<SpaceResponseSchema>();
@@ -151,14 +143,14 @@ const ShopDetail = ({ params }: { params: { id: string } }) => {
             <Button
               variant="primary"
               icon={<FiEdit2 className="h-5 w-5" />}
-              onClick={() => openEditDialog(shop)}
+              onClick={() => shop && openEditDialog(shop)}
             >
               编辑
             </Button>
             <Button
               variant="error"
               icon={<FiTrash2 className="h-5 w-5" />}
-              onClick={() => openDeleteDialog(shop)}
+              onClick={() => shop && openDeleteDialog(shop)}
             >
               删除
             </Button>
@@ -254,7 +246,7 @@ const ShopDetail = ({ params }: { params: { id: string } }) => {
         </div>
 
         {/* 铺位信息 */}
-        {shop.positionId && (
+        {shop?.positionId && (
           <div className="card bg-base-100 shadow">
             <div className="card-body">
               <h2 className="card-title">铺位信息</h2>
@@ -270,7 +262,7 @@ const ShopDetail = ({ params }: { params: { id: string } }) => {
                     size="sm"
                     className="w-full"
                     icon={<FiLink className="h-5 w-5" />}
-                    onClick={() => router.push(`/position/${shop.positionId}`)}
+                    onClick={() => router.push(`/position/${shop?.positionId}`)}
                   >
                     查看铺位详情
                   </Button>
@@ -308,16 +300,25 @@ const ShopDetail = ({ params }: { params: { id: string } }) => {
             <div className="flex justify-between">
               <span className="text-base-content/70">营业时间</span>
               <span>
-                {formatTime(shop.business_hours || [])}
+                {formatBusinessHours(shop.business_hours || [])}
               </span>
             </div>
             {shop.rest_days && shop.rest_days.length > 0 && (
               <div className="flex justify-between">
                 <span className="text-base-content/70">休息日</span>
                 <span>
-                  {shop.rest_days.map((day: number) => {
-                    const weekday = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'][day];
-                    return <span key={day} className="mr-2">{weekday}</span>;
+                  {shop.rest_days.map((day: string) => {
+                    const weekDayMap = {
+                      MONDAY: '周一',
+                      TUESDAY: '周二',
+                      WEDNESDAY: '周三',
+                      THURSDAY: '周四',
+                      FRIDAY: '周五',
+                      SATURDAY: '周六',
+                      SUNDAY: '周日',
+                      ON_DEMAND: '按需'
+                    };
+                    return <span key={day} className="mr-2">{weekDayMap[day as keyof typeof weekDayMap]}</span>;
                   })}
                 </span>
               </div>
@@ -326,8 +327,18 @@ const ShopDetail = ({ params }: { params: { id: string } }) => {
               <div className="flex justify-between">
                 <span className="text-base-content/70">高峰时段</span>
                 <span>
-                  {shop.volume_peak.map((peak: number) => {
-                    const period = ['午餐', '晚餐'][peak - 1];
+                  {shop.volume_peak.map((peak: string) => {
+                    const peakTimeMap: Record<string, string> = {
+                      BREAKFAST: '早餐',
+                      LUNCH: '午餐',
+                      DINNER: '晚餐',
+                      LATE_NIGHT: '宵夜',
+                      MORNING: '上午',
+                      AFTERNOON: '下午',
+                      EVENING: '晚上',
+                      MIDNIGHT: '深夜'
+                    };
+                    const period = peakTimeMap[peak as keyof typeof peakTimeMap];
                     return <span key={peak} className="mr-2">{period}</span>;
                   })}
                 </span>

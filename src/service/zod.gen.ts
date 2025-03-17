@@ -2,89 +2,6 @@
 
 import { z } from 'zod';
 
-export const zCbdResponseSchema = z.object({
-    id: z.string(),
-    name: z.string(),
-    addr: z.unknown()
-});
-
-export const zCityResponseSchema = z.object({
-    id: z.string(),
-    name: z.string()
-});
-
-export const zDistrictResponseSchema = z.object({
-    id: z.string(),
-    name: z.string()
-});
-
-export const zPartResponseSchema = z.object({
-    id: z.string(),
-    name: z.string(),
-    sequence: z.number(),
-    total_space: z.number()
-});
-
-export const zShopResponseSchema = z.object({
-    shopId: z.string(),
-    shop_no: z.string().optional(),
-    trademark: z.string(),
-    branch: z.unknown(),
-    total_space: z.number(),
-    put_space: z.number(),
-    price_base: z.number(),
-    verified: z.boolean(),
-    displayed: z.boolean(),
-    type: z.string(),
-    type_tag: z.unknown(),
-    photo: z.array(z.string()),
-    remark: z.unknown(),
-    business_hours: z.array(z.number()),
-    total_area: z.unknown(),
-    customer_area: z.unknown(),
-    clerk_count: z.unknown(),
-    business_type: z.string(),
-    duration: z.string(),
-    sex: z.string(),
-    age: z.array(z.number()),
-    id_tag: z.unknown(),
-    sign_photo: z.unknown(),
-    contact_type: z.string()
-});
-
-export const zSpaceResponseSchema = z.object({
-    id: z.string(),
-    type: z.string(),
-    setting: z.object({}),
-    count: z.number(),
-    state: z.string(),
-    photo: z.array(z.string()),
-    price_factor: z.number().optional().default(1),
-    updatedAt: z.string(),
-    shopId: z.string(),
-    shop: z.object({
-        trademark: z.string().optional(),
-        shop_no: z.string().optional()
-    }).optional()
-});
-
-export const zPosition = z.object({
-    positionId: z.string(),
-    position_no: z.string(),
-    shopId: z.unknown(),
-    shop_no: z.unknown(),
-    total_space: z.number(),
-    put_space: z.number(),
-    price_base: z.number(),
-    verified: z.boolean(),
-    displayed: z.boolean(),
-    type: z.unknown(),
-    type_tag: z.unknown(),
-    photo: z.array(z.string()),
-    remark: z.unknown(),
-    business_hours: z.array(z.number())
-});
-
 export const zAuditLog = z.object({
     id: z.string(),
     operationType: z.string(),
@@ -96,9 +13,1072 @@ export const zAuditLog = z.object({
     operatorName: z.string(),
     operationTime: z.string(),
     details: z.object({}).optional(),
-    ipAddress: z.unknown(),
-    userAgent: z.unknown()
+    ipAddress: z.union([
+        z.string(),
+        z.null()
+    ]),
+    userAgent: z.union([
+        z.string(),
+        z.null()
+    ])
 });
+
+export const zPosition = z.object({
+    positionId: z.string(),
+    position_no: z.string(),
+    shopId: z.union([
+        z.string(),
+        z.null()
+    ]),
+    shop_no: z.union([
+        z.string(),
+        z.null()
+    ]),
+    total_space: z.number(),
+    put_space: z.number(),
+    price_base: z.number(),
+    verified: z.boolean(),
+    displayed: z.boolean(),
+    type: z.union([
+        z.string(),
+        z.null()
+    ]),
+    type_tag: z.union([
+        z.string(),
+        z.null()
+    ]),
+    photo: z.array(z.string()),
+    remark: z.union([
+        z.string(),
+        z.null()
+    ]),
+    business_hours: z.array(z.number())
+});
+
+export const zSpaceResponseSchema = z.object({
+    id: z.string(),
+    type: z.string(),
+    setting: z.object({}),
+    count: z.number(),
+    state: z.string(),
+    price_factor: z.number().gt(0).optional().default(1),
+    updatedAt: z.string(),
+    shopId: z.string(),
+    shop: z.object({
+        trademark: z.string().optional(),
+        shop_no: z.string().optional()
+    }).optional(),
+    tag: z.string().optional(),
+    site: z.string().optional(),
+    stability: z.string().optional(),
+    photo: z.array(z.string()).optional(),
+    description: z.string().optional(),
+    design_attention: z.string().optional(),
+    construction_attention: z.string().optional()
+});
+
+export const zShopResponseSchema = z.object({
+    shopId: z.string(),
+    shop_no: z.string().optional(),
+    trademark: z.string(),
+    branch: z.union([
+        z.string(),
+        z.null()
+    ]),
+    total_space: z.number(),
+    put_space: z.number(),
+    price_base: z.number(),
+    verified: z.boolean(),
+    displayed: z.boolean(),
+    type: z.string(),
+    type_tag: z.union([
+        z.string(),
+        z.null()
+    ]),
+    photo: z.array(z.string()),
+    remark: z.union([
+        z.string(),
+        z.null()
+    ]),
+    business_hours: z.array(z.number()),
+    total_area: z.union([
+        z.number(),
+        z.null()
+    ]),
+    customer_area: z.union([
+        z.number(),
+        z.null()
+    ]),
+    clerk_count: z.union([
+        z.number(),
+        z.null()
+    ]),
+    business_type: z.string(),
+    duration: z.string(),
+    sex: z.string(),
+    age: z.array(z.number()),
+    id_tag: z.union([
+        z.string(),
+        z.null()
+    ]),
+    sign_photo: z.union([
+        z.string(),
+        z.null()
+    ]),
+    contact_type: z.string(),
+    shop_description: z.string().optional(),
+    put_description: z.string().optional(),
+    classify_tag: z.string().optional()
+});
+
+export const zPartResponseSchema = z.object({
+    id: z.string(),
+    name: z.string(),
+    sequence: z.number(),
+    total_space: z.number()
+});
+
+export const zDistrictResponseSchema = z.object({
+    id: z.string(),
+    name: z.string()
+});
+
+export const zCityResponseSchema = z.object({
+    id: z.string(),
+    name: z.string()
+});
+
+export const zCbdResponseSchema = z.object({
+    id: z.string(),
+    name: z.string(),
+    addr: z.union([
+        z.string(),
+        z.null()
+    ])
+});
+
+export const zPaymentMethod = z.object({
+    id: z.number().default(0),
+    productId: z.number().gte(1),
+    platformId: z.number().gte(1),
+    type: z.string().min(1),
+    transactionType: z.string().min(1),
+    imageLink: z.string().min(1),
+    acquiringMode: z.string().min(1),
+    processingCurrencies: z.string().min(1),
+    productChannelId: z.number().gte(1),
+    merchantId: z.number().gte(1),
+    providerId: z.number().gte(1),
+    platformName: z.string().min(1),
+    channelId: z.number().gte(1),
+    markup: z.number().gte(0),
+    needField: z.string().default('{}'),
+    regular: z.string().default('{}'),
+    supportedConsumer: z.string().default(''),
+    currencyInfo: z.array(z.object({
+        id: z.number().default(0),
+        currencyNameEn: z.string().min(1).default(''),
+        currencyName: z.string().min(1).default(''),
+        currencyCode: z.string().min(1).default(''),
+        paymentMethodId: z.number().gte(1)
+    }))
+});
+
+export const zPaymentMethodListSchema = z.object({
+    data: z.array(z.object({
+        id: z.number().default(0),
+        productId: z.number().gte(1),
+        platformId: z.number().gte(1),
+        type: z.string().min(1),
+        transactionType: z.string().min(1),
+        imageLink: z.string().min(1),
+        acquiringMode: z.string().min(1),
+        processingCurrencies: z.string().min(1),
+        productChannelId: z.number().gte(1),
+        merchantId: z.number().gte(1),
+        providerId: z.number().gte(1),
+        platformName: z.string().min(1),
+        channelId: z.number().gte(1),
+        markup: z.number().gte(0),
+        needField: z.string().default('{}'),
+        regular: z.string().default('{}'),
+        supportedConsumer: z.string().default(''),
+        currencyInfo: z.array(z.object({
+            id: z.number().default(0),
+            currencyNameEn: z.string().min(1).default(''),
+            currencyName: z.string().min(1).default(''),
+            currencyCode: z.string().min(1).default(''),
+            paymentMethodId: z.number().gte(1)
+        }))
+    })),
+    code: z.string().regex(/^[0-9]+$/).default('0'),
+    msg: z.string().default('Success'),
+    serverTime: z.number().default(1741250430788),
+    success: z.boolean().default(true)
+});
+
+export const zOrderStatusSchema = z.object({
+    data: z.object({
+        acquiringMode: z.string(),
+        buyerId: z.string(),
+        channelId: z.number(),
+        channelRatesId: z.number(),
+        channelRequestTime: z.number(),
+        country: z.string().min(2).max(3),
+        currency: z.string().length(3),
+        downstreamEstimatedAmount: z.number().gte(0),
+        downstreamEstimatedFee: z.number().gte(0),
+        downstreamFee: z.string(),
+        downstreamFeeC: z.string(),
+        downstreamFixedFee: z.string(),
+        downstreamGatewayFee: z.string(),
+        downstreamOrderNo: z.string(),
+        downstreamOrderNoOrigin: z.string(),
+        downstreamRedirectUrl: z.string().url(),
+        downstreamTxRate: z.string(),
+        errorMsg: z.string(),
+        estimatedAmount: z.number().gte(0),
+        estimatedExchangeRate: z.string(),
+        failReason: z.string(),
+        freezeType: z.number(),
+        id: z.number(),
+        merchantCurrency: z.string().length(3),
+        merchantId: z.number(),
+        merchantName: z.string(),
+        merchantOrderAmount: z.number().gte(0),
+        merchantRequestTime: z.number(),
+        orderAmount: z.number().gte(0),
+        orderCreateTime: z.number(),
+        orderStatus: z.string(),
+        orderType: z.string(),
+        origin: z.string(),
+        paymentExchange: z.number(),
+        paymentExchangeRate: z.number(),
+        paymentMethod: z.string(),
+        paymentTxMarkup: z.number().optional(),
+        paymentTxMarkupUsd: z.number().optional(),
+        platformId: z.number(),
+        platformOrderNo: z.string(),
+        productChannelId: z.number(),
+        productId: z.number(),
+        profit: z.number(),
+        providerId: z.number(),
+        requestStatus: z.number(),
+        reviewStatus: z.string(),
+        riskType: z.number(),
+        sessionId: z.string(),
+        settlementCurrency: z.string().length(3),
+        settlementCycle: z.string(),
+        transactionType: z.string(),
+        upstreamEstimatedAmount: z.number().gte(0),
+        upstreamEstimatedFee: z.number().gte(0),
+        upstreamFee: z.string(),
+        upstreamFixedFee: z.string(),
+        upstreamGatewayFee: z.string(),
+        upstreamOrderNo: z.string(),
+        upstreamStatus: z.string(),
+        upstreamTxRate: z.string()
+    }),
+    code: z.string().regex(/^[0-9]+$/).default('0'),
+    msg: z.string().default('Success'),
+    serverTime: z.number().default(1741250430788),
+    success: z.boolean().default(true)
+});
+
+export const zAllInOneOutputSchema = z.object({
+    data: z.object({
+        action: z.object({
+            paymentMethodType: z.union([
+                z.enum([
+                    'alipay'
+                ]),
+                z.enum([
+                    'americanexpress'
+                ]),
+                z.enum([
+                    'applepay'
+                ]),
+                z.enum([
+                    'applepayus'
+                ]),
+                z.enum([
+                    'bancomatpay'
+                ]),
+                z.enum([
+                    'blikoneclick'
+                ]),
+                z.enum([
+                    'blik'
+                ]),
+                z.enum([
+                    'bitpay'
+                ]),
+                z.enum([
+                    'cashapppay'
+                ]),
+                z.enum([
+                    'duitnow'
+                ]),
+                z.enum([
+                    'eps'
+                ]),
+                z.enum([
+                    'fpxonlinebanking'
+                ]),
+                z.enum([
+                    'fpx'
+                ]),
+                z.enum([
+                    'finlandbanks'
+                ]),
+                z.enum([
+                    'giropay'
+                ]),
+                z.enum([
+                    'gopay'
+                ]),
+                z.enum([
+                    'googlepay'
+                ]),
+                z.enum([
+                    'googlepayus'
+                ]),
+                z.enum([
+                    'indonesiabanks'
+                ]),
+                z.enum([
+                    'jcb'
+                ]),
+                z.enum([
+                    'konbini'
+                ]),
+                z.enum([
+                    'koreandomesticcards'
+                ]),
+                z.enum([
+                    'mbbank'
+                ]),
+                z.enum([
+                    'mastercard'
+                ]),
+                z.enum([
+                    'mybank'
+                ]),
+                z.enum([
+                    'oxxo'
+                ]),
+                z.enum([
+                    'pix'
+                ]),
+                z.enum([
+                    'payeasy'
+                ]),
+                z.enum([
+                    'paypal'
+                ]),
+                z.enum([
+                    'payconiq'
+                ]),
+                z.enum([
+                    'paysafecard'
+                ]),
+                z.enum([
+                    'p24'
+                ]),
+                z.enum([
+                    'przelewy24'
+                ]),
+                z.enum([
+                    'przelewy24p24'
+                ]),
+                z.enum([
+                    'satispay'
+                ]),
+                z.enum([
+                    'sepadebit'
+                ]),
+                z.enum([
+                    'sepaddmodelc'
+                ]),
+                z.enum([
+                    'sepaddmodela'
+                ]),
+                z.enum([
+                    'skrill'
+                ]),
+                z.enum([
+                    'todito'
+                ]),
+                z.enum([
+                    'tosspay'
+                ]),
+                z.enum([
+                    'touchngo'
+                ]),
+                z.enum([
+                    'trustly'
+                ]),
+                z.enum([
+                    'upi'
+                ]),
+                z.enum([
+                    'unionpay'
+                ]),
+                z.enum([
+                    'visa'
+                ]),
+                z.enum([
+                    'wechatpay'
+                ]),
+                z.enum([
+                    'zip'
+                ]),
+                z.enum([
+                    'zipus'
+                ]),
+                z.enum([
+                    'pbba'
+                ]),
+                z.enum([
+                    'paybybankapp'
+                ]),
+                z.enum([
+                    'paybybankapppbba'
+                ]),
+                z.enum([
+                    'payu'
+                ]),
+                z.enum([
+                    'klasha'
+                ]),
+                z.enum([
+                    'card'
+                ]),
+                z.enum([
+                    'banktransaction'
+                ]),
+                z.enum([
+                    'mobilemoney'
+                ]),
+                z.enum([
+                    'mpesa'
+                ]),
+                z.enum([
+                    'wemabank'
+                ]),
+                z.enum([
+                    'cardafrica'
+                ]),
+                z.enum([
+                    'afterpay'
+                ]),
+                z.enum([
+                    'klarna'
+                ]),
+                z.enum([
+                    'payovertimeklarna'
+                ]),
+                z.enum([
+                    'paylaterklarna'
+                ]),
+                z.enum([
+                    'paynowklarna'
+                ]),
+                z.enum([
+                    'banktransferklarna'
+                ]),
+                z.enum([
+                    'directdebitklarna'
+                ]),
+                z.enum([
+                    'upiinstore'
+                ]),
+                z.enum([
+                    'mbway'
+                ]),
+                z.enum([
+                    'thaibanks'
+                ]),
+                z.enum([
+                    'thaibanksapp'
+                ]),
+                z.enum([
+                    'skrilltap'
+                ]),
+                z.enum([
+                    'clearpay'
+                ]),
+                z.enum([
+                    'onlinebanking'
+                ]),
+                z.enum([
+                    'doku'
+                ]),
+                z.enum([
+                    'shoppepay'
+                ]),
+                z.enum([
+                    'shopeepay'
+                ]),
+                z.enum([
+                    'truemoney'
+                ]),
+                z.enum([
+                    'kbank'
+                ]),
+                z.enum([
+                    'kodd'
+                ]),
+                z.enum([
+                    'thaiqr'
+                ]),
+                z.enum([
+                    'cardus'
+                ]),
+                z.enum([
+                    'cardsus'
+                ]),
+                z.enum([
+                    'kakaopay'
+                ]),
+                z.enum([
+                    'tmn'
+                ]),
+                z.enum([
+                    'mpay'
+                ]),
+                z.enum([
+                    'rabbitlinepay'
+                ]),
+                z.enum([
+                    'boost'
+                ]),
+                z.enum([
+                    'bpi'
+                ]),
+                z.enum([
+                    'tng'
+                ]),
+                z.enum([
+                    'dana'
+                ]),
+                z.enum([
+                    'alipayhk'
+                ]),
+                z.enum([
+                    'gcash'
+                ]),
+                z.enum([
+                    'tsp'
+                ]),
+                z.enum([
+                    'tinaba'
+                ]),
+                z.enum([
+                    'kredivo'
+                ]),
+                z.enum([
+                    'naverpay'
+                ]),
+                z.enum([
+                    'kplus'
+                ]),
+                z.enum([
+                    'billease'
+                ]),
+                z.enum([
+                    'alipaycn'
+                ]),
+                z.enum([
+                    'creditcardupop'
+                ]),
+                z.enum([
+                    'alipayup'
+                ]),
+                z.enum([
+                    'upop'
+                ]),
+                z.enum([
+                    'wechatpayup'
+                ]),
+                z.enum([
+                    'qp'
+                ]),
+                z.enum([
+                    'creditcardvm'
+                ])
+            ]),
+            url: z.string().url(),
+            applinkUrl: z.string().url().optional(),
+            schemeUrl: z.string().url().optional(),
+            payUrl: z.string().url().optional(),
+            method: z.string(),
+            type: z.union([
+                z.enum([
+                    'redirect'
+                ]),
+                z.enum([
+                    'pin'
+                ]),
+                z.enum([
+                    'avs'
+                ]),
+                z.enum([
+                    'sms'
+                ]),
+                z.enum([
+                    'qrcode'
+                ])
+            ]),
+            qrCode: z.string(),
+            message: z.string().optional(),
+            fields: z.array(z.string()).optional()
+        }).optional(),
+        amount: z.object({
+            currency: z.string().length(3).default('USD'),
+            value: z.number().gte(0)
+        }).optional(),
+        order: z.object({
+            account: z.string(),
+            amount: z.object({
+                currency: z.string().length(3).default('USD'),
+                value: z.number().gte(0)
+            }),
+            accountName: z.string(),
+            bank: z.string(),
+            expiresAt: z.string().datetime(),
+            note: z.string()
+        }).optional(),
+        customer: z.object({
+            id: z.string(),
+            phone: z.string().regex(/^\+?[1-9]\d{1,14}$/),
+            name: z.string().min(1),
+            email: z.string().email(),
+            createdAt: z.string().datetime()
+        }).optional(),
+        refusalReason: z.string(),
+        pspReference: z.string(),
+        reference: z.string().optional(),
+        resultCode: z.string().default('SUCCESS')
+    }),
+    code: z.string().regex(/^[0-9]+$/).default('0'),
+    msg: z.string().default('Success'),
+    serverTime: z.number().default(1741250430788),
+    success: z.boolean().default(true)
+});
+
+export const zReferenceInputSchema = z.object({
+    reference: z.string().min(10).max(64)
+});
+
+export const zTokenInputSchema = z.object({
+    token: z.string().uuid()
+});
+
+export const zAmountSchema = z.object({
+    currency: z.string().length(3).default('USD'),
+    value: z.number().gte(0)
+});
+
+export const zPaymentHeaderSchema = z.object({
+    providerId: z.string(),
+    merchantId: z.string(),
+    appId: z.string()
+});
+
+export const zPaymentInputSchema = z.object({
+    amount: z.object({
+        currency: z.string().length(3).default('USD'),
+        value: z.number().gte(0)
+    }),
+    countryCode: z.string().length(2).default('CN'),
+    isExchange: z.boolean().default(false),
+    merchantAccount: z.string(),
+    merchantId: z.string(),
+    origin: z.string(),
+    paymentMethod: z.object({
+        type: z.union([
+            z.enum([
+                'alipay'
+            ]),
+            z.enum([
+                'americanexpress'
+            ]),
+            z.enum([
+                'applepay'
+            ]),
+            z.enum([
+                'applepayus'
+            ]),
+            z.enum([
+                'bancomatpay'
+            ]),
+            z.enum([
+                'blikoneclick'
+            ]),
+            z.enum([
+                'blik'
+            ]),
+            z.enum([
+                'bitpay'
+            ]),
+            z.enum([
+                'cashapppay'
+            ]),
+            z.enum([
+                'duitnow'
+            ]),
+            z.enum([
+                'eps'
+            ]),
+            z.enum([
+                'fpxonlinebanking'
+            ]),
+            z.enum([
+                'fpx'
+            ]),
+            z.enum([
+                'finlandbanks'
+            ]),
+            z.enum([
+                'giropay'
+            ]),
+            z.enum([
+                'gopay'
+            ]),
+            z.enum([
+                'googlepay'
+            ]),
+            z.enum([
+                'googlepayus'
+            ]),
+            z.enum([
+                'indonesiabanks'
+            ]),
+            z.enum([
+                'jcb'
+            ]),
+            z.enum([
+                'konbini'
+            ]),
+            z.enum([
+                'koreandomesticcards'
+            ]),
+            z.enum([
+                'mbbank'
+            ]),
+            z.enum([
+                'mastercard'
+            ]),
+            z.enum([
+                'mybank'
+            ]),
+            z.enum([
+                'oxxo'
+            ]),
+            z.enum([
+                'pix'
+            ]),
+            z.enum([
+                'payeasy'
+            ]),
+            z.enum([
+                'paypal'
+            ]),
+            z.enum([
+                'payconiq'
+            ]),
+            z.enum([
+                'paysafecard'
+            ]),
+            z.enum([
+                'p24'
+            ]),
+            z.enum([
+                'przelewy24'
+            ]),
+            z.enum([
+                'przelewy24p24'
+            ]),
+            z.enum([
+                'satispay'
+            ]),
+            z.enum([
+                'sepadebit'
+            ]),
+            z.enum([
+                'sepaddmodelc'
+            ]),
+            z.enum([
+                'sepaddmodela'
+            ]),
+            z.enum([
+                'skrill'
+            ]),
+            z.enum([
+                'todito'
+            ]),
+            z.enum([
+                'tosspay'
+            ]),
+            z.enum([
+                'touchngo'
+            ]),
+            z.enum([
+                'trustly'
+            ]),
+            z.enum([
+                'upi'
+            ]),
+            z.enum([
+                'unionpay'
+            ]),
+            z.enum([
+                'visa'
+            ]),
+            z.enum([
+                'wechatpay'
+            ]),
+            z.enum([
+                'zip'
+            ]),
+            z.enum([
+                'zipus'
+            ]),
+            z.enum([
+                'pbba'
+            ]),
+            z.enum([
+                'paybybankapp'
+            ]),
+            z.enum([
+                'paybybankapppbba'
+            ]),
+            z.enum([
+                'payu'
+            ]),
+            z.enum([
+                'klasha'
+            ]),
+            z.enum([
+                'card'
+            ]),
+            z.enum([
+                'banktransaction'
+            ]),
+            z.enum([
+                'mobilemoney'
+            ]),
+            z.enum([
+                'mpesa'
+            ]),
+            z.enum([
+                'wemabank'
+            ]),
+            z.enum([
+                'cardafrica'
+            ]),
+            z.enum([
+                'afterpay'
+            ]),
+            z.enum([
+                'klarna'
+            ]),
+            z.enum([
+                'payovertimeklarna'
+            ]),
+            z.enum([
+                'paylaterklarna'
+            ]),
+            z.enum([
+                'paynowklarna'
+            ]),
+            z.enum([
+                'banktransferklarna'
+            ]),
+            z.enum([
+                'directdebitklarna'
+            ]),
+            z.enum([
+                'upiinstore'
+            ]),
+            z.enum([
+                'mbway'
+            ]),
+            z.enum([
+                'thaibanks'
+            ]),
+            z.enum([
+                'thaibanksapp'
+            ]),
+            z.enum([
+                'skrilltap'
+            ]),
+            z.enum([
+                'clearpay'
+            ]),
+            z.enum([
+                'onlinebanking'
+            ]),
+            z.enum([
+                'doku'
+            ]),
+            z.enum([
+                'shoppepay'
+            ]),
+            z.enum([
+                'shopeepay'
+            ]),
+            z.enum([
+                'truemoney'
+            ]),
+            z.enum([
+                'kbank'
+            ]),
+            z.enum([
+                'kodd'
+            ]),
+            z.enum([
+                'thaiqr'
+            ]),
+            z.enum([
+                'cardus'
+            ]),
+            z.enum([
+                'cardsus'
+            ]),
+            z.enum([
+                'kakaopay'
+            ]),
+            z.enum([
+                'tmn'
+            ]),
+            z.enum([
+                'mpay'
+            ]),
+            z.enum([
+                'rabbitlinepay'
+            ]),
+            z.enum([
+                'boost'
+            ]),
+            z.enum([
+                'bpi'
+            ]),
+            z.enum([
+                'tng'
+            ]),
+            z.enum([
+                'dana'
+            ]),
+            z.enum([
+                'alipayhk'
+            ]),
+            z.enum([
+                'gcash'
+            ]),
+            z.enum([
+                'tsp'
+            ]),
+            z.enum([
+                'tinaba'
+            ]),
+            z.enum([
+                'kredivo'
+            ]),
+            z.enum([
+                'naverpay'
+            ]),
+            z.enum([
+                'kplus'
+            ]),
+            z.enum([
+                'billease'
+            ]),
+            z.enum([
+                'alipaycn'
+            ]),
+            z.enum([
+                'creditcardupop'
+            ]),
+            z.enum([
+                'alipayup'
+            ]),
+            z.enum([
+                'upop'
+            ]),
+            z.enum([
+                'wechatpayup'
+            ]),
+            z.enum([
+                'qp'
+            ]),
+            z.enum([
+                'creditcardvm'
+            ])
+        ]),
+        holderName: z.string().optional(),
+        firstName: z.string().optional(),
+        lastName: z.string().optional(),
+        shopperEmail: z.string().optional()
+    }),
+    productDetail: z.string(),
+    productId: z.string(),
+    productName: z.string(),
+    reference: z.string(),
+    returnUrl: z.string().url(),
+    webhookUrl: z.string().url(),
+    browserInfo: z.object({
+        terminalType: z.string().optional()
+    }).optional(),
+    processingCurrency: z.string().length(3)
+});
+
+export const zPaymentOrderOutputSchemaFastify = z.object({
+    countryCode: z.string().length(2).default('CN'),
+    productId: z.string().max(128).default('default_product'),
+    merchantId: z.string().max(128).default('default_merchant'),
+    origin: z.string().url().default('https://example.com'),
+    productName: z.string().max(128).default('Default Product'),
+    productDetail: z.string().max(256).default('Default Product Detail'),
+    pspReference: z.union([
+        z.string(),
+        z.unknown()
+    ]).optional(),
+    reference: z.string().max(128).default('default_reference'),
+    returnUrl: z.string().url().default('https://example.com/return'),
+    merchantAccount: z.union([
+        z.string(),
+        z.unknown()
+    ]).optional(),
+    webhookUrl: z.union([
+        z.string(),
+        z.unknown()
+    ]).optional(),
+    PaymentMethod: z.string().optional(),
+    version: z.number().int().default(1),
+    isexchange: z.boolean(),
+    amount: z.object({
+        currency: z.string(),
+        value: z.number()
+    }),
+    expiredAt: z.string().datetime()
+});
+
+export const zPaymentOrderDebugSchema = z.object({
+    amount: z.number().int().gte(1).default(100),
+    currency: z.string().regex(/^[A-Z]{3}$/).default('USD'),
+    holderName: z.string().optional().default(''),
+    shopperEmail: z.string().email().optional(),
+    paymentType: z.string().optional().default(''),
+    merchantId: z.string().regex(/^[0-9]{1,19}$/).optional().default('1')
+});
+
+export const zGetResponse = z.object({});
+
+export const zGetHealthResponse = z.object({});
+
+export const zGetApiHealthResponse = z.object({});
 
 export const zGetCityCityListResponse = z.object({
     code: z.number().optional(),
@@ -126,7 +1106,10 @@ export const zPostCbdListResponse = z.object({
         list: z.array(z.object({
             id: z.string(),
             name: z.string(),
-            addr: z.unknown()
+            addr: z.union([
+                z.unknown(),
+                z.null()
+            ])
         }))
     }).optional()
 });
@@ -155,17 +1138,17 @@ export const zGetPartByIdResponse = z.object({
 
 export const zPostPartAddResponse = z.object({
     code: z.number(),
-    data: z.unknown().optional()
+    data: z.string().optional()
 });
 
 export const zPostPartUpdateResponse = z.object({
     code: z.number(),
-    data: z.unknown().optional()
+    data: z.string().optional()
 });
 
 export const zPostPartDeleteResponse = z.object({
     code: z.number(),
-    data: z.unknown().optional()
+    data: z.string().optional()
 });
 
 export const zPostPositionListResponse = z.object({
@@ -174,17 +1157,32 @@ export const zPostPositionListResponse = z.object({
         list: z.array(z.object({
             positionId: z.string(),
             position_no: z.string(),
-            shopId: z.unknown(),
-            shop_no: z.unknown(),
+            shopId: z.union([
+                z.unknown(),
+                z.null()
+            ]),
+            shop_no: z.union([
+                z.unknown(),
+                z.null()
+            ]),
             total_space: z.number(),
             put_space: z.number(),
             price_base: z.number(),
             verified: z.boolean(),
             displayed: z.boolean(),
-            type: z.unknown(),
-            type_tag: z.unknown(),
+            type: z.union([
+                z.unknown(),
+                z.null()
+            ]),
+            type_tag: z.union([
+                z.unknown(),
+                z.null()
+            ]),
             photo: z.array(z.string()),
-            remark: z.unknown(),
+            remark: z.union([
+                z.unknown(),
+                z.null()
+            ]),
             business_hours: z.array(z.number())
         }))
     }).optional()
@@ -195,49 +1193,64 @@ export const zGetPositionByIdResponse = z.object({
     data: z.object({
         positionId: z.string(),
         position_no: z.string(),
-        shopId: z.unknown(),
-        shop_no: z.unknown(),
+        shopId: z.union([
+            z.unknown(),
+            z.null()
+        ]),
+        shop_no: z.union([
+            z.unknown(),
+            z.null()
+        ]),
         total_space: z.number(),
         put_space: z.number(),
         price_base: z.number(),
         verified: z.boolean(),
         displayed: z.boolean(),
-        type: z.unknown(),
-        type_tag: z.unknown(),
+        type: z.union([
+            z.unknown(),
+            z.null()
+        ]),
+        type_tag: z.union([
+            z.unknown(),
+            z.null()
+        ]),
         photo: z.array(z.string()),
-        remark: z.unknown(),
+        remark: z.union([
+            z.unknown(),
+            z.null()
+        ]),
         business_hours: z.array(z.number())
     }).optional()
 });
 
 export const zPostPositionAddResponse = z.object({
     code: z.number(),
-    data: z.unknown().optional()
+    data: z.string().optional()
 });
 
 export const zPostPositionUpdateResponse = z.object({
     code: z.number(),
-    data: z.unknown().optional()
+    data: z.string().optional()
 });
 
 export const zPostPositionDeleteResponse = z.object({
     code: z.number(),
-    data: z.unknown().optional()
+    data: z.string().optional()
 });
 
 export const zPostPositionSetResponse = z.object({
     code: z.number(),
-    data: z.unknown().optional()
+    data: z.string().optional()
 });
 
 export const zPostPositionBindShopResponse = z.object({
     code: z.number(),
-    data: z.unknown().optional()
+    data: z.string().optional()
 });
 
 export const zPostPositionMarkResponse = z.object({
     code: z.number(),
-    data: z.unknown().optional()
+    data: z.string().optional()
 });
 
 export const zGetShopListResponse = z.object({
@@ -247,27 +1260,54 @@ export const zGetShopListResponse = z.object({
             shopId: z.string(),
             shop_no: z.string().optional(),
             trademark: z.string(),
-            branch: z.unknown(),
+            branch: z.union([
+                z.unknown(),
+                z.null()
+            ]),
             total_space: z.number(),
             put_space: z.number(),
             price_base: z.number(),
             verified: z.boolean(),
             displayed: z.boolean(),
             type: z.string(),
-            type_tag: z.unknown(),
+            type_tag: z.union([
+                z.unknown(),
+                z.null()
+            ]),
             photo: z.array(z.string()),
-            remark: z.unknown(),
+            remark: z.union([
+                z.unknown(),
+                z.null()
+            ]),
             business_hours: z.array(z.number()),
-            total_area: z.unknown(),
-            customer_area: z.unknown(),
-            clerk_count: z.unknown(),
+            total_area: z.union([
+                z.unknown(),
+                z.null()
+            ]),
+            customer_area: z.union([
+                z.unknown(),
+                z.null()
+            ]),
+            clerk_count: z.union([
+                z.unknown(),
+                z.null()
+            ]),
             business_type: z.string(),
             duration: z.string(),
             sex: z.string(),
             age: z.array(z.number()),
-            id_tag: z.unknown(),
-            sign_photo: z.unknown(),
-            contact_type: z.string()
+            id_tag: z.union([
+                z.unknown(),
+                z.null()
+            ]),
+            sign_photo: z.union([
+                z.unknown(),
+                z.null()
+            ]),
+            contact_type: z.string(),
+            shop_description: z.string().optional(),
+            put_description: z.string().optional(),
+            classify_tag: z.string().optional()
         }))
     }).optional()
 });
@@ -279,27 +1319,54 @@ export const zGetShopListUnbindResponse = z.object({
             shopId: z.string(),
             shop_no: z.string().optional(),
             trademark: z.string(),
-            branch: z.unknown(),
+            branch: z.union([
+                z.unknown(),
+                z.null()
+            ]),
             total_space: z.number(),
             put_space: z.number(),
             price_base: z.number(),
             verified: z.boolean(),
             displayed: z.boolean(),
             type: z.string(),
-            type_tag: z.unknown(),
+            type_tag: z.union([
+                z.unknown(),
+                z.null()
+            ]),
             photo: z.array(z.string()),
-            remark: z.unknown(),
+            remark: z.union([
+                z.unknown(),
+                z.null()
+            ]),
             business_hours: z.array(z.number()),
-            total_area: z.unknown(),
-            customer_area: z.unknown(),
-            clerk_count: z.unknown(),
+            total_area: z.union([
+                z.unknown(),
+                z.null()
+            ]),
+            customer_area: z.union([
+                z.unknown(),
+                z.null()
+            ]),
+            clerk_count: z.union([
+                z.unknown(),
+                z.null()
+            ]),
             business_type: z.string(),
             duration: z.string(),
             sex: z.string(),
             age: z.array(z.number()),
-            id_tag: z.unknown(),
-            sign_photo: z.unknown(),
-            contact_type: z.string()
+            id_tag: z.union([
+                z.unknown(),
+                z.null()
+            ]),
+            sign_photo: z.union([
+                z.unknown(),
+                z.null()
+            ]),
+            contact_type: z.string(),
+            shop_description: z.string().optional(),
+            put_description: z.string().optional(),
+            classify_tag: z.string().optional()
         }))
     }).optional()
 });
@@ -310,27 +1377,54 @@ export const zGetShopByIdResponse = z.object({
         shopId: z.string(),
         shop_no: z.string().optional(),
         trademark: z.string(),
-        branch: z.unknown(),
+        branch: z.union([
+            z.unknown(),
+            z.null()
+        ]),
         total_space: z.number(),
         put_space: z.number(),
         price_base: z.number(),
         verified: z.boolean(),
         displayed: z.boolean(),
         type: z.string(),
-        type_tag: z.unknown(),
+        type_tag: z.union([
+            z.unknown(),
+            z.null()
+        ]),
         photo: z.array(z.string()),
-        remark: z.unknown(),
+        remark: z.union([
+            z.unknown(),
+            z.null()
+        ]),
         business_hours: z.array(z.number()),
-        total_area: z.unknown(),
-        customer_area: z.unknown(),
-        clerk_count: z.unknown(),
+        total_area: z.union([
+            z.unknown(),
+            z.null()
+        ]),
+        customer_area: z.union([
+            z.unknown(),
+            z.null()
+        ]),
+        clerk_count: z.union([
+            z.unknown(),
+            z.null()
+        ]),
         business_type: z.string(),
         duration: z.string(),
         sex: z.string(),
         age: z.array(z.number()),
-        id_tag: z.unknown(),
-        sign_photo: z.unknown(),
-        contact_type: z.string()
+        id_tag: z.union([
+            z.unknown(),
+            z.null()
+        ]),
+        sign_photo: z.union([
+            z.unknown(),
+            z.null()
+        ]),
+        contact_type: z.string(),
+        shop_description: z.string().optional(),
+        put_description: z.string().optional(),
+        classify_tag: z.string().optional()
     }).optional()
 });
 
@@ -343,12 +1437,12 @@ export const zPostShopAddResponse = z.object({
 
 export const zPostShopUpdateResponse = z.object({
     code: z.number(),
-    data: z.unknown().optional()
+    data: z.string().optional()
 });
 
 export const zPostShopDeleteResponse = z.object({
     code: z.number(),
-    data: z.unknown().optional()
+    data: z.string().optional()
 });
 
 export const zPostSpaceListResponse = z.object({
@@ -360,14 +1454,20 @@ export const zPostSpaceListResponse = z.object({
             setting: z.object({}),
             count: z.number(),
             state: z.string(),
-            photo: z.array(z.string()),
-            price_factor: z.number().optional().default(1),
+            price_factor: z.number().gt(0).optional().default(1),
             updatedAt: z.string(),
             shopId: z.string(),
             shop: z.object({
                 trademark: z.string().optional(),
                 shop_no: z.string().optional()
-            }).optional()
+            }).optional(),
+            tag: z.string().optional(),
+            site: z.string().optional(),
+            stability: z.string().optional(),
+            photo: z.array(z.string()).optional(),
+            description: z.string().optional(),
+            design_attention: z.string().optional(),
+            construction_attention: z.string().optional()
         }))
     }).optional()
 });
@@ -380,35 +1480,41 @@ export const zGetSpaceByIdResponse = z.object({
         setting: z.object({}),
         count: z.number(),
         state: z.string(),
-        photo: z.array(z.string()),
-        price_factor: z.number().optional().default(1),
+        price_factor: z.number().gt(0).optional().default(1),
         updatedAt: z.string(),
         shopId: z.string(),
         shop: z.object({
             trademark: z.string().optional(),
             shop_no: z.string().optional()
-        }).optional()
+        }).optional(),
+        tag: z.string().optional(),
+        site: z.string().optional(),
+        stability: z.string().optional(),
+        photo: z.array(z.string()).optional(),
+        description: z.string().optional(),
+        design_attention: z.string().optional(),
+        construction_attention: z.string().optional()
     }).optional()
 });
 
 export const zPostSpaceAddResponse = z.object({
     code: z.number(),
-    data: z.unknown().optional()
+    data: z.string().optional()
 });
 
 export const zPostSpaceUpdateResponse = z.object({
     code: z.number(),
-    data: z.unknown().optional()
+    data: z.string().optional()
 });
 
 export const zPostSpaceDeleteResponse = z.object({
     code: z.number(),
-    data: z.unknown().optional()
+    data: z.string().optional()
 });
 
 export const zPostSpaceUpdateStateResponse = z.object({
     code: z.number(),
-    data: z.unknown().optional()
+    data: z.string().optional()
 });
 
 export const zGetDashboardResponse = z.object({
@@ -485,8 +1591,14 @@ export const zGetAuditLogResponse = z.object({
             operatorName: z.string(),
             operationTime: z.string(),
             details: z.object({}).optional(),
-            ipAddress: z.unknown(),
-            userAgent: z.unknown()
+            ipAddress: z.union([
+                z.unknown(),
+                z.null()
+            ]),
+            userAgent: z.union([
+                z.unknown(),
+                z.null()
+            ])
         })),
         total: z.number(),
         page: z.number(),
@@ -508,8 +1620,14 @@ export const zGetAuditLogByIdResponse = z.object({
         operatorName: z.string(),
         operationTime: z.string(),
         details: z.object({}).optional(),
-        ipAddress: z.unknown(),
-        userAgent: z.unknown()
+        ipAddress: z.union([
+            z.unknown(),
+            z.null()
+        ]),
+        userAgent: z.union([
+            z.unknown(),
+            z.null()
+        ])
     }).optional()
 });
 

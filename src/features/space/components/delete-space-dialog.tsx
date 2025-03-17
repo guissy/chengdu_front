@@ -27,7 +27,11 @@ const DeleteSpaceDialog = () => {
       setIsSubmitting(true);
       await deleteSpaceMutation.mutateAsync({ body: { id: currentSpace.id } });
       queryClient.invalidateQueries({
-        queryKey: postSpaceListQueryKey()
+        queryKey: postSpaceListQueryKey({
+          body: {
+            shopId: currentSpace.shopId
+          }
+        })
       });
       toast.success('空间删除成功');
       closeDeleteDialog();
@@ -55,4 +59,4 @@ const DeleteSpaceDialog = () => {
   );
 };
 
-export default DeleteSpaceDialog; 
+export default DeleteSpaceDialog;

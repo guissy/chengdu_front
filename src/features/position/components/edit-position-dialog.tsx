@@ -14,7 +14,7 @@ import { z } from 'zod';
 import { usePositionStore } from '@/features/position-store.ts';
 import FormDialog from '@/components/ui/form-dialog';
 
-type FormValues = PostPositionUpdateData['body'];
+type FormValues = NonNullable<PostPositionUpdateData['body']>;
 
 const schema = z.object({
   id: z.string().describe('铺位ID'),

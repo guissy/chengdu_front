@@ -6,11 +6,11 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
 import { usePositionStore } from '@/features/position-store';
 import FormDialog from '@/components/ui/form-dialog';
-import { 
-  getShopListUnbindOptions, 
+import {
+  getShopListUnbindOptions,
   postPositionBindShopMutation,
   getPositionByIdQueryKey,
-  postPositionListQueryKey 
+  postPositionListQueryKey
 } from '@/service/@tanstack/react-query.gen.ts';
 import Select from '@/components/ui/select';
 
@@ -30,7 +30,7 @@ const BindShopDialog = () => {
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: {
-      shopId: currentPosition?.shopId || '',
+      shopId: (currentPosition?.shopId as string) || '',
     },
   });
 
@@ -62,7 +62,7 @@ const BindShopDialog = () => {
           shopId: data.shopId,
         },
       });
-      
+
       // 更新相关查询
       queryClient.invalidateQueries({
         queryKey: postPositionListQueryKey(),
@@ -70,7 +70,7 @@ const BindShopDialog = () => {
       queryClient.invalidateQueries({
         queryKey: getPositionByIdQueryKey({ path: { id: currentPosition.positionId } }),
       });
-      
+
       toast.success('商家关联成功');
       closeBindShopDialog();
     } catch (error) {
@@ -102,4 +102,4 @@ const BindShopDialog = () => {
   );
 };
 
-export default BindShopDialog; 
+export default BindShopDialog;

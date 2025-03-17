@@ -1,9 +1,9 @@
 import { ReactNode } from 'react';
-import { UseFormReturn } from 'react-hook-form';
+import { UseFormReturn, FieldValues } from 'react-hook-form';
 import BaseDialog from './base-dialog';
 import Button from './button';
 
-interface FormDialogProps<T> {
+interface FormDialogProps<T extends FieldValues> {
   isOpen: boolean;
   onClose: () => void;
   title: string;
@@ -13,20 +13,19 @@ interface FormDialogProps<T> {
   isSubmitting: boolean;
 }
 
-const FormDialog = <T extends Record<string, any>>({
-  isOpen,
-  onClose,
-  title,
-  children,
-  form,
-  onSubmit,
-  isSubmitting,
-}: FormDialogProps<T>) => {
+const FormDialog = <T extends FieldValues>({
+                                             isOpen,
+                                             onClose,
+                                             title,
+                                             children,
+                                             form,
+                                             onSubmit,
+                                             isSubmitting,
+                                           }: FormDialogProps<T>) => {
   const handleClose = () => {
     form.reset();
     onClose();
   };
-
 
   return (
     <BaseDialog
@@ -36,34 +35,31 @@ const FormDialog = <T extends Record<string, any>>({
       isSubmitting={isSubmitting}
       footer={<></>}
     >
-      <form id="form-dialog" onSubmit={(e) => {
-        form.handleSubmit(onSubmit)(e)
-        console.log(form.formState.errors, 'ο▬▬▬▬▬▬▬▬◙▅▅▆▆▇▇◤')
-      }}>
+      <form id="form-dialog" onSubmit={form.handleSubmit(onSubmit)}>
         <div className="mt-4 space-y-4">
           {children}
           <div className="modal-action">
-          <Button
-            type="button"
-            variant="ghost"
-            onClick={handleClose}
-            disabled={isSubmitting}
-          >
-            取消
-          </Button>
-          <Button
-            type="submit"
-            variant="primary"
-            isLoading={isSubmitting}
-            form="form-dialog"
-          >
-            保存
-          </Button>
-        </div>
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={handleClose}
+              disabled={isSubmitting}
+            >
+              取消
+            </Button>
+            <Button
+              type="submit"
+              variant="primary"
+              isLoading={isSubmitting}
+              form="form-dialog"
+            >
+              保存
+            </Button>
+          </div>
         </div>
       </form>
     </BaseDialog>
   );
 };
 
-export default FormDialog; 
+export default FormDialog;

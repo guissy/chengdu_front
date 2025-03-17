@@ -24,7 +24,7 @@ const targetTypeMap = {
 interface AuditLogDetailDrawerProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  log: AuditLog | null;
+  log?: AuditLog | null;
 }
 
 const AuditLogDetailDrawer = ({ open, onOpenChange, log }: AuditLogDetailDrawerProps) => {
@@ -86,7 +86,7 @@ const AuditLogDetailDrawer = ({ open, onOpenChange, log }: AuditLogDetailDrawerP
             {log.details && Object.keys(log.details).length > 0 && (
               <div>
                 <h4 className="text-sm font-medium text-gray-500 mb-2">变更详情</h4>
-                <LogChangesTable details={log.details}/>
+                <LogChangesTable details={log.details as unknown as Record<string, { old: unknown; new: unknown }>}/>
               </div>
             )}
           </div>

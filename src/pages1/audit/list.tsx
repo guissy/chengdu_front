@@ -37,8 +37,8 @@ const targetTypeOptions = [
 const AuditLogList = () => {
   const { toast } = useToast();
   const [detailOpen, setDetailOpen] = useState(false);
-  const [selectedLog, setSelectedLog] = useState<AuditLog | null>(null);
-  const [detailLog, setDetailLog] = useState<AuditLog | null>(null);
+  const [selectedLog, setSelectedLog] = useState<AuditLog>();
+  const [detailLog, setDetailLog] = useState<AuditLog>();
   const router = useRouter();
 
   // 过滤条件
@@ -53,10 +53,11 @@ const AuditLogList = () => {
   });
 
   // 使用 TanStack Query 获取数据
-  const { data, isLoading, refetch, isError, error } = useQuery({
+  const { data: auditLogs, isLoading, refetch, isError, error } = useQuery({
     ...getAuditLogOptions({
       query: filters
     }),
+    select: data => (data.data?.items || []) as AuditLog[],
     placeholderData: keepPreviousData,
   });
 
@@ -73,7 +74,7 @@ const AuditLogList = () => {
   const { data: detailData, isError: isDetailError, error: detailError } = useQuery({
     ...getAuditLogByIdOptions({ path: { id: detailLog?.id || '' } }),
     enabled: !!detailLog?.id && selectedLog?.id !== detailLog?.id,
-    select: (data) => data.data,
+    select: (data) => data.data as AuditLog,
   });
 
   // 当数据加载成功时，设置选中的日志并打开详情对话框
@@ -217,7 +218,7 @@ const AuditLogList = () => {
 
           {/* 数据表格组件 */}
         <AuditLogTable
-            data={data?.data?.items || []}
+            data={auditLogs || []}
           isLoading={isLoading}
           onViewDetail={handleViewDetail}
           />

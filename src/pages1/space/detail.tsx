@@ -82,7 +82,13 @@ const spaceStabilityLabels: Record<SpaceStability, string> = {
   [SpaceStability.TEMPORARY]: '临时',
 };
 
-const SpaceDetail: React.FC = ({ params }: { params: { id: string } }) => {
+type Props = {
+  params: {
+    id: string;
+  };
+};
+
+const SpaceDetail: React.FC<Props> = ({ params }) => {
   const router = useRouter();
   const { id } = params;
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
@@ -189,7 +195,7 @@ const SpaceDetail: React.FC = ({ params }: { params: { id: string } }) => {
             <h2 className="card-title flex justify-between">
               <span>{space.shop?.trademark}{space.shop?.branch ? ` (${space.shop?.branch})` : ''}</span>
               <div className={`badge ${space.state === SpaceState.ENABLED ? 'badge-success' : 'badge-error'}`}>
-                {spaceStateLabels[space.state]}
+                {spaceStateLabels[space.state as keyof typeof spaceStateLabels]}
               </div>
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
@@ -216,7 +222,7 @@ const SpaceDetail: React.FC = ({ params }: { params: { id: string } }) => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                   <div className="flex items-center">
                     <span className="text-sm text-gray-500 w-24">广告位类型:</span>
-                    <span>{spaceTypeLabels[space.type]}</span>
+                    <span>{spaceTypeLabels[space.type as keyof typeof spaceTypeLabels]}</span>
                   </div>
                   <div className="flex items-center">
                     <span className="text-sm text-gray-500 w-24">数量:</span>
@@ -233,13 +239,13 @@ const SpaceDetail: React.FC = ({ params }: { params: { id: string } }) => {
                   {space.site && (
                     <div className="flex items-center">
                       <span className="text-sm text-gray-500 w-24">位置:</span>
-                      <span>{spaceSiteLabels[space.site]}</span>
+                      <span>{spaceSiteLabels[space.site as keyof typeof spaceSiteLabels]}</span>
                     </div>
                   )}
                   {space.stability && (
                     <div className="flex items-center">
                       <span className="text-sm text-gray-500 w-24">稳定性:</span>
-                      <span>{spaceStabilityLabels[space.stability]}</span>
+                      <span>{spaceStabilityLabels[space.stability as keyof typeof spaceStabilityLabels]}</span>
                     </div>
                   )}
                 </div>
@@ -295,7 +301,7 @@ const SpaceDetail: React.FC = ({ params }: { params: { id: string } }) => {
               <div className="card-body">
                 <h2 className="card-title">相册 ({space.photo?.length || 0})</h2>
 
-                {space.photo?.length > 0 ? (
+                {Array.isArray(space.photo) && space.photo?.length > 0 ? (
                   <div className="grid grid-cols-2 gap-2 mt-2">
                     {space.photo?.map((url, index) => (
                       <div
@@ -359,7 +365,7 @@ const SpaceDetail: React.FC = ({ params }: { params: { id: string } }) => {
           <div className="fixed inset-0 z-50 bg-black bg-opacity-80 flex items-center justify-center" onClick={() => setSelectedImageIndex(null)}>
             <div className="max-w-4xl max-h-full p-4">
               <img
-                src={space.photo[selectedImageIndex]}
+                src={space.photo?.[selectedImageIndex]}
                 alt={`广告位照片 ${selectedImageIndex + 1}`}
                 className="max-h-full max-w-full object-contain"
               />

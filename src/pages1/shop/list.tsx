@@ -14,25 +14,10 @@ import { shopTypeMap, useShopStore } from '@/features/shop-store';
 import ShopFormDialog from '@/features/shop/components/shop-form-dialog';
 import DeleteShopDialog from '@/features/shop/components/delete-shop-dialog';
 import { getShopListOptions } from '@/service/@tanstack/react-query.gen';
-import Link from 'next/link';
+import { ShopResponseSchema } from '@/service';
 
 // 简化的商家类型
-interface Shop {
-  shopId: string;
-  shop_no: string;
-  trademark: string;
-  branch: string | null;
-  total_space: number;
-  put_space: number;
-  price_base: number;
-  verified: boolean;
-  displayed: boolean;
-  type: string;
-  type_tag: string | null;
-  photo: string[];
-  remark: string | null;
-  business_hours: number[];
-}
+type Shop = ShopResponseSchema
 
 // 定义表格列
 const columnHelper = createColumnHelper<Shop>();
@@ -47,7 +32,7 @@ const ShopListPage = () => {
   // 获取商家列表数据
   const { data, isLoading } = useQuery({
     ...getShopListOptions(),
-    select: (data) => data.data?.list || [],
+    select: (data) => (data.data?.list || []) as Shop[],
   });
 
   // 表格列定义
@@ -65,7 +50,7 @@ const ShopListPage = () => {
     }),
     columnHelper.accessor('type', {
       header: '商家类型',
-      cell: (info) => shopTypeMap[info.getValue()] || `类型${info.getValue()}`,
+      cell: (info) => shopTypeMap[info.getValue() as keyof typeof shopTypeMap] || `${info.getValue()}`,
     }),
     columnHelper.accessor('type_tag', {
       header: '品类标签',
@@ -158,8 +143,8 @@ const ShopListPage = () => {
     // 搜索文本过滤
     const textMatch =
       searchText === '' ||
-      shop.shop_no.toLowerCase().includes(searchText.toLowerCase()) ||
-      shop.trademark.toLowerCase().includes(searchText.toLowerCase()) ||
+      shop.shop_no?.toLowerCase().includes(searchText.toLowerCase()) ||
+      shop.trademark?.toLowerCase().includes(searchText.toLowerCase()) ||
       (shop.branch && shop.branch.toLowerCase().includes(searchText.toLowerCase())) ||
       (shop.type_tag && shop.type_tag.toLowerCase().includes(searchText.toLowerCase()));
 

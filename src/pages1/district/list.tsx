@@ -208,7 +208,7 @@ export default function DistrictList() {
       <DataTable
         columns={columns}
         data={districts || []}
-        isLoading={isLoadingDistricts}
+        loading={isLoadingDistricts}
         // onRowClick={handleRowClick}
       />
     </div>

@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
 import Button from '@/components/ui/button';
 import { FiArrowLeft } from 'react-icons/fi';
+import Link from 'next/link';
 
 const NotFoundPage = () => {
   return (
@@ -11,7 +11,7 @@ const NotFoundPage = () => {
         <p className="mb-8 text-base-content/70">
           您访问的页面不存在或已被移除。请检查URL地址是否正确，或返回首页继续浏览。
         </p>
-        <Link to="/">
+        <Link href="/">
           <Button variant="primary" icon={<FiArrowLeft className="h-5 w-5" />}>
             返回首页
           </Button>

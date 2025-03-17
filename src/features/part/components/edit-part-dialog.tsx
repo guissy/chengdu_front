@@ -11,7 +11,7 @@ import { postPartListQueryKey, postPartUpdateMutation } from '@/service/@tanstac
 import FormDialog from '@/components/ui/form-dialog';
 
 // 表单验证模式
-type FormValues = PostPartUpdateData['body'];
+type FormValues = NonNullable<PostPartUpdateData['body']>;
 
 const schema = z.object({
   id: z.string().describe('小区ID'),

@@ -1,19 +1,19 @@
 "use client";
 
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useQuery } from '@tanstack/react-query';
-import { FiArrowLeft, FiEdit2, FiTrash2, FiShoppingBag, FiTag, FiLink } from 'react-icons/fi';
+import { FiArrowLeft, FiEdit2, FiLink, FiShoppingBag, FiTag, FiTrash2 } from 'react-icons/fi';
 import PageHeader from '@/components/ui/page-header';
 import { Button } from '@/components/ui/button';
 import { getPositionByIdOptions, postSpaceListOptions } from '@/service/@tanstack/react-query.gen.ts';
-import { Position } from '@/service';
 import { usePositionStore } from '@/features/position-store.ts';
 import EditPositionDialog from '@/features/position/components/edit-position-dialog.tsx';
 import DeletePositionDialog from '@/features/position/components/delete-position-dialog';
 import BindShopDialog from '@/features/shop/components/bind-shop-dialog';
 import { formatTime } from '@/utils/time';
+import { PartResponseSchema, Position } from '@/service';
 
 // 假设这是广告位类型
 // interface Space {
@@ -61,34 +61,27 @@ const PositionDetail = ({ params }: PositionDetailProps) => {
   const { id } = params;
   const { openEditDialog, openDeleteDialog, openBindShopDialog } = usePositionStore();
 
-  const [position, setPosition] = useState<Position | null>(null);
 
   // 获取铺位详情
-  const { data: positionData, isLoading: isLoadingPosition } = useQuery({
+  const { data: position, isLoading: isLoadingPosition } = useQuery({
     ...getPositionByIdOptions({
       path: { id: id! },
     }),
-    select: (data) => data?.data,
+    select: (data) => data?.data as Position,
     enabled: !!id,
   });
 
   const { data, isLoading: isLoadingSpaces } = useQuery({
     ...postSpaceListOptions({
       body: {
-        shopId: positionData?.shopId as string,
+        shopId: position?.shopId as string,
       }
     }),
-    enabled: !!positionData?.shopId,
+    enabled: !!position?.shopId,
   });
   const spacesData = useMemo(() => data?.data?.list, [data])
 
 
-  // 更新本地state
-  useEffect(() => {
-    if (positionData) {
-      setPosition(positionData);
-    }
-  }, [positionData]);
 
   const handleBack = () => {
     router.push('/position');
@@ -164,9 +157,9 @@ const PositionDetail = ({ params }: PositionDetailProps) => {
               <div>
                 <label className="label">所属小区</label>
                 <div>
-                  <Link href={`/part/${position.partId}`} className="link-primary">
-                    {position.partName}
-                  </Link>
+                  {/*<Link href={`/part/${((position as { part: PartResponseSchema }).part)?.id}`} className="link-primary">*/}
+                  {/*  {((position as { part: PartResponseSchema }).part)?.name}*/}
+                  {/*</Link>*/}
                 </div>
               </div>
               <div>

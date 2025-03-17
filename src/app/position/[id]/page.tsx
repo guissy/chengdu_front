@@ -9,7 +9,7 @@ import PositionDetail from '@/pages1/position/detail'
 export default function PositionDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const _params = use(params);
   return (
-    <Suspense fallback={<LoadingSpinner params={_params} />}>
+    <Suspense fallback={<LoadingSpinner />}>
       <PositionDetail params={_params} />
     </Suspense>
   )

@@ -24,14 +24,10 @@ interface PartDetailProps {
 // 定义铺位表格列
 const columnHelper = createColumnHelper<Position>();
 
-
-class Part {
-}
-
 const PartDetail = ({ params }: PartDetailProps) => {
   const router = useRouter();
   const { openEditDialog, openDeleteDialog, setCurrentPart } = usePartStore();
-  const [part, setPart] = useState<Part | null>(null);
+  const [part, setPart] = useState<PartResponseSchema | null>(null);
 
   const { data: partData, isLoading: isLoadingPart } = useQuery({
     ...getPartByIdOptions({

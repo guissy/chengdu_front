@@ -8,14 +8,14 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
 import { shopTypeMap, useShopStore } from '@/features/shop-store';
 import FormDialog from '@/components/ui/form-dialog';
-import { 
+import {
   postShopAddMutation,
-  postShopUpdateMutation, 
+  postShopUpdateMutation,
   getShopListUnbindQueryKey,
-  getShopByIdQueryKey, 
+  getShopByIdQueryKey,
   getShopListQueryKey
 } from '@/service/@tanstack/react-query.gen.ts';
-import { ShopResponseSchema } from '@/service/types.gen';
+import { PostShopAddData, PostShopUpdateData, ShopResponseSchema } from '@/service/types.gen';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 
@@ -50,9 +50,9 @@ const schema = z.object({
   customer_area: z.number().optional().describe('客区面积'),
   clerk_count: z.number().optional().describe('店员人数'),
   business_hours: z.tuple([z.number().int(), z.number().int()]).describe('营业时间'),
-  rest_days: z.array(z.number().int().min(1).max(8)).describe('休息日，1-周一 2-周二 3-周三 4-周四 5-周五 6-周六 7-周日 8-按需'),
-  volume_peak: z.array(z.number().int().min(1).max(8)).describe('客流高峰，1-早餐 2-午餐 3-晚餐 4-宵夜 5-上午 6-下午 7-晚上 8-深夜'),
-  season: z.array(z.number().int().min(1).max(7)).describe('1-春 2-夏 3-秋 4-冬 5-节假日 6-工作日 7-非工作日'),
+  rest_days: z.array(z.string()).describe('休息日，1-周一 2-周二 3-周三 4-周四 5-周五 6-周六 7-周日 8-按需'),
+  volume_peak: z.array(z.string()).describe('客流高峰，1-早餐 2-午餐 3-晚餐 4-宵夜 5-上午 6-下午 7-晚上 8-深夜'),
+  season: z.array(z.string()).describe('1-春 2-夏 3-秋 4-冬 5-节假日 6-工作日 7-非工作日'),
   shop_description: z.string().optional().describe('商家简介'),
   put_description: z.string().optional().describe('投放简介'),
   displayed: z.boolean().default(true).describe('是否开放'),
@@ -64,12 +64,12 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 const ShopFormDialog = ({ mode }: ShopFormDialogProps) => {
-  const { 
-    isAddDialogOpen, 
-    isEditDialogOpen, 
-    closeAddDialog, 
-    closeEditDialog, 
-    currentShop 
+  const {
+    isAddDialogOpen,
+    isEditDialogOpen,
+    closeAddDialog,
+    closeEditDialog,
+    currentShop
   } = useShopStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const queryClient = useQueryClient();
@@ -144,11 +144,11 @@ const ShopFormDialog = ({ mode }: ShopFormDialogProps) => {
         contact_name: undefined,
         contact_phone: undefined,
         contact_type: shop.contact_type,
-        total_area: shop.total_area,
-        customer_area: shop.customer_area,
-        clerk_count: shop.clerk_count,
-        business_hours: Array.isArray(shop.business_hours) && shop.business_hours.length >= 2 
-          ? [shop.business_hours[0], shop.business_hours[1]] 
+        total_area: shop.total_area as number,
+        customer_area: shop.customer_area as number,
+        clerk_count: shop.clerk_count as number,
+        business_hours: Array.isArray(shop.business_hours) && shop.business_hours.length >= 2
+          ? [shop.business_hours[0], shop.business_hours[1]]
           : [0, 0],
         rest_days: [],
         volume_peak: [],
@@ -175,11 +175,21 @@ const ShopFormDialog = ({ mode }: ShopFormDialogProps) => {
     try {
       setIsSubmitting(true);
       if (mode === 'add') {
-        await addShopMutation.mutateAsync({ body: { ...currentShop, ...data, cbdId: "cbd-001", partId: "part-001" } });
+        await addShopMutation.mutateAsync({
+          body: {
+            ...data,
+            cbdId: "cbd-001", partId: "part-001"
+          } as PostShopAddData['body'],
+        });
         toast.success('商家添加成功');
         form.reset();
       } else {
-        await updateShopMutation.mutateAsync({ body: { ...currentShop, ...data } });
+        await updateShopMutation.mutateAsync({
+          body: {
+            ...currentShop,
+            ...data
+          } as PostShopUpdateData['body']
+        });
         queryClient.invalidateQueries({
           queryKey: getShopByIdQueryKey({ path: { id: data.id! } }),
         });
@@ -284,7 +294,7 @@ const ShopFormDialog = ({ mode }: ShopFormDialogProps) => {
         fullWidth
         {...form.register('location.1', { valueAsNumber: true })}
       />
-      
+
       <div className="flex items-center space-x-2">
         <Switch
           {...form.register('verified')}
@@ -589,4 +599,4 @@ const ShopFormDialog = ({ mode }: ShopFormDialogProps) => {
   );
 };
 
-export default ShopFormDialog; 
+export default ShopFormDialog;

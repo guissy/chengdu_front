@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { FiEdit2, FiTrash2, FiTarget } from "react-icons/fi";
+import { FiEdit2, FiTrash2, FiTarget, FiPlus } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
@@ -18,13 +18,12 @@ import {
   postCbdListOptions,
   postDistrictListOptions,
 } from "@/service/@tanstack/react-query.gen.ts";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/table";
 import PageHeader from "@/components/ui/page-header";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
-// Form schema for adding/editing CBDs
+
 const cbdFormSchema = z.object({
   name: z.string().min(1, "商圈名称不能为空"),
   districtId: z.string().min(1, "请选择行政区划"),
@@ -180,10 +179,10 @@ const CbdList: React.FC = () => {
         return (typeof addr === "string" && addr) || "暂无地址";
       },
     }),
-    columnHelper.accessor("district", {
-      header: "所属区域",
-      cell: (info) => info.getValue(),
-    }),
+    // columnHelper.accessor("district", {
+    //   header: "所属区域",
+    //   cell: (info) => info.getValue(),
+    // }),
     columnHelper.display({
       id: "actions",
       header: () => <div className="text-right">操作</div>,
@@ -230,17 +229,15 @@ const CbdList: React.FC = () => {
         title="商圈管理"
         subtitle="管理所有商圈信息"
         action={
-          <Link href="/cbd/add" passHref>
-            <Button>新增商圈</Button>
-          </Link>
+          <button
+            className="btn btn-primary"
+            onClick={handleAddCbd}
+            disabled={!selectedDistrict}
+          >
+            <FiPlus className="mr-2" /> 添加商圈
+          </button>
         }
       />
-
-      <DataTable
-        columns={columns}
-        data={cbds || []}
-      />
-
       {/* Location selection */}
       <div className="card bg-base-100 shadow-xl mb-6">
         <div className="card-body">
@@ -311,6 +308,12 @@ const CbdList: React.FC = () => {
           </div>
         </div>
       </div>
+
+
+      <DataTable<CbdResponseSchema>
+        columns={columns}
+        data={cbds || []}
+      />
 
       {/* Add/Edit CBD Modal */}
       {isModalOpen && (
