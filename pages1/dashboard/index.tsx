@@ -74,7 +74,7 @@ const Dashboard = () => {
             className="card bg-base-100 shadow transition-all hover:shadow-md"
           >
             <div className="card-body p-6">
-              <div className="mb-4 text-primary">{shortcut.icon}</div>
+              <div className="mb-4">{shortcut.icon}</div>
               <h3 className="card-title text-lg">{shortcut.title}</h3>
               <p className="text-sm text-base-content/70">{shortcut.description}</p>
             </div>
