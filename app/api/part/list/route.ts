@@ -18,6 +18,9 @@ export async function POST(request: Request) {
       where: cbdId ? {
         cbdId,
       } : {},
+      orderBy: {
+        id: 'asc',
+      }
     }) as (Part & { positions: Position[] })[]
 
     // 查询total_space

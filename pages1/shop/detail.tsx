@@ -129,7 +129,7 @@ const ShopDetail = ({ params }: { params: { id: string } }) => {
   return (
     <div className="space-y-6">
       <PageHeader
-        title={`${shop.trademark}${shop.branch ? ` (${String(shop.branch)})` : ''}`}
+        title={`商家详情：${shop.trademark}${shop.branch ? ` (${String(shop.branch)})` : ''}`}
         subtitle={`商家编号: ${shop.shop_no || '-'} | ${shopTypeMap[shop.type as keyof typeof shopTypeMap] || shop.type}${shop.type_tag ? ` - ${String(shop.type_tag)}` : ''}`}
         action={
           <div className="flex space-x-2">
@@ -271,42 +271,41 @@ const ShopDetail = ({ params }: { params: { id: string } }) => {
             </div>
           </div>
         )}
-      </div>
 
-      {/* 商家规模 */}
-      <div className="card bg-base-100 shadow">
-        <div className="card-body">
-          <h2 className="card-title">商家规模</h2>
-          <div className="divider my-1"></div>
-          <div className="space-y-3">
-            {shop.total_area && (
+        {/* 商家规模 */}
+        <div className="card bg-base-100 shadow">
+          <div className="card-body">
+            <h2 className="card-title">商家规模</h2>
+            <div className="divider my-1"></div>
+            <div className="space-y-3">
+              {shop.total_area && (
+                <div className="flex justify-between">
+                  <span className="text-base-content/70">总面积</span>
+                  <span>{shop.total_area}㎡</span>
+                </div>
+              )}
+              {!!shop.customer_area && (
+                <div className="flex justify-between">
+                  <span className="text-base-content/70">客区面积</span>
+                  <span>{shop.customer_area}㎡</span>
+                </div>
+              )}
+              {!!shop.clerk_count && (
+                <div className="flex justify-between">
+                  <span className="text-base-content/70">店员人数</span>
+                  <span>{shop.clerk_count}人</span>
+                </div>
+              )}
               <div className="flex justify-between">
-                <span className="text-base-content/70">总面积</span>
-                <span>{shop.total_area}㎡</span>
-              </div>
-            )}
-            {!!shop.customer_area && (
-              <div className="flex justify-between">
-                <span className="text-base-content/70">客区面积</span>
-                <span>{shop.customer_area}㎡</span>
-              </div>
-            )}
-            {!!shop.clerk_count && (
-              <div className="flex justify-between">
-                <span className="text-base-content/70">店员人数</span>
-                <span>{shop.clerk_count}人</span>
-              </div>
-            )}
-            <div className="flex justify-between">
-              <span className="text-base-content/70">营业时间</span>
-              <span>
+                <span className="text-base-content/70">营业时间</span>
+                <span>
                 {formatBusinessHours(shop.business_hours || [])}
               </span>
-            </div>
-            {shop.rest_days && shop.rest_days.length > 0 && (
-              <div className="flex justify-between">
-                <span className="text-base-content/70">休息日</span>
-                <span>
+              </div>
+              {shop.rest_days && shop.rest_days.length > 0 && (
+                <div className="flex justify-between">
+                  <span className="text-base-content/70">休息日</span>
+                  <span>
                   {shop.rest_days.map((day: string) => {
                     const weekDayMap = {
                       MONDAY: '周一',
@@ -321,12 +320,12 @@ const ShopDetail = ({ params }: { params: { id: string } }) => {
                     return <span key={day} className="mr-2">{weekDayMap[day as keyof typeof weekDayMap]}</span>;
                   })}
                 </span>
-              </div>
-            )}
-            {shop.volume_peak && shop.volume_peak.length > 0 && (
-              <div className="flex justify-between">
-                <span className="text-base-content/70">高峰时段</span>
-                <span>
+                </div>
+              )}
+              {shop.volume_peak && shop.volume_peak.length > 0 && (
+                <div className="flex justify-between">
+                  <span className="text-base-content/70">高峰时段</span>
+                  <span>
                   {shop.volume_peak.map((peak: string) => {
                     const peakTimeMap: Record<string, string> = {
                       BREAKFAST: '早餐',
@@ -342,11 +341,13 @@ const ShopDetail = ({ params }: { params: { id: string } }) => {
                     return <span key={peak} className="mr-2">{period}</span>;
                   })}
                 </span>
-              </div>
-            )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
+
 
       {shop.photo && shop.photo.length > 0 && (
         <div className="card bg-base-100 shadow">
