@@ -141,8 +141,8 @@ const CbdList: React.FC = () => {
 
   // Delete a CBD
   const handleDeleteConfirm = async () => {
-    if (!deleteId) return;
-
+    // if (!deleteId) return;
+    const deleteId = 1;
     try {
       await axios.delete(`/api/cbds/${deleteId}`);
       toast.success("商圈删除成功");
