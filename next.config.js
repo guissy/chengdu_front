@@ -6,6 +6,7 @@ const nextConfig = {
     // 禁用 ESLint 检查
     ignoreDuringBuilds: true,
   },
+  distDir: "dist"
 }
 
 module.exports = nextConfig
