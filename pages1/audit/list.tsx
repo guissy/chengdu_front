@@ -17,9 +17,10 @@ import PageHeader from '@/components/ui/page-header';
 // 操作类型选项
 const operationTypeOptions = [
   { value: '', label: '全部类型' },
-  { value: 'CREATE', label: '新增' },
-  { value: 'UPDATE', label: '编辑' },
-  { value: 'DELETE', label: '删除' },
+  { value: 'BROWSE', label: '浏览', color: 'bg-gray-100 text-gray-800' },
+  { value: 'CREATE', label: '新增', color: 'bg-green-100 text-green-800' },
+  { value: 'UPDATE', label: '编辑', color: 'bg-blue-100 text-blue-800' },
+  { value: 'DELETE', label: '删除', color: 'bg-red-100 text-red-800' },
 ];
 
 // 目标类型选项

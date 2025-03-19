@@ -276,6 +276,7 @@ model Space {
 
 // 枚举: 操作类型
 enum OperationType {
+  BROWSE @map("browse") // 查看
   CREATE @map("create") // 新增
   UPDATE @map("update") // 编辑
   DELETE @map("delete") // 删除
@@ -288,7 +289,9 @@ enum OperationTarget {
   POSITION @map("position") // 铺位
   SHOP     @map("shop") // 商家
   SPACE    @map("space") // 广告位
-  CAMPAIGN @map("campaign") // 广告活动
+  DASHBOARD @map("dashboard") // 仪表盘
+  CITY     @map("city") // 城市
+  DISTRICT @map("district") // 行政区划
 }
 
 // 审计日志模型

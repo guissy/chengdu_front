@@ -9,19 +9,22 @@ import { AuditLog } from '@/service';
 
 // 操作类型映射
 const operationTypeMap = {
+  'BROWSE': { label: '浏览', color: 'bg-gray-100 text-gray-800' },
   'CREATE': { label: '新增', color: 'bg-green-100 text-green-800' },
   'UPDATE': { label: '编辑', color: 'bg-blue-100 text-blue-800' },
   'DELETE': { label: '删除', color: 'bg-red-100 text-red-800' },
 };
 
 // 操作对象映射
-const targetTypeMap = {
+export const targetTypeMap = {
   'CBD': '商圈',
   'PART': '物业小区',
   'POSITION': '铺位',
   'SHOP': '商家',
   'SPACE': '广告位',
-  'CAMPAIGN': '广告活动',
+  'CITY': '城市',
+  'DISTRICT': '行政区划',
+  'DASHBOARD': '仪表盘',
 };
 
 interface AuditLogTableProps {

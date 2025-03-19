@@ -1,6 +1,7 @@
 "use client";
 import { Suspense, use } from 'react'
 import PositionDetail from '@/pages1/position/detail'
+import LoadingSpinner from '@/components/ui/loading-spinner';
 
 // export const metadata = {
 //   title: '铺位详情 - Business System',

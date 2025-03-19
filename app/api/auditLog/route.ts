@@ -1,5 +1,5 @@
 import { errorResponse, successResponse } from '@/app/lib/utils/response';
-import { prisma } from '@/app/lib/prisma'
+import { prisma } from '@/app/lib/prisma';
 import { auditLogQuerySchema } from '@/app/lib/schemas/auditLog';
 import { Prisma } from '@prisma/client';
 

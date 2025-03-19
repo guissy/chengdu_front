@@ -9,23 +9,16 @@ import { getAuditLogByIdOptions, getAuditLogOptions } from '@/service/@tanstack/
 import { useToast } from '@/components/ui/useToast';
 import { AuditLog } from '@/service';
 import AuditLogDetailDrawer from './detail-drawer';
+import { targetTypeMap } from './table';
 
 // 操作类型映射
 const operationTypeMap = {
+  'BROWSE': { label: '浏览', color: 'bg-gray-100 text-gray-800' },
   'CREATE': { label: '新增', color: 'bg-green-100 text-green-800' },
   'UPDATE': { label: '编辑', color: 'bg-blue-100 text-blue-800' },
   'DELETE': { label: '删除', color: 'bg-red-100 text-red-800' },
 };
 
-// 操作对象映射
-const targetTypeMap = {
-  'CBD': '商圈',
-  'PART': '物业小区',
-  'POSITION': '铺位',
-  'SHOP': '商家',
-  'SPACE': '广告位',
-  'CAMPAIGN': '广告活动',
-};
 
 interface RecentAuditLogsProps {
   title?: string;
@@ -114,7 +107,7 @@ const RecentAuditLogs = ({
               <div key={log.id} className="border rounded-md p-3 shadow-sm ">
                 <div className="flex justify-between items-start mb-2">
                   <div className="flex items-center gap-2">
-                    <Badge className={operationTypeMap[log.operationType as keyof typeof operationTypeMap]?.color || 'bg-gray-100'}>
+                    <Badge className={operationTypeMap[log.operationType as keyof typeof operationTypeMap]?.color || 'bg-gray-500'}>
                       {operationTypeMap[log.operationType as keyof typeof operationTypeMap]?.label || log.operationType}
                     </Badge>
                     <span className="text-sm font-medium">

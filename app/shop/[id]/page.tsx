@@ -1,6 +1,7 @@
 "use client";
 import { Suspense, use } from 'react'
 import ShopDetail from '@/pages1/shop/detail'
+import LoadingSpinner from '@/components/ui/loading-spinner';
 
 // export const metadata = {
 //   title: '商家详情 - Business System',

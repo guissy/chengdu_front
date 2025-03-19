@@ -3,22 +3,13 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '
 import { Badge } from '@/components/ui/badge';
 import LogChangesTable from '@/pages1/dashboard/LogChangesTable.tsx';
 import { AuditLog } from '@/service';
+import { targetTypeMap } from './table';
 
 // 操作类型映射
 const operationTypeMap = {
   'CREATE': { label: '新增', color: 'bg-green-100 text-green-800' },
   'UPDATE': { label: '编辑', color: 'bg-blue-100 text-blue-800' },
   'DELETE': { label: '删除', color: 'bg-red-100 text-red-800' },
-};
-
-// 操作对象映射
-const targetTypeMap = {
-  'CBD': '商圈',
-  'PART': '物业小区',
-  'POSITION': '铺位',
-  'SHOP': '商家',
-  'SPACE': '广告位',
-  'CAMPAIGN': '广告活动',
 };
 
 interface AuditLogDetailDrawerProps {
