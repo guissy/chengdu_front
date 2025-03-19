@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
   if (!isWebhookEnabled()) {
     return NextResponse.json(
       { error: "Webhook is not enabled" },
-      { status: 400 }
+      // { status: 400 }
     );
   }
 
@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
   if (!validateWebhookSecret(request)) {
     return NextResponse.json(
       { error: "Invalid webhook secret" },
-      { status: 401 }
+      // { status: 401 }
     );
   }
 
@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
       if (!payload[field]) {
         return NextResponse.json(
           { error: `Missing required field: ${field}` },
-          { status: 400 }
+          // { status: 400 }
         );
       }
     }
@@ -109,7 +109,7 @@ export async function POST(request: NextRequest) {
     console.error("Error processing webhook:", error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      // { status: 500 }
     );
   }
 }
