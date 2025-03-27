@@ -20,7 +20,9 @@ export default defineConfig({
     },
 
     rollupOptions: {
-      external: ["react", "react-dom", "react/jsx-runtime", "react-icons/fi", "next/link", "next/navigation", "@radix-ui/react-slot"],
+      external: ["react", "react-dom", "react/jsx-runtime", "react-icons/fi", "next/link",
+        "next/navigation", "@radix-ui/react-slot", "@radix-ui/react-label", "@radix-ui/react-dialog",
+      "@radix-ui/react-switch", "lucide-react"],
       output: {
         globals: {
           react: "React",
