@@ -1,19 +1,13 @@
 {
-  "name": "chengdu-monorepo",
+  "name": "chengdu",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "engines": {
-    "node": ">=18.18.0"
-  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "guissy <guissy@qq.com>",
   "license": "ISC",
-  "packageManager": "pnpm@10.6.5",
-  "devDependencies": {
-    "turbo": "^2.4.4"
-  }
+  "packageManager": "pnpm@10.6.5"
 }
