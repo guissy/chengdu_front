@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
-  transpilePackages: ["chengdu_ui"],
+  // transpilePackages: ["chengdu_ui"],
   experimental: {
     turbo: {
     },
