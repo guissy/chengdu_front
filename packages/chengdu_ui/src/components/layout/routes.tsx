@@ -4,9 +4,8 @@ import { FiGrid, FiHome, FiMap, FiMapPin, FiMonitor, FiShoppingBag, FiTarget } f
 // 路由配置接口
 export interface RouteConfig {
   path: string;
-  component: React.ComponentType;
   name: string;
-  icon?: React.ReactNode;
+  icon?: React.ReactElement;
   hideInMenu?: boolean;
 }
 
@@ -14,18 +13,18 @@ export const routes: Partial<RouteConfig>[] = [
   {
     path: '/dashboard',
     name: '仪表盘',
-    icon: <FiHome />,
+    icon: (<FiHome />) as React.ReactElement,
   },
   {
     path: '/audit-list',
     name: '审核列表',
-    icon: <FiHome />,
+    icon: (<FiHome />) as React.ReactElement,
     hideInMenu: true,
   },
   {
     path: '/part',
     name: '物业小区',
-    icon: <FiGrid />,
+    icon: (<FiGrid />) as React.ReactElement,
   },
   {
     path: '/part/:id',
@@ -35,7 +34,7 @@ export const routes: Partial<RouteConfig>[] = [
   {
     path: '/position',
     name: '铺位管理',
-    icon: <FiMapPin />,
+    icon: (<FiMapPin />) as React.ReactElement,
   },
   {
     path: '/position/:id',
@@ -45,7 +44,7 @@ export const routes: Partial<RouteConfig>[] = [
   {
     path: '/shop',
     name: '商家管理',
-    icon: <FiShoppingBag />,
+    icon: (<FiShoppingBag />) as React.ReactElement,
   },
   {
     path: '/shop/:id',
@@ -55,7 +54,7 @@ export const routes: Partial<RouteConfig>[] = [
   {
     path: '/space',
     name: '广告位管理',
-    icon: <FiMonitor />,
+    icon: (<FiMonitor />) as React.ReactElement,
   },
   {
     path: '/space/:id',
@@ -65,11 +64,11 @@ export const routes: Partial<RouteConfig>[] = [
   {
     path: '/district',
     name: '行政区划',
-    icon: <FiMap />,
+    icon: (<FiMap />) as React.ReactElement,
   },
   {
     path: '/cbd',
     name: '商圈管理',
-    icon: <FiTarget />,
+    icon: (<FiTarget />) as React.ReactElement,
   },
 ];
