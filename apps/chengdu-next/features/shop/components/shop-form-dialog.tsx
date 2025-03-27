@@ -346,6 +346,9 @@ const ShopFormDialog = ({ mode }: ShopFormDialogProps) => {
         } finally {
           setFetchAiLoading(false);
         }
+      } else {
+        let jsonOk = json.replace(/```json\n/, "").replace(/\n```/, "");
+        setSayText(jsonOk);
       }
     });
   }, []);
