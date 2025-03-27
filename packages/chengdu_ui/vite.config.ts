@@ -1,18 +1,26 @@
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import react from '@vitejs/plugin-react'
+import { resolve } from 'path';
+import * as path from 'path';
 
 export default defineConfig({
+  plugins: [
+    react(),
+    dts({
+      include: ["src"],
+      exclude: ["src/**/*.test.tsx", "src/**/*.stories.tsx", "src/main.tsx"],
+    }),
+  ],
   build: {
     lib: {
-      entry: 'src/index.ts', // 入口文件
-      name: 'chengdu_ui', // UMD 全局变量名（可选）
-      fileName: (format) => `index.${format}.js`, // 输出文件名
-      formats: ['es'], // 输出格式
+      entry: resolve(__dirname, "src/index.ts"),
+      formats: ["es"],
+      fileName: "index",
     },
+
     rollupOptions: {
-      // 将 React 和 React DOM 标记为外部依赖
-      external: ['react', 'react-dom', 'zustand'],
+      external: ["react", "react-dom", "react/jsx-runtime", "sonner"],
       output: {
         globals: {
           react: "React",
@@ -21,20 +29,12 @@ export default defineConfig({
         banner: '"use client";', // 在输出文件顶部添加 "use client"
       },
     },
-    outDir: 'dist',
     sourcemap: true,
-    target: 'esnext'
+    emptyOutDir: true,
   },
   resolve: {
     alias: {
-      '@': '/src',
+      "@": path.resolve(__dirname, "./src"),
     },
-  },
-  plugins: [
-    react(),
-    dts({
-      insertTypesEntry: true, // 在 package.json 中添加 "types" 字段
-      // declarationOnly: true, // 声明文件输出目录
-    }),
-  ],
+  }
 });
