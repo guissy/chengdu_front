@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 import { twMerge } from 'tailwind-merge';
 
-type ButtonVariant = 'primary' | 'secondary' | 'accent' | 'info' | 'success' | 'warning' | 'error' | 'ghost' | 'link';
+type ButtonVariant = 'primary' | 'secondary' | 'accent' | 'info' | 'success' | 'warning' | 'error' | 'ghost' | 'link' | 'outline';
 type ButtonSize = 'xs' | 'sm' | 'md' | 'lg';
 
 export interface ButtonProps extends React.RefAttributes<HTMLButtonElement | HTMLAnchorElement> {
