@@ -20,7 +20,7 @@ export default defineConfig({
     },
 
     rollupOptions: {
-      external: ["react", "react-dom", "react/jsx-runtime", "sonner"],
+      external: ["react", "react-dom", "react/jsx-runtime", "react-icons/fi"],
       output: {
         globals: {
           react: "React",
