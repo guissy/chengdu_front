@@ -10,6 +10,9 @@ importers:
 
   apps/chengdu-next:
     dependencies:
+      '@bufbuild/protobuf':
+        specifier: ^2.2.5
+        version: 2.2.5
       '@formkit/auto-animate':
         specifier: ^0.8.2
         version: 0.8.2
