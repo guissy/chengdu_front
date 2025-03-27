@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package audit;
+
+import "google/protobuf/any.proto";
+
+
+message CBDListResponseSchema {
+  int32 code = 1;
+  CBDListResponseSchemaData data = 2;
+}
+
+message CBDListResponseSchemaData {
+  repeated CBDListResponseSchemaDataList list = 1;
+}
+
+message CBDListResponseSchemaDataList {
+  string id = 1;
+  string name = 2;
+  // Unsupported type addr = 3;
+}
+
+message DistrictListResponseSchema {
+  int32 code = 1;
+  DistrictListResponseSchemaData data = 2;
+}
+
+message DistrictListResponseSchemaData {
+  repeated DistrictListResponseSchemaDataList list = 1;
+}
+
+message DistrictListResponseSchemaDataList {
+  string id = 1;
+  string name = 2;
+}
+
+message CityListResponseSchema {
+  int32 code = 1;
+  CityListResponseSchemaData data = 2;
+}
+
+message CityListResponseSchemaData {
+  repeated CityListResponseSchemaDataList list = 1;
+}
+
+message CityListResponseSchemaDataList {
+  string id = 1;
+  string name = 2;
+}

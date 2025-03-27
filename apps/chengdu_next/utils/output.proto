@@ -1,0 +1,1 @@
+// ERROR: [ProtoGen] Invalid enum definition: options must be non-empty array at path: InvalidMessage.action

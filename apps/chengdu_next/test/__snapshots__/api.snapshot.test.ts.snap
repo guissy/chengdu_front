@@ -1,0 +1,395 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`接口快照测试 > 仪表盘统计 1`] = `
+{
+  "code": 200,
+  "data": {
+    "campaignCount": 0,
+    "cbdCount": 0,
+    "partCount": 0,
+    "positionCount": 0,
+    "shopCount": 0,
+    "spaceCount": 0,
+  },
+}
+`;
+
+exports[`接口快照测试 > 健康检查 /health 1`] = `
+{
+  "code": 200,
+  "data": {},
+}
+`;
+
+exports[`接口快照测试 > 关联新商家 1`] = `
+{
+  "code": 400,
+  "errors": {
+    "issues": [
+      {
+        "code": "invalid_type",
+        "expected": "object",
+        "message": "Expected object, received promise",
+        "path": [],
+        "received": "promise",
+      },
+    ],
+    "name": "ZodError",
+  },
+  "message": "Invalid parameters",
+}
+`;
+
+exports[`接口快照测试 > 删除铺位 1`] = `
+{
+  "code": 400,
+  "errors": {
+    "issues": [
+      {
+        "code": "invalid_type",
+        "expected": "object",
+        "message": "Expected object, received promise",
+        "path": [],
+        "received": "promise",
+      },
+    ],
+    "name": "ZodError",
+  },
+  "message": "Invalid parameters",
+}
+`;
+
+exports[`接口快照测试 > 区域列表 1`] = `
+{
+  "code": 200,
+  "data": {
+    "list": [],
+    "total": 0,
+  },
+}
+`;
+
+exports[`接口快照测试 > 商圈分布统计 1`] = `
+{
+  "code": 200,
+  "data": [],
+}
+`;
+
+exports[`接口快照测试 > 商圈列表 1`] = `
+{
+  "code": 200,
+  "data": {
+    "list": [],
+  },
+}
+`;
+
+exports[`接口快照测试 > 商家列表 1`] = `
+{
+  "code": 200,
+  "data": {
+    "list": [],
+  },
+}
+`;
+
+exports[`接口快照测试 > 商家类型分布 1`] = `
+{
+  "code": 200,
+  "data": [],
+}
+`;
+
+exports[`接口快照测试 > 商家详情 1`] = `
+{
+  "code": 400,
+  "errors": {
+    "issues": [
+      {
+        "code": "invalid_type",
+        "expected": "object",
+        "message": "Expected object, received promise",
+        "path": [],
+        "received": "promise",
+      },
+    ],
+    "name": "ZodError",
+  },
+  "message": "Invalid parameters",
+}
+`;
+
+exports[`接口快照测试 > 城市列表 1`] = `
+{
+  "code": 200,
+  "data": {
+    "list": [],
+  },
+}
+`;
+
+exports[`接口快照测试 > 审计日志列表 1`] = `
+{
+  "code": 200,
+  "data": {
+    "items": [],
+    "page": 1,
+    "pageSize": 10,
+    "total": 0,
+    "totalPages": 0,
+  },
+}
+`;
+
+exports[`接口快照测试 > 广告位列表 1`] = `
+{
+  "code": 200,
+  "data": {
+    "list": [],
+  },
+}
+`;
+
+exports[`接口快照测试 > 广告位详情 1`] = `
+{
+  "code": 400,
+  "errors": {
+    "issues": [
+      {
+        "code": "invalid_type",
+        "expected": "object",
+        "message": "Expected object, received promise",
+        "path": [],
+        "received": "promise",
+      },
+    ],
+    "name": "ZodError",
+  },
+  "message": "Invalid parameters",
+}
+`;
+
+exports[`接口快照测试 > 操作类型统计 1`] = `
+{
+  "code": 200,
+  "data": [],
+}
+`;
+
+exports[`接口快照测试 > 新增商家 1`] = `
+{
+  "code": 400,
+  "errors": {
+    "issues": [
+      {
+        "code": "invalid_type",
+        "expected": "string",
+        "message": "Required",
+        "path": [
+          "shop_no",
+        ],
+        "received": "undefined",
+      },
+      {
+        "code": "invalid_type",
+        "expected": "string",
+        "message": "Required",
+        "path": [
+          "name",
+        ],
+        "received": "undefined",
+      },
+      {
+        "code": "invalid_type",
+        "expected": "number",
+        "message": "Expected number, received array",
+        "path": [
+          "average_expense",
+        ],
+        "received": "array",
+      },
+      {
+        "code": "invalid_type",
+        "expected": "string",
+        "message": "Expected string, received number",
+        "path": [
+          "business_hours",
+          0,
+        ],
+        "received": "number",
+      },
+      {
+        "code": "invalid_type",
+        "expected": "string",
+        "message": "Expected string, received number",
+        "path": [
+          "business_hours",
+          1,
+        ],
+        "received": "number",
+      },
+    ],
+    "name": "ZodError",
+  },
+  "message": "Invalid parameters",
+}
+`;
+
+exports[`接口快照测试 > 新增广告位 1`] = `
+{
+  "code": 400,
+  "errors": {
+    "issues": [
+      {
+        "code": "invalid_type",
+        "expected": "object",
+        "message": "Expected object, received string",
+        "path": [
+          "setting",
+          "size",
+        ],
+        "received": "string",
+      },
+    ],
+    "name": "ZodError",
+  },
+  "message": "Invalid parameters",
+}
+`;
+
+exports[`接口快照测试 > 最近添加的商家 1`] = `
+{
+  "code": 200,
+  "data": [],
+}
+`;
+
+exports[`接口快照测试 > 未关联商家列表 1`] = `
+{
+  "code": 200,
+  "data": {
+    "list": [],
+  },
+}
+`;
+
+exports[`接口快照测试 > 标记铺位 1`] = `
+{
+  "code": 400,
+  "errors": {
+    "issues": [
+      {
+        "code": "invalid_type",
+        "expected": "object",
+        "message": "Expected object, received promise",
+        "path": [],
+        "received": "promise",
+      },
+    ],
+    "name": "ZodError",
+  },
+  "message": "Invalid parameters",
+}
+`;
+
+exports[`接口快照测试 > 物业小区列表 1`] = `
+{
+  "code": 200,
+  "data": {
+    "list": [],
+  },
+}
+`;
+
+exports[`接口快照测试 > 物业小区详情 1`] = `
+{
+  "code": 400,
+  "errors": {
+    "issues": [
+      {
+        "code": "invalid_type",
+        "expected": "object",
+        "message": "Expected object, received promise",
+        "path": [],
+        "received": "promise",
+      },
+    ],
+    "name": "ZodError",
+  },
+  "message": "Invalid parameters",
+}
+`;
+
+exports[`接口快照测试 > 编辑铺位 1`] = `
+{
+  "code": 400,
+  "errors": {
+    "issues": [
+      {
+        "code": "invalid_type",
+        "expected": "object",
+        "message": "Expected object, received promise",
+        "path": [],
+        "received": "promise",
+      },
+    ],
+    "name": "ZodError",
+  },
+  "message": "Invalid parameters",
+}
+`;
+
+exports[`接口快照测试 > 设置为空铺（铺位） 1`] = `
+{
+  "code": 400,
+  "errors": {
+    "issues": [
+      {
+        "code": "invalid_type",
+        "expected": "object",
+        "message": "Expected object, received promise",
+        "path": [],
+        "received": "promise",
+      },
+    ],
+    "name": "ZodError",
+  },
+  "message": "Invalid parameters",
+}
+`;
+
+exports[`接口快照测试 > 近期操作记录统计 1`] = `
+{
+  "code": 200,
+  "data": [],
+}
+`;
+
+exports[`接口快照测试 > 铺位列表 1`] = `
+{
+  "code": 200,
+  "data": {
+    "list": [],
+  },
+}
+`;
+
+exports[`接口快照测试 > 铺位详情 1`] = `
+{
+  "code": 400,
+  "errors": {
+    "issues": [
+      {
+        "code": "invalid_type",
+        "expected": "object",
+        "message": "Expected object, received promise",
+        "path": [],
+        "received": "promise",
+      },
+    ],
+    "name": "ZodError",
+  },
+  "message": "Invalid parameters",
+}
+`;

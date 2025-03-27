@@ -1,0 +1,6 @@
+# packages/
+# apps/
+apps/chengdu_taro/
+node_modules
+.DS_Store
+.turbo/

@@ -1,0 +1,3069 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API Documentation",
+    "version": "1.0.0",
+    "description": "This is the OpenAPI specification for your project."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3002/api",
+      "description": "Local development server"
+    }
+  ],
+  "paths": {
+    "/auditLog": {
+      "get": {
+        "operationId": "get-auditLog",
+        "summary": "@desc: 获取审计日志列表",
+        "description": "获取审计日志列表",
+        "tags": [
+          "AuditLog"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "anyOf": [
+                        {
+                          "type": "number"
+                        },
+                        {}
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "list": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "operationType": {
+                                "anyOf": [
+                                  {},
+                                  {},
+                                  {},
+                                  {}
+                                ]
+                              },
+                              "targetType": {
+                                "anyOf": [
+                                  {},
+                                  {},
+                                  {},
+                                  {},
+                                  {},
+                                  {},
+                                  {},
+                                  {}
+                                ]
+                              },
+                              "targetId": {
+                                "type": "string"
+                              },
+                              "targetName": {
+                                "type": "string"
+                              },
+                              "content": {
+                                "type": "string"
+                              },
+                              "operatorName": {
+                                "type": "string"
+                              },
+                              "ipAddress": {
+                                "type": "string"
+                              },
+                              "userAgent": {
+                                "type": "string"
+                              },
+                              "operationTime": {}
+                            }
+                          }
+                        },
+                        "total": {
+                          "type": "number"
+                        },
+                        "page": {
+                          "type": "number"
+                        },
+                        "pageSize": {
+                          "type": "number"
+                        },
+                        "totalPages": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auditLog/[id]": {
+      "get": {
+        "operationId": "get-auditLog-[id]",
+        "summary": "",
+        "description": "",
+        "tags": [
+          "AuditLog"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auditLog/stats/operation-types": {
+      "get": {
+        "operationId": "get-auditLog-stats-operation-types",
+        "summary": "",
+        "description": "",
+        "tags": [
+          "AuditLog"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auditLog/stats/recent-activity": {
+      "get": {
+        "operationId": "get-auditLog-stats-recent-activity",
+        "summary": "@desc: 获取最近审计日志活动统计",
+        "description": "获取最近审计日志活动统计",
+        "tags": [
+          "AuditLog"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cbd/[id]": {
+      "get": {
+        "operationId": "get-cbd-[id]",
+        "summary": "@desc: 获取商圈详情",
+        "description": "获取商圈详情",
+        "tags": [
+          "Cbd"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cbd/list": {
+      "post": {
+        "operationId": "post-cbd-list",
+        "summary": "@desc: 获取商圈列表",
+        "description": "获取商圈列表",
+        "tags": [
+          "Cbd"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "districtId": {
+                    "type": "string",
+                    "nullable": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "anyOf": [
+                        {
+                          "type": "number"
+                        },
+                        {}
+                      ]
+                    },
+                    "data": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "list": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "name": {
+                                    "type": "string"
+                                  },
+                                  "addr": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string"
+                                      },
+                                      {}
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {}
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/city/cityList": {
+      "get": {
+        "operationId": "get-city-cityList",
+        "summary": "",
+        "description": "",
+        "tags": [
+          "City"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/city/list": {
+      "get": {
+        "operationId": "get-city-list",
+        "summary": "@desc: 获取所有可用城市的列表",
+        "description": "获取所有可用城市的列表",
+        "tags": [
+          "City"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "anyOf": [
+                        {
+                          "type": "number"
+                        },
+                        {}
+                      ]
+                    },
+                    "data": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "list": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "name": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {}
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dashboard": {
+      "get": {
+        "operationId": "get-dashboard",
+        "summary": "",
+        "description": "",
+        "tags": [
+          "Dashboard"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dashboard/cbd-distribution": {
+      "get": {
+        "operationId": "get-dashboard-cbd-distribution",
+        "summary": "@desc: 获取商圈分布统计",
+        "description": "获取商圈分布统计",
+        "tags": [
+          "Dashboard"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "shopCount": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dashboard/recent-shops": {
+      "get": {
+        "operationId": "get-dashboard-recent-shops",
+        "summary": "@desc: 获取最近添加的商铺",
+        "description": "获取最近添加的商铺",
+        "tags": [
+          "Dashboard"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "shop_no": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string"
+                      },
+                      "createdAt": {},
+                      "trademark": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dashboard/shop-type-distribution": {
+      "get": {
+        "operationId": "get-dashboard-shop-type-distribution",
+        "summary": "@desc: 获取商铺类型分布统计",
+        "description": "获取商铺类型分布统计",
+        "tags": [
+          "Dashboard"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string"
+                      },
+                      "count": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dashboard/stats": {
+      "get": {
+        "operationId": "get-dashboard-stats",
+        "summary": "@desc: 获取仪表盘统计数据",
+        "description": "获取仪表盘统计数据",
+        "tags": [
+          "Dashboard"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "anyOf": [
+                        {
+                          "type": "number"
+                        },
+                        {}
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "totalShops": {
+                          "type": "number"
+                        },
+                        "totalSpaces": {
+                          "type": "number"
+                        },
+                        "totalPartitions": {
+                          "type": "number"
+                        },
+                        "recentActivity": {
+                          "type": "object",
+                          "properties": {
+                            "shops": {
+                              "type": "number"
+                            },
+                            "spaces": {
+                              "type": "number"
+                            },
+                            "partitions": {
+                              "type": "number"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/district/list": {
+      "post": {
+        "operationId": "post-district-list",
+        "summary": "@desc: 获取城市下属区县列表",
+        "description": "获取城市下属区县列表",
+        "tags": [
+          "District"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "parentId": {
+                    "type": "string",
+                    "nullable": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "anyOf": [
+                        {
+                          "type": "number"
+                        },
+                        {}
+                      ]
+                    },
+                    "data": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "list": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "name": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {}
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "operationId": "get-health",
+        "summary": "@desc: 健康检查接口",
+        "description": "健康检查接口",
+        "tags": [
+          "Health"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/part/[id]": {
+      "get": {
+        "operationId": "get-part-[id]",
+        "summary": "@desc: 获取分区详情",
+        "description": "获取分区详情",
+        "tags": [
+          "Part"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/part/add": {
+      "post": {
+        "operationId": "post-part-add",
+        "summary": "",
+        "description": "",
+        "tags": [
+          "Part"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/part/delete": {
+      "post": {
+        "operationId": "post-part-delete",
+        "summary": "",
+        "description": "",
+        "tags": [
+          "Part"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/part/list": {
+      "post": {
+        "operationId": "post-part-list",
+        "summary": "@desc: 获取分区列表",
+        "description": "获取分区列表",
+        "tags": [
+          "Part"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "cbdId": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "nullable": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "anyOf": [
+                        {
+                          "type": "number"
+                        },
+                        {}
+                      ]
+                    },
+                    "data": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "list": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "name": {
+                                    "type": "string"
+                                  },
+                                  "sequence": {
+                                    "type": "number"
+                                  },
+                                  "total_space": {
+                                    "type": "number"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {}
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "operationId": "get-part-list",
+        "summary": "@desc: 获取分区列表",
+        "description": "获取分区列表",
+        "tags": [
+          "Part"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "anyOf": [
+                        {
+                          "type": "number"
+                        },
+                        {}
+                      ]
+                    },
+                    "data": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "list": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "name": {
+                                    "type": "string"
+                                  },
+                                  "sequence": {
+                                    "type": "number"
+                                  },
+                                  "total_space": {
+                                    "type": "number"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {}
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/part/update": {
+      "post": {
+        "operationId": "post-part-update",
+        "summary": "",
+        "description": "",
+        "tags": [
+          "Part"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/position/[id]": {
+      "get": {
+        "operationId": "get-position-[id]",
+        "summary": "获取铺位详情",
+        "description": "",
+        "tags": [
+          "Position"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/position/add": {
+      "post": {
+        "operationId": "post-position-add",
+        "summary": "",
+        "description": "",
+        "tags": [
+          "Position"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/position/bindShop": {
+      "post": {
+        "operationId": "post-position-bindShop",
+        "summary": "@desc: 绑定铺位和商铺",
+        "description": "绑定铺位和商铺",
+        "tags": [
+          "Position"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "* 商家ID",
+                    "nullable": false
+                  },
+                  "shopId": {
+                    "type": "string",
+                    "nullable": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/position/delete": {
+      "post": {
+        "operationId": "post-position-delete",
+        "summary": "",
+        "description": "",
+        "tags": [
+          "Position"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/position/list": {
+      "post": {
+        "operationId": "post-position-list",
+        "summary": "@desc: 获取铺位列表",
+        "description": "获取铺位列表",
+        "tags": [
+          "Position"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "partId": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "nullable": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "anyOf": [
+                        {
+                          "type": "number"
+                        },
+                        {}
+                      ]
+                    },
+                    "data": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "list": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "shopId": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string"
+                                      },
+                                      {}
+                                    ]
+                                  },
+                                  "shop_no": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string"
+                                      },
+                                      {}
+                                    ]
+                                  },
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "position_no": {
+                                    "type": "string"
+                                  },
+                                  "total_space": {
+                                    "type": "number"
+                                  },
+                                  "put_space": {
+                                    "type": "number"
+                                  },
+                                  "price_base": {
+                                    "type": "number"
+                                  },
+                                  "verified": {
+                                    "type": "boolean"
+                                  },
+                                  "displayed": {
+                                    "type": "boolean"
+                                  },
+                                  "type": {
+                                    "anyOf": [
+                                      {},
+                                      {}
+                                    ]
+                                  },
+                                  "type_tag": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string"
+                                      },
+                                      {}
+                                    ]
+                                  },
+                                  "photo": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "remark": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string"
+                                      },
+                                      {}
+                                    ]
+                                  },
+                                  "business_hours": {}
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {}
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "operationId": "get-position-list",
+        "summary": "@desc: 获取铺位列表",
+        "description": "获取铺位列表",
+        "tags": [
+          "Position"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "anyOf": [
+                        {
+                          "type": "number"
+                        },
+                        {}
+                      ]
+                    },
+                    "data": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "list": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "shopId": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string"
+                                      },
+                                      {}
+                                    ]
+                                  },
+                                  "shop_no": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string"
+                                      },
+                                      {}
+                                    ]
+                                  },
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "position_no": {
+                                    "type": "string"
+                                  },
+                                  "total_space": {
+                                    "type": "number"
+                                  },
+                                  "put_space": {
+                                    "type": "number"
+                                  },
+                                  "price_base": {
+                                    "type": "number"
+                                  },
+                                  "verified": {
+                                    "type": "boolean"
+                                  },
+                                  "displayed": {
+                                    "type": "boolean"
+                                  },
+                                  "type": {
+                                    "anyOf": [
+                                      {},
+                                      {}
+                                    ]
+                                  },
+                                  "type_tag": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string"
+                                      },
+                                      {}
+                                    ]
+                                  },
+                                  "photo": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "remark": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string"
+                                      },
+                                      {}
+                                    ]
+                                  },
+                                  "business_hours": {}
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {}
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/position/mark": {
+      "post": {
+        "operationId": "post-position-mark",
+        "summary": "@desc: 标记铺位",
+        "description": "标记铺位",
+        "tags": [
+          "Position"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "* 标记内容",
+                    "nullable": false
+                  },
+                  "remark": {
+                    "type": "string",
+                    "nullable": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/position/set": {
+      "post": {
+        "operationId": "post-position-set",
+        "summary": "",
+        "description": "",
+        "tags": [
+          "Position"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/position/update": {
+      "post": {
+        "operationId": "post-position-update",
+        "summary": "",
+        "description": "",
+        "tags": [
+          "Position"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shop/[id]": {
+      "get": {
+        "operationId": "get-shop-[id]",
+        "summary": "@desc: 获取商铺详情",
+        "description": "获取商铺详情",
+        "tags": [
+          "Shop"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "delete-shop-[id]",
+        "summary": "@desc: 删除商铺",
+        "description": "删除商铺",
+        "tags": [
+          "Shop"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shop/add": {
+      "post": {
+        "operationId": "post-shop-add",
+        "summary": "@desc: 添加新商铺",
+        "description": "添加新商铺",
+        "tags": [
+          "Shop"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "cbdId": {
+                    "type": "string",
+                    "description": "* 分区ID",
+                    "nullable": false
+                  },
+                  "partId": {
+                    "type": "string",
+                    "description": "* 铺位ID",
+                    "nullable": false
+                  },
+                  "positionId": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "description": "* 类型，1-餐饮 2-轻食 3-茶楼 4-茶饮/咖啡 5-咖啡馆 6-酒店",
+                    "nullable": true
+                  },
+                  "type": {
+                    "type": "string",
+                    "description": "* 品类标签",
+                    "nullable": false
+                  },
+                  "type_tag": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "description": "* 商业类型，1-独立自营店 2-连锁自营店 3-连锁加盟店",
+                    "nullable": true
+                  },
+                  "business_type": {
+                    "type": "string",
+                    "description": "* 字号",
+                    "nullable": false
+                  },
+                  "trademark": {
+                    "type": "string",
+                    "description": "* 分店",
+                    "nullable": false
+                  },
+                  "branch": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "description": "* 坐标，经纬度",
+                    "nullable": true
+                  },
+                  "location": {
+                    "description": "* 是否认证",
+                    "nullable": false
+                  },
+                  "verified": {
+                    "type": "boolean",
+                    "description": "* 经营时长，1-一年内新店 2-1~2年 3-2~5年 4-五年以上",
+                    "nullable": true
+                  },
+                  "duration": {
+                    "type": "string",
+                    "description": "* 是否展示消费数据",
+                    "nullable": false
+                  },
+                  "consume_display": {
+                    "type": "boolean",
+                    "description": "* 人均消费最低到最高值，单位(分)",
+                    "nullable": true
+                  },
+                  "average_expense": {
+                    "description": "* 性别，1-不限 2-男 3-女",
+                    "nullable": false
+                  },
+                  "sex": {
+                    "type": "string",
+                    "description": "* 年龄段最低到最高值",
+                    "nullable": false
+                  },
+                  "age": {
+                    "description": "* 身份标签",
+                    "nullable": false
+                  },
+                  "id_tag": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "description": "* 标识图片",
+                    "nullable": true
+                  },
+                  "sign_photo": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "description": "* 认证图片",
+                    "nullable": true
+                  },
+                  "verify_photo": {
+                    "anyOf": [
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      {}
+                    ],
+                    "description": "* 外景图片",
+                    "nullable": true
+                  },
+                  "environment_photo": {
+                    "anyOf": [
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      {}
+                    ],
+                    "description": "* 内景图片",
+                    "nullable": true
+                  },
+                  "building_photo": {
+                    "anyOf": [
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      {}
+                    ],
+                    "description": "* 品牌营销图片",
+                    "nullable": true
+                  },
+                  "brand_photo": {
+                    "anyOf": [
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      {}
+                    ],
+                    "description": "* 联系人姓名",
+                    "nullable": true
+                  },
+                  "contact_name": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "description": "* 联系人电话",
+                    "nullable": true
+                  },
+                  "contact_phone": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "description": "* 联系人类型，1-老板 2-店长 3-店员 4-总店管理人员",
+                    "nullable": true
+                  },
+                  "contact_type": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "description": "* 面积，单位(平方米)",
+                    "nullable": true
+                  },
+                  "total_area": {
+                    "anyOf": [
+                      {
+                        "type": "number"
+                      },
+                      {}
+                    ],
+                    "description": "* 客区面积",
+                    "nullable": true
+                  },
+                  "customer_area": {
+                    "anyOf": [
+                      {
+                        "type": "number"
+                      },
+                      {}
+                    ],
+                    "description": "* 店员人数",
+                    "nullable": true
+                  },
+                  "clerk_count": {
+                    "anyOf": [
+                      {
+                        "type": "number"
+                      },
+                      {}
+                    ],
+                    "description": "* 营业时间",
+                    "nullable": true
+                  },
+                  "business_hours": {
+                    "description": "* 休息日，1-周一 2-周二 3-周三 4-周四 5-周五 6-周六 7-周日 8-按需",
+                    "nullable": false
+                  },
+                  "rest_days": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "* 客流高峰，1-早餐 2-午餐 3-晚餐 4-宵夜 5-上午 6-下午 7-晚上 8-深夜",
+                    "nullable": false
+                  },
+                  "volume_peak": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "* 1-春 2-夏 3-秋 4-冬 5-节假日 6-工作日 7-非工作日",
+                    "nullable": false
+                  },
+                  "season": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "* 商家简介",
+                    "nullable": false
+                  },
+                  "shop_description": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "description": "* 投放简介",
+                    "nullable": true
+                  },
+                  "put_description": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "description": "* 是否开放",
+                    "nullable": true
+                  },
+                  "displayed": {
+                    "type": "boolean",
+                    "description": "* 价格基数（单位：分）",
+                    "nullable": true
+                  },
+                  "price_base": {
+                    "type": "number",
+                    "description": "* 分类标签",
+                    "nullable": false
+                  },
+                  "classify_tag": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "description": "* 备注",
+                    "nullable": true
+                  },
+                  "remark": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "nullable": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shop/delete": {
+      "post": {
+        "operationId": "post-shop-delete",
+        "summary": "",
+        "description": "",
+        "tags": [
+          "Shop"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shop/list": {
+      "get": {
+        "operationId": "get-shop-list",
+        "summary": "@desc: 获取商铺列表",
+        "description": "获取商铺列表",
+        "tags": [
+          "Shop"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "list": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "shop_no": {
+                                "type": "string"
+                              },
+                              "trademark": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {}
+                                ]
+                              },
+                              "contact_name": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {}
+                                ]
+                              },
+                              "contact_phone": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {}
+                                ]
+                              },
+                              "position": {
+                                "anyOf": [
+                                  {},
+                                  {}
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shop/listUnbind": {
+      "get": {
+        "operationId": "get-shop-listUnbind",
+        "summary": "@desc: 获取未绑定铺位的商铺列表",
+        "description": "获取未绑定铺位的商铺列表",
+        "tags": [
+          "Shop"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "list": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "shop_no": {
+                                "type": "string"
+                              },
+                              "trademark": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {}
+                                ]
+                              },
+                              "contact_name": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {}
+                                ]
+                              },
+                              "contact_phone": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {}
+                                ]
+                              },
+                              "position": {
+                                "anyOf": [
+                                  {},
+                                  {}
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shop/update": {
+      "post": {
+        "operationId": "post-shop-update",
+        "summary": "",
+        "description": "",
+        "tags": [
+          "Shop"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/space/[id]": {
+      "get": {
+        "operationId": "get-space-[id]",
+        "summary": "@desc: 获取空间详情",
+        "description": "获取空间详情",
+        "tags": [
+          "Space"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/space/add": {
+      "post": {
+        "operationId": "post-space-add",
+        "summary": "@desc: 添加新空间",
+        "description": "添加新空间",
+        "tags": [
+          "Space"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "shopId": {
+                    "type": "string",
+                    "description": "* 广告位类型",
+                    "nullable": false
+                  },
+                  "type": {
+                    "type": "string",
+                    "description": "* 广告位设置",
+                    "nullable": false
+                  },
+                  "setting": {
+                    "type": "object",
+                    "properties": {
+                      "size": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "width": {
+                                "type": "number"
+                              },
+                              "height": {
+                                "type": "number"
+                              }
+                            }
+                          },
+                          {}
+                        ]
+                      },
+                      "material": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {}
+                        ]
+                      },
+                      "installation": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {}
+                        ]
+                      },
+                      "duration": {
+                        "anyOf": [
+                          {
+                            "type": "number"
+                          },
+                          {}
+                        ]
+                      },
+                      "frequency": {
+                        "anyOf": [
+                          {
+                            "type": "number"
+                          },
+                          {}
+                        ]
+                      }
+                    },
+                    "description": "* 广告位数量",
+                    "nullable": false
+                  },
+                  "count": {
+                    "anyOf": [
+                      {
+                        "type": "number"
+                      },
+                      {}
+                    ],
+                    "description": "* 状态",
+                    "nullable": true
+                  },
+                  "state": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "description": "* 价格因子",
+                    "nullable": true
+                  },
+                  "price_factor": {
+                    "anyOf": [
+                      {
+                        "type": "number"
+                      },
+                      {}
+                    ],
+                    "description": "* 分类标签",
+                    "nullable": true
+                  },
+                  "tag": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "description": "* 位置",
+                    "nullable": true
+                  },
+                  "site": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "description": "* 稳定性",
+                    "nullable": true
+                  },
+                  "stability": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "description": "* 相册",
+                    "nullable": true
+                  },
+                  "photo": {
+                    "anyOf": [
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      {}
+                    ],
+                    "description": "* 投放推介",
+                    "nullable": true
+                  },
+                  "description": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "description": "* 设计注意事项",
+                    "nullable": true
+                  },
+                  "design_attention": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "description": "* 施工注意事项",
+                    "nullable": true
+                  },
+                  "construction_attention": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "nullable": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/space/delete": {
+      "post": {
+        "operationId": "post-space-delete",
+        "summary": "@desc: 删除空间",
+        "description": "删除空间",
+        "tags": [
+          "Space"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "nullable": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/space/export": {
+      "post": {
+        "operationId": "post-space-export",
+        "summary": "@desc: 导出空间数据",
+        "description": "导出空间数据",
+        "tags": [
+          "Space"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "shopId": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "description": "* 广告位类型",
+                    "nullable": true
+                  },
+                  "type": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "description": "* 状态",
+                    "nullable": true
+                  },
+                  "state": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "description": "* 位置",
+                    "nullable": true
+                  },
+                  "site": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "description": "* 稳定性",
+                    "nullable": true
+                  },
+                  "stability": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "description": "* 导出格式",
+                    "nullable": true
+                  },
+                  "format": {
+                    "anyOf": [
+                      {},
+                      {}
+                    ],
+                    "nullable": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/space/list": {
+      "post": {
+        "operationId": "post-space-list",
+        "summary": "@desc: 获取空间列表",
+        "description": "获取空间列表",
+        "tags": [
+          "Space"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "shopId": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "description": "* 广告位类型",
+                    "nullable": true
+                  },
+                  "type": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "description": "* 状态",
+                    "nullable": true
+                  },
+                  "state": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "description": "* 位置",
+                    "nullable": true
+                  },
+                  "site": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "description": "* 稳定性",
+                    "nullable": true
+                  },
+                  "stability": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "nullable": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "list": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "type": {
+                                "type": "string"
+                              },
+                              "count": {
+                                "type": "number"
+                              },
+                              "state": {
+                                "type": "string"
+                              },
+                              "price_factor": {
+                                "type": "number"
+                              },
+                              "tag": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {}
+                                ]
+                              },
+                              "site": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {}
+                                ]
+                              },
+                              "stability": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {}
+                                ]
+                              },
+                              "photo": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "description": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {}
+                                ]
+                              },
+                              "design_attention": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {}
+                                ]
+                              },
+                              "construction_attention": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {}
+                                ]
+                              },
+                              "shop": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "shop_no": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "operationId": "get-space-list",
+        "summary": "@desc: 获取空间列表",
+        "description": "获取空间列表",
+        "tags": [
+          "Space"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "list": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "type": {
+                                "type": "string"
+                              },
+                              "count": {
+                                "type": "number"
+                              },
+                              "state": {
+                                "type": "string"
+                              },
+                              "price_factor": {
+                                "type": "number"
+                              },
+                              "tag": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {}
+                                ]
+                              },
+                              "site": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {}
+                                ]
+                              },
+                              "stability": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {}
+                                ]
+                              },
+                              "photo": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "description": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {}
+                                ]
+                              },
+                              "design_attention": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {}
+                                ]
+                              },
+                              "construction_attention": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {}
+                                ]
+                              },
+                              "shop": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "shop_no": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/space/photo": {
+      "post": {
+        "operationId": "post-space-photo",
+        "summary": "",
+        "description": "",
+        "tags": [
+          "Space"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/space/search": {
+      "post": {
+        "operationId": "post-space-search",
+        "summary": "@desc: 搜索空间",
+        "description": "搜索空间",
+        "tags": [
+          "Space"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "keyword": {
+                    "type": "string",
+                    "description": "* 商家ID",
+                    "nullable": false
+                  },
+                  "shopId": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "description": "* 广告位类型",
+                    "nullable": true
+                  },
+                  "type": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "description": "* 状态",
+                    "nullable": true
+                  },
+                  "state": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "description": "* 位置",
+                    "nullable": true
+                  },
+                  "site": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "description": "* 稳定性",
+                    "nullable": true
+                  },
+                  "stability": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "description": "* 页码",
+                    "nullable": true
+                  },
+                  "page": {
+                    "type": "number",
+                    "description": "* 每页数量",
+                    "nullable": true
+                  },
+                  "pageSize": {
+                    "type": "number",
+                    "nullable": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "list": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "type": {
+                                "type": "string"
+                              },
+                              "count": {
+                                "type": "number"
+                              },
+                              "state": {
+                                "type": "string"
+                              },
+                              "price_factor": {
+                                "type": "number"
+                              },
+                              "tag": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {}
+                                ]
+                              },
+                              "site": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {}
+                                ]
+                              },
+                              "stability": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {}
+                                ]
+                              },
+                              "photo": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "description": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {}
+                                ]
+                              },
+                              "design_attention": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {}
+                                ]
+                              },
+                              "construction_attention": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {}
+                                ]
+                              },
+                              "shop": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "shop_no": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "total": {
+                          "type": "number"
+                        },
+                        "page": {
+                          "type": "number"
+                        },
+                        "pageSize": {
+                          "type": "number"
+                        },
+                        "totalPages": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/space/stats": {
+      "post": {
+        "operationId": "post-space-stats",
+        "summary": "@desc: 获取空间统计数据",
+        "description": "获取空间统计数据",
+        "tags": [
+          "Space"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "shopId": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "description": "* 广告位类型",
+                    "nullable": true
+                  },
+                  "type": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "description": "* 位置",
+                    "nullable": true
+                  },
+                  "site": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {}
+                    ],
+                    "nullable": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "number"
+                        },
+                        "byState": {
+                          "type": "object",
+                          "properties": {}
+                        },
+                        "byType": {
+                          "type": "object",
+                          "properties": {}
+                        },
+                        "bySite": {
+                          "type": "object",
+                          "properties": {}
+                        },
+                        "byStability": {
+                          "type": "object",
+                          "properties": {}
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/space/update": {
+      "post": {
+        "operationId": "post-space-update",
+        "summary": "",
+        "description": "",
+        "tags": [
+          "Space"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/space/updateState": {
+      "post": {
+        "operationId": "post-space-updateState",
+        "summary": "",
+        "description": "",
+        "tags": [
+          "Space"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/space/batch/delete": {
+      "post": {
+        "operationId": "post-space-batch-delete",
+        "summary": "",
+        "description": "",
+        "tags": [
+          "Space"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sse": {
+      "get": {
+        "operationId": "get-sse",
+        "summary": "",
+        "description": "",
+        "tags": [
+          "Sse"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/stream": {
+      "get": {
+        "operationId": "get-stream",
+        "summary": "",
+        "description": "",
+        "tags": [
+          "Stream"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/webhook/audit-log": {
+      "post": {
+        "operationId": "post-webhook-audit-log",
+        "summary": "",
+        "description": "",
+        "tags": [
+          "Webhook"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/webhook/status": {
+      "get": {
+        "operationId": "get-webhook-status",
+        "summary": "",
+        "description": "",
+        "tags": [
+          "Webhook"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

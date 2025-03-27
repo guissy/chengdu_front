@@ -1,0 +1,123 @@
+syntax = "proto3";
+
+package audit;
+
+import "google/protobuf/any.proto";
+
+enum OperationType {
+  OPERATION_TYPE_UNSPECIFIED = 0;
+  BROWSE = 1;
+  CREATE = 2;
+  UPDATE = 3;
+  DELETE = 4;
+}
+
+enum TargetType {
+  TARGET_TYPE_UNSPECIFIED = 0;
+  CBD = 1;
+  PART = 2;
+  POSITION = 3;
+  SHOP = 4;
+  SPACE = 5;
+  DASHBOARD = 6;
+  CITY = 7;
+  DISTRICT = 8;
+}
+
+message BaseResponseSchema {
+  int32 code = 1;
+  google.protobuf.Any data = 2;
+}
+
+message PaginationParamsSchema {
+  int32 page = 1;
+  int32 pageSize = 2;
+}
+
+message AuditLogSchema {
+  string id = 1;
+  OperationType operationType = 2;
+  TargetType targetType = 3;
+  string targetId = 4;
+  string targetName = 5;
+  string content = 6;
+  string operatorName = 7;
+  string ipAddress = 8;
+  string userAgent = 9;
+  string operationTime = 10;
+}
+
+message AuditLogListRequestSchema {
+  int32 page = 1;
+  int32 pageSize = 2;
+  string operationType = 3; // 操作类型
+  string targetType = 4; // 目标类型
+  string targetId = 5; // 目标ID
+  string operator = 6; // 操作人
+  string startDate = 7; // 开始日期
+  string endDate = 8; // 结束日期
+}
+
+message AuditLogListResponseSchema {
+  int32 code = 1;
+  AuditLogListResponseSchemaData data = 2;
+}
+
+message AuditLogListResponseSchemaData {
+  repeated AuditLogListResponseSchemaDataList list = 1;
+  int32 total = 2;
+  int32 page = 3;
+  int32 pageSize = 4;
+  int32 totalPages = 5;
+}
+
+message AuditLogListResponseSchemaDataList {
+  string id = 1;
+  OperationType operationType = 2;
+  TargetType targetType = 3;
+  string targetId = 4;
+  string targetName = 5;
+  string content = 6;
+  string operatorName = 7;
+  string ipAddress = 8;
+  string userAgent = 9;
+  string operationTime = 10;
+}
+
+message AuditLogOperationTypeStatsResponseSchema {
+  int32 code = 1;
+  repeated AuditLogOperationTypeStatsResponseSchemaData data = 2;
+}
+
+message AuditLogOperationTypeStatsResponseSchemaData {
+  string operationType = 1;
+  int32 count = 2;
+}
+
+message AuditLogRecentActivityStatsResponseSchema {
+  int32 code = 1;
+  repeated AuditLogRecentActivityStatsResponseSchemaData data = 2;
+}
+
+message AuditLogRecentActivityStatsResponseSchemaData {
+  string date = 1; // 日期
+  int32 count = 2; // 数量
+}
+
+message AuditLogDetailResponseSchema {
+  int32 code = 1;
+  AuditLogDetailResponseSchemaData data = 2;
+}
+
+message AuditLogDetailResponseSchemaData {
+  string id = 1;
+  OperationType operationType = 2;
+  TargetType targetType = 3;
+  string targetId = 4;
+  string targetName = 5;
+  string content = 6;
+  string operatorName = 7;
+  string ipAddress = 8;
+  string userAgent = 9;
+  string operationTime = 10;
+}

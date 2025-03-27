@@ -1,0 +1,303 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model City {
+  id        String     @id @default(uuid())
+  name      String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  districts District[]
+
+  @@map("cities")
+}
+
+model District {
+  id        String   @id @default(uuid())
+  name      String
+  cityId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  cbds      CBD[]
+  city      City     @relation(fields: [cityId], references: [id])
+
+  @@map("districts")
+}
+
+model CBD {
+  id         String   @id @default(uuid())
+  name       String
+  addr       String?
+  districtId String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  district   District @relation(fields: [districtId], references: [id])
+  parts      Part[]
+  shops      Shop[]
+
+  @@map("cbds")
+}
+
+model Part {
+  id        String     @id @default(uuid())
+  name      String
+  sequence  Int
+  cbdId     String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  cbd       CBD        @relation(fields: [cbdId], references: [id])
+  positions Position[]
+  shops     Shop[]
+
+  @@map("parts")
+}
+
+model Position {
+  id             String    @id @default(uuid())
+  position_no    String
+  partId         String
+  total_space    Int       @default(0)
+  put_space      Int       @default(0)
+  price_base     Int
+  verified       Boolean   @default(false)
+  displayed      Boolean   @default(true)
+  type           ShopType?
+  type_tag       String?
+  photo          String[]
+  remark         String?
+  business_hours Int[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  shopId         String?   @unique
+  part           Part      @relation(fields: [partId], references: [id])
+  shop           Shop?     @relation(fields: [shopId], references: [id])
+
+  @@map("positions")
+}
+
+model Shop {
+  id                String            @id @default(uuid())
+  shop_no           String
+  cbdId             String
+  partId            String
+  type              ShopType
+  type_tag          String?
+  business_type     BusinessType
+  trademark         String
+  branch            String?
+  location          Float[]
+  verified          Boolean           @default(false)
+  duration          OperationDuration
+  consume_display   Boolean           @default(true)
+  average_expense   Int[]
+  sex               Gender            @default(ALL)
+  age               Int[]
+  id_tag            String?
+  sign_photo        String?
+  verify_photo      String[]
+  environment_photo String[]
+  building_photo    String[]
+  brand_photo       String[]
+  contact_name      String?
+  contact_phone     String?
+  contact_type      ContactType?
+  total_area        Int?
+  customer_area     Int?
+  clerk_count       Int?
+  business_hours    Int[]
+  rest_days         RestDay[]
+  volume_peak       PeakTime[]
+  season            Season[]
+  shop_description  String?
+  put_description   String?
+  displayed         Boolean           @default(true)
+  price_base        Int
+  classify_tag      String?
+  remark            String?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  position          Position?
+  cbd               CBD               @relation(fields: [cbdId], references: [id])
+  part              Part              @relation(fields: [partId], references: [id])
+  spaces            Space[]
+
+  @@map("shops")
+}
+
+model Space {
+  id                     String          @id @default(uuid())
+  shopId                 String
+  type                   SpaceType
+  setting                Json
+  count                  Int             @default(1)
+  state                  SpaceState      @default(ENABLED)
+  price_factor           Float           @default(1.0)
+  tag                    String?
+  site                   SpaceSite?
+  stability              SpaceStability?
+  photo                  String[]
+  description            String?
+  design_attention       String?
+  construction_attention String?
+  createdAt              DateTime        @default(now())
+  updatedAt              DateTime        @updatedAt
+  shop                   Shop            @relation(fields: [shopId], references: [id])
+
+  @@map("spaces")
+}
+
+model AuditLog {
+  id            String          @id @default(uuid())
+  operationType OperationType
+  targetType    OperationTarget
+  targetId      String
+  targetName    String
+  content       String
+  operatorId    String
+  operatorName  String
+  operationTime DateTime        @default(now())
+  details       Json?
+  ipAddress     String?
+  userAgent     String?
+
+  @@index([operationType])
+  @@index([targetType])
+  @@index([operatorId])
+  @@index([operationTime])
+  @@map("audit_logs")
+}
+
+// 枚举: 商家类型
+enum ShopType {
+  RESTAURANT  @map("1") // 餐饮
+  LIGHT_FOOD  @map("2") // 轻食
+  TEA_HOUSE   @map("3") // 茶楼
+  TEA_COFFEE  @map("4") // 茶饮/咖啡
+  COFFEE_SHOP @map("5") // 咖啡馆
+  HOTEL       @map("6") // 酒店
+}
+
+// 枚举: 商业类型
+enum BusinessType {
+  INDEPENDENT     @map("1") // 独立自营店
+  CHAIN_DIRECT    @map("2") // 连锁自营店
+  CHAIN_FRANCHISE @map("3") // 连锁加盟店
+}
+
+// 枚举: 性别对象
+enum Gender {
+  ALL    @map("1") // 不限
+  MALE   @map("2") // 男
+  FEMALE @map("3") // 女
+}
+
+// 枚举: 联系人类型
+enum ContactType {
+  OWNER        @map("1") // 老板
+  MANAGER      @map("2") // 店长
+  STAFF        @map("3") // 店员
+  HEADQUARTERS @map("4") // 总店管理人员
+}
+
+// 枚举: 经营时长
+enum OperationDuration {
+  LESS_THAN_ONE  @map("1") // 一年内新店
+  ONE_TO_TWO     @map("2") // 1~2年
+  TWO_TO_FIVE    @map("3") // 2~5年
+  MORE_THAN_FIVE @map("4") // 五年以上
+}
+
+// 枚举: 休息日
+enum RestDay {
+  MONDAY    @map("1") // 周一
+  TUESDAY   @map("2") // 周二
+  WEDNESDAY @map("3") // 周三
+  THURSDAY  @map("4") // 周四
+  FRIDAY    @map("5") // 周五
+  SATURDAY  @map("6") // 周六
+  SUNDAY    @map("7") // 周日
+  ON_DEMAND @map("8") // 按需
+}
+
+// 枚举: 客流高峰
+enum PeakTime {
+  BREAKFAST  @map("1") // 早餐
+  LUNCH      @map("2") // 午餐
+  DINNER     @map("3") // 晚餐
+  LATE_NIGHT @map("4") // 宵夜
+  MORNING    @map("5") // 上午
+  AFTERNOON  @map("6") // 下午
+  EVENING    @map("7") // 晚上
+  MIDNIGHT   @map("8") // 深夜
+}
+
+// 枚举: 季节
+enum Season {
+  SPRING      @map("1") // 春
+  SUMMER      @map("2") // 夏
+  AUTUMN      @map("3") // 秋
+  WINTER      @map("4") // 冬
+  HOLIDAY     @map("5") // 节假日
+  WORKDAY     @map("6") // 工作日
+  NON_WORKDAY @map("7") // 非工作日
+}
+
+// 枚举: 广告位类型
+enum SpaceType {
+  TABLE_STICKER  @map("1") // 方桌不干胶贴
+  TABLE_PLACEMAT @map("2") // 方桌餐垫纸
+  STAND          @map("3") // 立牌
+  X_BANNER       @map("4") // X展架
+  TV_LED         @map("5") // 电视/LED屏幕
+  PROJECTOR      @map("6") // 投影仪
+}
+
+// 枚举: 广告位状态
+enum SpaceState {
+  ENABLED  @map("1") // 启用
+  DISABLED @map("2") // 禁用
+}
+
+// 枚举: 广告位位置
+enum SpaceSite {
+  MAIN_AREA        @map("1") // 主客区/大堂
+  SHOP_ENTRANCE    @map("2") // 商家入口
+  ENTRANCE_PASSAGE @map("3") // 入口通道
+  PRIVATE_ROOM     @map("4") // 独立房间/包间
+  TOILET_PASSAGE   @map("5") // 通往洗手间过道
+  TOILET           @map("6") // 洗手间
+  OUTDOOR_AREA     @map("7") // 商家外摆区/店外公共区
+  OUTSIDE_WALL     @map("8") // 店外墙面(非临街)
+  STREET_WALL      @map("9") // 店外墙面(临街)
+}
+
+// 枚举: 广告位稳定性
+enum SpaceStability {
+  FIXED      @map("1") // 固定
+  SEMI_FIXED @map("2") // 半固定
+  MOVABLE    @map("3") // 移动
+  TEMPORARY  @map("4") // 临时
+}
+
+enum OperationType {
+  BROWSE @map("browse") // 查看
+  CREATE @map("create") // 新增
+  UPDATE @map("update") // 编辑
+  DELETE @map("delete") // 删除
+}
+
+enum OperationTarget {
+  CBD      @map("cbd") // 商圈
+  PART     @map("part") // 小区
+  POSITION @map("position") // 铺位
+  SHOP     @map("shop")  // 商家
+  SPACE    @map("space")  // 广告位
+  DASHBOARD @map("dashboard") // 仪表盘
+  CITY     @map("city") // 城市
+  DISTRICT @map("district") // 行政区划
+}

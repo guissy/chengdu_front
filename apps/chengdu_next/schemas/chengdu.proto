@@ -1,0 +1,213 @@
+syntax = "proto3";
+
+package business_system;
+
+import "google/protobuf/timestamp.proto";
+
+// 物业分区信息
+message Part {
+  string id = 1;
+  string name = 2;
+  int32 sequence = 3;
+  string cbd_id = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+}
+
+// 铺位信息
+message Position {
+  string id = 1;
+  string position_no = 2;
+  string part_id = 3;
+  int32 total_space = 4; // Prisma 使用 Int
+  int32 put_space = 5;
+  int32 price_base = 6;
+  bool verified = 7;
+  bool displayed = 8;
+  optional ShopType type = 9; // 可选字段，与 Prisma 的 ShopType? 一致
+  optional string type_tag = 10;
+  repeated string photo = 11;
+  optional string remark = 12;
+  repeated int32 business_hours = 13;
+  google.protobuf.Timestamp created_at = 14;
+  google.protobuf.Timestamp updated_at = 15;
+  optional string shop_id = 16; // 可选字段，与 Prisma 的 shopId? 一致
+}
+
+// 商家信息
+message Shop {
+  string id = 1;
+  string shop_no = 2;
+  string cbd_id = 3;
+  string part_id = 4;
+  ShopType type = 5;
+  optional string type_tag = 6;
+  BusinessType business_type = 7;
+  string trademark = 8;
+  optional string branch = 9;
+  repeated float location = 10; // Prisma 使用 Float[]
+  bool verified = 11;
+  OperationDuration duration = 12;
+  bool consume_display = 13; // Prisma 的 displayed 字段
+  repeated int32 average_expense = 14; // Prisma 使用 Int[]
+  Gender sex = 15;
+  repeated int32 age = 16;
+  optional string id_tag = 17;
+  optional string sign_photo = 18;
+  repeated string verify_photo = 19;
+  repeated string environment_photo = 20;
+  repeated string building_photo = 21;
+  repeated string brand_photo = 22;
+  optional string contact_name = 23;
+  optional string contact_phone = 24;
+  optional ContactType contact_type = 25;
+  optional int32 total_area = 26;
+  optional int32 customer_area = 27;
+  optional int32 clerk_count = 28;
+  repeated int32 business_hours = 29;
+  repeated RestDay rest_days = 30;
+  repeated PeakTime volume_peak = 31;
+  repeated Season season = 32;
+  optional string shop_description = 33;
+  optional string put_description = 34;
+  bool displayed = 35; // Prisma 的 displayed
+  int32 price_base = 36;
+  optional string classify_tag = 37;
+  optional string remark = 38;
+  google.protobuf.Timestamp created_at = 39;
+  google.protobuf.Timestamp updated_at = 40;
+}
+
+// 广告位信息
+message Space {
+  string id = 1;
+  string shop_id = 2;
+  SpaceType type = 3;
+  map<string, string> setting = 4; // Prisma 使用 Json，转为 map
+  int32 count = 5;
+  SpaceState state = 6;
+  float price_factor = 7;
+  optional string tag = 8;
+  optional SpaceSite site = 9;
+  optional SpaceStability stability = 10;
+  repeated string photo = 11;
+  optional string description = 12;
+  optional string design_attention = 13;
+  optional string construction_attention = 14;
+  google.protobuf.Timestamp created_at = 15;
+  google.protobuf.Timestamp updated_at = 16;
+}
+
+// 枚举定义（与 Prisma 保持一致）
+enum ShopType {
+  SHOP_TYPE_UNSPECIFIED = 0;
+  RESTAURANT = 1;    // 餐饮
+  LIGHT_FOOD = 2;    // 轻食
+  TEA_HOUSE = 3;     // 茶楼
+  TEA_COFFEE = 4;    // 茶饮/咖啡
+  COFFEE_SHOP = 5;   // 咖啡馆
+  HOTEL = 6;         // 酒店
+}
+
+enum BusinessType {
+  BUSINESS_TYPE_UNSPECIFIED = 0;
+  INDEPENDENT = 1;      // 独立自营店
+  CHAIN_DIRECT = 2;     // 连锁自营店
+  CHAIN_FRANCHISE = 3;  // 连锁加盟店
+}
+
+enum OperationDuration {
+  OPERATION_DURATION_UNSPECIFIED = 0;
+  LESS_THAN_ONE = 1;    // 一年内新店
+  ONE_TO_TWO = 2;       // 1~2年
+  TWO_TO_FIVE = 3;      // 2~5年
+  MORE_THAN_FIVE = 4;   // 五年以上
+}
+
+enum Gender {
+  GENDER_UNSPECIFIED = 0;
+  ALL = 1;     // 不限
+  MALE = 2;    // 男
+  FEMALE = 3;  // 女
+}
+
+enum ContactType {
+  CONTACT_TYPE_UNSPECIFIED = 0;
+  OWNER = 1;         // 老板
+  MANAGER = 2;       // 店长
+  STAFF = 3;         // 店员
+  HEADQUARTERS = 4;  // 总店管理人员
+}
+
+enum RestDay {
+  REST_DAY_UNSPECIFIED = 0;
+  MONDAY = 1;    // 周一
+  TUESDAY = 2;   // 周二
+  WEDNESDAY = 3; // 周三
+  THURSDAY = 4;  // 周四
+  FRIDAY = 5;    // 周五
+  SATURDAY = 6;  // 周六
+  SUNDAY = 7;    // 周日
+  ON_DEMAND = 8; // 按需
+}
+
+enum PeakTime {
+  PEAK_TIME_UNSPECIFIED = 0;
+  BREAKFAST = 1;   // 早餐
+  LUNCH = 2;       // 午餐
+  DINNER = 3;      // 晚餐
+  LATE_NIGHT = 4;  // 宵夜
+  MORNING = 5;     // 上午
+  AFTERNOON = 6;   // 下午
+  EVENING = 7;     // 晚上
+  MIDNIGHT = 8;    // 深夜
+}
+
+enum Season {
+  SEASON_UNSPECIFIED = 0;
+  SPRING = 1;      // 春
+  SUMMER = 2;      // 夏
+  AUTUMN = 3;      // 秋
+  WINTER = 4;      // 冬
+  HOLIDAY = 5;     // 节假日
+  WORKDAY = 6;     // 工作日
+  NON_WORKDAY = 7; // 非工作日
+}
+
+enum SpaceType {
+  SPACE_TYPE_UNSPECIFIED = 0;
+  TABLE_STICKER = 1;  // 方桌不干胶贴
+  TABLE_PLACEMAT = 2; // 方桌餐垫纸
+  STAND = 3;          // 立牌
+  X_BANNER = 4;       // X展架
+  TV_LED = 5;         // 电视/LED屏幕
+  PROJECTOR = 6;      // 投影仪
+}
+
+enum SpaceState {
+  SPACE_STATE_UNSPECIFIED = 0;
+  ENABLED = 1;   // 启用
+  DISABLED = 2;  // 禁用
+}
+
+enum SpaceSite {
+  SPACE_SITE_UNSPECIFIED = 0;
+  MAIN_AREA = 1;        // 主客区/大堂
+  SHOP_ENTRANCE = 2;    // 商家入口
+  ENTRANCE_PASSAGE = 3; // 入口通道
+  PRIVATE_ROOM = 4;     // 独立房间/包间
+  TOILET_PASSAGE = 5;   // 通往洗手间过道
+  TOILET = 6;           // 洗手间
+  OUTDOOR_AREA = 7;     // 商家外摆区/店外公共区
+  OUTSIDE_WALL = 8;     // 店外墙面(非临街)
+  STREET_WALL = 9;      // 店外墙面(临街)
+}
+
+enum SpaceStability {
+  SPACE_STABILITY_UNSPECIFIED = 0;
+  FIXED = 1;      // 固定
+  SEMI_FIXED = 2; // 半固定
+  MOVABLE = 3;    // 移动
+  TEMPORARY = 4;  // 临时
+}
+
