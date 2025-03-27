@@ -12,6 +12,7 @@
   "keywords": [],
   "author": "guissy <guissy@qq.com>",
   "license": "ISC",
+  "packageManager": "pnpm@10.6.5",
   "devDependencies": {
     "turbo": "^2.4.4"
   }
