@@ -221,7 +221,7 @@ const schema = z.object({
     .string()
     .default("LESS_THAN_ONE")
     .describe(
-      "经营时长，例如：LESS_THAN_ONE, ONE_TO_TWO, TWO_TO_FIVE, OVER_FIVE"
+      "经营时长，例如：LESS_THAN_ONE, ONE_TO_TWO, TWO_TO_FIVE, MORE_THAN_FIVE"
     ),
   consume_display: z.boolean().default(true).describe("是否展示消费数据"),
   average_expense: z
@@ -336,7 +336,7 @@ const ShopFormDialog = ({ mode }: ShopFormDialogProps) => {
     parseSay(sayText, (json, done) => {
       if (done) {
         try {
-          let jsonOk = json.replace(/```json\n/, "").replace(/\n```/, "");
+          const jsonOk = json.replace(/```json\n/, "").replace(/\n```/, "");
           setSayText(jsonOk);
           form.reset(JSON.parse(jsonOk));
           console.log(jsonOk);
@@ -347,7 +347,7 @@ const ShopFormDialog = ({ mode }: ShopFormDialogProps) => {
           setFetchAiLoading(false);
         }
       } else {
-        let jsonOk = json.replace(/```json\n/, "").replace(/\n```/, "");
+        const jsonOk = json.replace(/```json\n/, "").replace(/\n```/, "");
         setSayText(jsonOk);
       }
     });
@@ -762,7 +762,7 @@ const ShopFormDialog = ({ mode }: ShopFormDialogProps) => {
                         { value: "LESS_THAN_ONE", label: "一年内新店" },
                         { value: "ONE_TO_TWO", label: "1~2年" },
                         { value: "TWO_TO_FIVE", label: "2~5年" },
-                        { value: "OVER_FIVE", label: "五年以上" },
+                        { value: "MORE_THAN_FIVE", label: "五年以上" },
                       ]}
                       error={form.formState.errors.duration?.message}
                       name="duration"

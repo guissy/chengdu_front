@@ -119,7 +119,7 @@ export const parseSay = async (prompt: string, onChunk: (text: string, done: boo
     .string()
     .default("LESS_THAN_ONE")
     .describe(
-      "经营时长，例如：LESS_THAN_ONE, ONE_TO_TWO, TWO_TO_FIVE, OVER_FIVE"
+      "经营时长，例如：LESS_THAN_ONE, ONE_TO_TWO, TWO_TO_FIVE, MORE_THAN_FIVE"
     ),
   consume_display: z.boolean().default(true).describe("是否展示消费数据"),
   average_expense: z
