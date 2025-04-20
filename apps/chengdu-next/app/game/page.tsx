@@ -1,10 +1,8 @@
 "use client";
 import { useEffect, useRef } from "react";
-// import dynamic from 'next/dynamic';
-// import config from './config';
 
-// 将游戏实例保存在ref中以便管理生命周期
-export async function startGame() {
+
+async function startGame() {
   // 确保只在浏览器环境中运行
   if (typeof window === "undefined") return null;
   // 动态导入Phaser以避免服务器端渲染问题
