@@ -9,5 +9,13 @@
   "keywords": [],
   "author": "guissy <guissy@qq.com>",
   "license": "ISC",
-  "packageManager": "pnpm@10.6.5"
+  "packageManager": "pnpm@10.6.5",
+  "dependencies": {
+    "howler": "^2.2.4",
+    "phaser": "^3.88.2"
+  },
+  "devDependencies": {
+    "@types/howler": "^2.2.12",
+    "next": "^15.3.1"
+  }
 }
